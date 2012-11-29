@@ -1,14 +1,14 @@
 [HTML5 Boilerplate homepage](http://html5boilerplate.com) | [Documentation
-table of contents](README.md)
+table of contents](TOC.md)
 
 # .htaccess
 
 In Apache HTTP server, `.htaccess` (hypertext access) is the configuration file
 that allows for web server configuration. HTML5 Boilerplate includes a number
 of best practice server rules for making web pages fast and secure, these rules
-can be applied by configuring `.htaccess` file.
+can be applied in the `.htaccess` file.
 
-**You'll want to have these modules enabled for optimum performance:**
+**First, you'll want to have these modules enabled for optimum performance:**
 
 * `mod_setenvif.c` (setenvif_module)
 * `mod_headers.c` (headers_module)
@@ -61,7 +61,17 @@ That's it, you're done!
 
 ## On Mac
 
-Coming soon...
+1. **MAMP PRO**. On the main screen, click the `Apache` tab and ensure that all
+   the required modules listed above are 'checked', indicating they are
+   enabled.
+
+2. **MAMP**. Locate the `httpd.conf` file, which is typically found in
+   `/Applications/MAMP/conf/apache/httpd.conf`. Open the file in a text editor
+   and uncomment all of the required modules listed above. Once you have done so,
+   reset MAMP.
+
+3. **XAMPP**. Follow the same steps as for MAMP, but look for `httpd.conf` in
+   `/Applications/XAMPP/etc/httpd.conf`.
 
 
 ## Security
@@ -85,7 +95,7 @@ FileETag None
 
 Entity tags (ETags) is a mechanism that web servers and browsers use to
 determine whether the component in the browser's cache matches the one on the
-origin server. (An "entity" is another word a "component": images, scripts,
+origin server. (An "entity" is another word for "component": images, scripts,
 stylesheets, etc.) ETags were added to provide a mechanism for validating
 entities that is more flexible than the last-modified date. An `ETag` is a
 string that uniquely identifies a specific version of a component. The only
