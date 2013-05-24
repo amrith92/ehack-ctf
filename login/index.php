@@ -31,7 +31,7 @@ if (!$fuser) {
 
 $google_client_id 		= '503586554333.apps.googleusercontent.com';
 $google_client_secret 	= 'Sic42Tlewekry8a_0CLiQbW2';
-$google_redirect_url 	= 'http://localhost/pagoda/ehack/login/google_login.php';
+$google_redirect_url 	= 'http://ehack.pagodabox.com/login/google_login.php';
 $google_developer_key 	= '503586554333@developer.gserviceaccount.com';
 
 
