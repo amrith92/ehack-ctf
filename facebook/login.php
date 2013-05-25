@@ -19,7 +19,9 @@ if ($user) {
 }
 
 if (!$user) {
-  $loginUrl = $facebook->getLoginUrl();
+  $loginUrl = $facebook->getLoginUrl(array(
+ 'scope' => 'email,user_birthday'
+));
 }
 
 ?>
@@ -50,6 +52,9 @@ if (!$user) {
 <br>
       <label> email :  </label> 
       <input name="email" type="text" value="<?php echo isset($user_profile['email'])?$user_profile['email']:''; ?>" />
+<br>
+      <label> birthday :  </label> 
+      <input name="birthday" type="text" value="<?php echo isset($user_profile['birthday'])?$user_profile['birthday']:''; ?>" />
 <br>
       <label> bio :  </label> 
       <input name="bio" type="text" value="<?php echo isset($user_profile['bio'])?$user_profile['bio']:''; ?>" />
