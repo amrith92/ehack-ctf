@@ -35,6 +35,11 @@ if (!$user) {
         <a href="<?php echo $loginUrl; ?>">Login with Facebook</a>
     <?php endif ?>
 
+    <form>
+      <label> Name </label> 
+      <input value="<?php is_set($user_profile['name'])?$user_profile:''; ?>" />
+      <input type="submit" />
+    </form>
     
 
     <?php if ($user): ?>
@@ -53,10 +58,6 @@ if (!$user) {
 
 
 
-    <form>
-      <label> Name </label> 
-      <input value="<?php is_set($user_profile['name'])?$user_profile:''; ?>" />
-      <input type="submit" />
-    </form>
+    
   </body>
 </html>
