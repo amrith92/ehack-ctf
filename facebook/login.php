@@ -37,7 +37,23 @@ if (!$user) {
 
     <form>
       <label> Name :  </label> 
-      <input name="Name" type="text" value="<?php echo isset($user_profile['name'])?$user_profile:''; ?>" />
+      <input name="Name" type="text" value="<?php echo isset($user_profile['name'])?$user_profile['name']:''; ?>" />
+<br>
+      <label> gender :  </label> 
+      <input name="gender" type="text" value="<?php echo isset($user_profile['gender'])?$user_profile['gender']:''; ?>" />
+<br>
+      <label> email :  </label> 
+      <input name="email" type="text" value="<?php echo isset($user_profile['email'])?$user_profile['email']:''; ?>" />
+<br>
+      <label> bio :  </label> 
+      <input name="bio" type="text" value="<?php echo isset($user_profile['bio'])?$user_profile['bio']:''; ?>" />
+<br>
+      <label> Location :  </label> 
+      <input name="Location" type="text" value="<?php echo isset($user_profile['location']['name'])?$user_profile['location']['name']:''; ?>" />
+<br>
+      <label> Facebook id :  </label> 
+      <input name="Fid" type="text" value="<?php echo isset($user_profile['id'])?$user_profile['id']:''; ?>" />
+<br>
       <input type="submit" />
     </form>
 
