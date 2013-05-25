@@ -41,12 +41,12 @@ if (!$user) {
       <h3>You</h3>
       <img src="https://graph.facebook.com/<?php echo $user; ?>/picture">
 
-      <pre><?php print_r($user_profile); ?></pre>
+      <!-- <pre><?php print_r($user_profile); ?></pre> -->
 
 
 
       <h3>PHP Session</h3>
-    <pre><?php print_r($_SESSION); ?></pre>
+    <!-- <pre><?php print_r($_SESSION); ?></pre> -->
     <?php else: ?>
       <strong><em>You are not Connected.</em></strong>
     <?php endif ?>
@@ -56,9 +56,6 @@ if (!$user) {
     <form>
       <label> Name </label> 
       <input value="<?php is_set($user_profile['name'])?$user_profile:''; ?>" />
-
-
-
       <input type="submit" />
     </form>
   </body>
