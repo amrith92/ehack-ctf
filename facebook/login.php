@@ -28,16 +28,17 @@ if (!$user) {
 <!doctype html>
 <html xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
-    <title>Login with fb</title>
+    <title>1st Process</title>
   </head>
   <body>
-    <h1>Login</h1>
+    
 
     <?php if (!$user): ?>
         <a href="<?php echo $loginUrl; ?>">Login with Facebook</a>
     <?php endif ?>
 
 <?php if ($user): ?>
+    <h1> 2nd process </h1>
       <img src="https://graph.facebook.com/<?php echo $user; ?>/picture">
 
       <!-- <pre><?php print_r($user_profile); ?></pre> -->
@@ -71,11 +72,11 @@ if (!$user) {
 
     
 
-
+<!-- 
 <?php if ($user): ?>
       <h3>PHP Session</h3>
      <pre><?php print_r($_SESSION); ?></pre> 
-    <?php endif ?>
+    <?php endif ?> -->
 
 
 
