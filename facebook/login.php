@@ -36,8 +36,8 @@ if (!$user) {
     <?php endif ?>
 
     <form>
-      <label> Name : <?php isset($user_profile['name'])?$user_profile:''; ?> </label> 
-
+      <label> Name :  </label> 
+      <input name="Name" type="text" value="<?php echo isset($user_profile['name'])?$user_profile:''; ?>" />
       <input type="submit" />
     </form>
 
