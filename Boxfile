@@ -1,4 +1,4 @@
 web1:
   name: ehack
   php_extensions:
-  	- curl
+    - curl
