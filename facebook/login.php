@@ -36,11 +36,11 @@ if (!$user) {
     <?php endif ?>
 
     <form>
-      <label> Name </label> 
-      <input value="<?php is_set($user_profile['name'])?$user_profile:''; ?>" />
+      <label> Name : <?php is_set($user_profile['name'])?$user_profile:''; ?> </label> 
+      
       <input type="submit" />
     </form>
-    
+
 
     <?php if ($user): ?>
       <h3>You</h3>
