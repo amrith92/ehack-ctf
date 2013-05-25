@@ -28,12 +28,13 @@ if (!$user) {
 <!doctype html>
 <html xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
-    <title>1st Process</title>
+    <title>Login system</title>
   </head>
   <body>
     
 
     <?php if (!$user): ?>
+    <h1> 1st process </h1>
         <a href="<?php echo $loginUrl; ?>">Login with Facebook</a>
     <?php endif ?>
 
