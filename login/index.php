@@ -31,7 +31,7 @@ if (!$fuser) {
 
 $google_client_id 		= '503586554333.apps.googleusercontent.com';
 $google_client_secret 	= 'Sic42Tlewekry8a_0CLiQbW2';
-$google_redirect_url 	= 'http://ehack.pagodabox.com/login/';
+$google_redirect_url 	= 'http://localhost/pagoda/ehack/login/google_login.php';
 $google_developer_key 	= '503586554333@developer.gserviceaccount.com';
 
 
@@ -49,42 +49,42 @@ $gClient->setDeveloperKey($google_developer_key);
 $google_oauthV2 = new Google_Oauth2Service($gClient);
 
 
-//Redirect user to google authentication page for code, if code is empty.
-//Code is required to aquire Access Token from google
-//Once we have access token, assign token to session variable
-//and we can redirect user back to page and login.
-if (isset($_GET['code'])) 
-{ 
-	$gClient->authenticate($_GET['code']);
-	$_SESSION['token'] = $gClient->getAccessToken();
-	header('Location: ' . filter_var($google_redirect_url, FILTER_SANITIZE_URL));
-	return;
-}
+// //Redirect user to google authentication page for code, if code is empty.
+// //Code is required to aquire Access Token from google
+// //Once we have access token, assign token to session variable
+// //and we can redirect user back to page and login.
+// if (isset($_GET['code'])) 
+// { 
+// 	$gClient->authenticate($_GET['code']);
+// 	$_SESSION['token'] = $gClient->getAccessToken();
+// 	header('Location: ' . filter_var($google_redirect_url, FILTER_SANITIZE_URL));
+// 	return;
+// }
 
 
-if (isset($_SESSION['token'])) 
-{ 
-		$gClient->setAccessToken($_SESSION['token']);
-}
+// if (isset($_SESSION['token'])) 
+// { 
+// 		$gClient->setAccessToken($_SESSION['token']);
+// }
 
 
-if ($gClient->getAccessToken()) 
-{
-	  //Get user details if user is logged in
-	  $user 				= $google_oauthV2->userinfo->get();
-	  $user_id 				= $user['id'];
-	  $user_name 			= filter_var($user['name'], FILTER_SANITIZE_SPECIAL_CHARS);
-	  $email 				= filter_var($user['email'], FILTER_SANITIZE_EMAIL);
-	  $profile_url 			= filter_var($user['link'], FILTER_VALIDATE_URL);
-	  $profile_image_url 	= filter_var($user['picture'], FILTER_VALIDATE_URL);
-	  $personMarkup 		= "$email<div><img src='$profile_image_url?sz=50'></div>";
-	  $_SESSION['token'] 	= $gClient->getAccessToken();
-}
-else 
-{
-	//get google login url
-	$authUrl = $gClient->createAuthUrl();
-}
+// if ($gClient->getAccessToken()) 
+// {
+// 	  //Get user details if user is logged in
+// 	  $user 				= $google_oauthV2->userinfo->get();
+// 	  $user_id 				= $user['id'];
+// 	  $user_name 			= filter_var($user['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+// 	  $email 				= filter_var($user['email'], FILTER_SANITIZE_EMAIL);
+// 	  $profile_url 			= filter_var($user['link'], FILTER_VALIDATE_URL);
+// 	  $profile_image_url 	= filter_var($user['picture'], FILTER_VALIDATE_URL);
+// 	  $personMarkup 		= "$email<div><img src='$profile_image_url?sz=50'></div>";
+// 	  $_SESSION['token'] 	= $gClient->getAccessToken();
+// }
+// else 
+// {
+// 	//get google login url
+// 	$authUrl = $gClient->createAuthUrl();
+// }
 
 //HTML page start
 echo '<html xmlns="http://www.w3.org/1999/xhtml">';
@@ -94,7 +94,12 @@ echo '<title>Registration</title>';
 echo '</head>';
 echo '<body>';
 
-if(isset($authUrl) && !$fuser) //user is not logged in, show login button
+
+if(!$authUrl)
+{
+  header('Location: google_login.php');
+}
+if(!$fuser) //user is not logged in, show login button
 {
 	echo '<a class="login" href="'.$authUrl.'"><img src="images/google-login-button.png" /></a>';
 	echo '<a href="'.$loginUrl.'">Login with Facebook</a>';
@@ -105,44 +110,16 @@ else // user logged in
 
 ?> 
     <h1> 2nd process </h1>
-      <img src="https://graph.facebook.com/<?php echo $user; ?>/picture">
+      <img src="https://graph.facebook.com/<?php echo $fuser; ?>/picture">
 
       <!-- <pre><?php print_r($user_profile); ?></pre> -->
 <?php } ?>
 
 <?php
-if(!isset($authUrl)) {
-
-		echo '<h1> Registration </h1>';
-
-	
-	echo '<br /><a href="'.$profile_url.'" target="_blank"><img src="'.$profile_image_url.'?sz=50" /></a>';
-	
-
 
 }
 
-}
 
-/* Notes :
-
-$user_profile -> Facebook user data
-$user -> Google user data
-
-*/
-
-
-//Merging both data as $user_profile;
-
-if(isset($user))
-{
-$user_profile = $user;
-}
-if(isset($user['id']))
-{
-$user_profile['gid'] = $user['id'];
-$user_profile['id'] = null;
-}
 ?>
 
   <form>
@@ -167,9 +144,7 @@ $user_profile['id'] = null;
       <label> Facebook id :  </label> 
       <input name="Fid" type="text" value="<?php echo isset($user_profile['id'])?$user_profile['id']:''; ?>" />
 <br>
-		<label> Google id :  </label> 
-      <input name="gid" type="text" value="<?php echo isset($user_profile['gid'])?$user_profile['gid']:''; ?>" />
-<br>
+		
       <input type="submit" />
     </form>
 
