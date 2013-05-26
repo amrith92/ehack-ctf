@@ -80,11 +80,11 @@ $google_oauthV2 = new Google_Oauth2Service($gClient);
 // 	  $personMarkup 		= "$email<div><img src='$profile_image_url?sz=50'></div>";
 // 	  $_SESSION['token'] 	= $gClient->getAccessToken();
 // }
-// else 
-// {
-// 	//get google login url
-// 	$authUrl = $gClient->createAuthUrl();
-// }
+if(!$gClient->getAccessToken()) 
+{
+	//get google login url
+	$authUrl = $gClient->createAuthUrl();
+}
 
 //HTML page start
 echo '<html xmlns="http://www.w3.org/1999/xhtml">';
@@ -97,7 +97,7 @@ echo '<body>';
 
 if(!$authUrl)
 {
-  header('Location: google_login.php');
+  header('Location: google_login1.php');
 }
 if(!$fuser) //user is not logged in, show login button
 {
