@@ -31,7 +31,7 @@ if (!$fuser) {
 
 $google_client_id 		= '503586554333.apps.googleusercontent.com';
 $google_client_secret 	= 'Sic42Tlewekry8a_0CLiQbW2';
-$google_redirect_url 	= 'http://localhost/pagoda/ehack/login/';
+$google_redirect_url 	= 'http://ehack.pagodabox.com/login/';
 $google_developer_key 	= '503586554333@developer.gserviceaccount.com';
 
 
@@ -90,14 +90,14 @@ else
 echo '<html xmlns="http://www.w3.org/1999/xhtml">';
 echo '<head>';
 echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
-echo '<title>Login with Google</title>';
+echo '<title>Registration</title>';
 echo '</head>';
 echo '<body>';
 
 if(isset($authUrl) && !$fuser) //user is not logged in, show login button
 {
 	echo '<a class="login" href="'.$authUrl.'"><img src="images/google-login-button.png" /></a>';
-	echo '<a href="<?php echo $loginUrl; ?>">Login with Facebook</a>';
+	echo '<a href="'.$loginUrl.'">Login with Facebook</a>';
 } 
 else // user logged in 
 {
@@ -113,7 +113,7 @@ else // user logged in
 <?php
 if(!isset($authUrl)) {
 
-		echo '<h1> 2nd process </h1>';
+		echo '<h1> Registration </h1>';
 
 	
 	echo '<br /><a href="'.$profile_url.'" target="_blank"><img src="'.$profile_image_url.'?sz=50" /></a>';
@@ -134,8 +134,10 @@ $user -> Google user data
 
 //Merging both data as $user_profile;
 
+if(isset($user))
+{
 $user_profile = $user;
-
+}
 if(isset($user['id']))
 {
 $user_profile['gid'] = $user['id'];
