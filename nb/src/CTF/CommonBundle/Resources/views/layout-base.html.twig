@@ -3,9 +3,22 @@
 <html lang="en-GB">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="" />
+    <meta name="author" content="thegeekmachine, vstartu" />
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/normalize.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/bootstrap.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/bootstrap-responsive.css') }}" type="text/css" media="screen" />
+    {% block extracss %}{% endblock %}
+    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/jquery-1.9.1.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/cookiemanager.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/modernizr.js') }}" ></script>
+    {% block extrajs %}{% endblock %}
 </head>
 <body>
-
+    {% block content %}{% endblock %}
+    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/bootstrap.js') }}" ></script>
+    {% block extrajsend %}{% endblock %}
 </body>
 </html>

@@ -1,0 +1,125 @@
+/* 
+    Document   : style
+    Created on : 27 May, 2013, 5:30:13 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.form-signin {
+    display: block;
+    padding: 19px 29px 29px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+}
+
+#overlay {
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 400;
+    background-color: rgba(10, 10, 10, 0.8);
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.centered {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.block-right {
+    display: inline-block;
+    float: right;
+}
+
+.right {
+    text-align: right;
+}
+
+.right-separator {
+    border-right: solid 1px #e5e5e5;
+}
+
+.inlined {
+    display: inline;
+}
+
+.padded {
+    padding: 3px;
+}
+
+.space10 {
+    margin-top: 10px;
+}
+
+.login-form {
+    margin: 6px;
+}
+
+.login-form-section {
+    padding: 4px;
+    box-shadow: inset 0 0 6px #C0C0C0;
+    background: #e5e5e5;
+    position: relative;
+    margin-top: 16px;
+}
+
+.login-form-section:first-child {
+    margin-top: 0px;
+}
+
+.login-form-section:before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    border-color: #e5e5e5;
+    border-top: 14px solid #fcfcfc;
+    border-right: 14px solid transparent;
+    width: 0;
+}
+
+.login-form-section div {
+    margin: 0 10px;
+}
+
+.modal-body {
+    background: #fcfcfc url('../images/noise.png');
+}
+
+.modal-header {
+    background: rgba(10, 10, 10, 1);
+    color: #fff;
+    border-bottom: solid 4px #C0C0C0;
+}
+
+button.close, button.close:hover {
+    color: #fff;
+}
+
+#loginModal {
+    z-index: 99999;
+}

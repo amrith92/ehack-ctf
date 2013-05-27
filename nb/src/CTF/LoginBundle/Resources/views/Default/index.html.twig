@@ -2,3 +2,111 @@
 {% block title %}
 Login
 {% endblock %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{{ asset('bundles/ctflogin/css/style.css') }}" type="text/css" media="screen" />
+{% endblock %}
+
+{% block content %}
+<div id="overlay">
+
+</div>
+<div class="modal" id="loginModal">
+    <div class="modal-header">
+        <button type="button" class="close" onclick="javascript:closeLoginModal();" aria-hidden="true">&times;</button>
+        <h3>Login &middot; or &middot; Register</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span6 right-separator">
+                <form class="login-form">
+                    <div class="form_row login-form-section">
+                        <div>
+                            <label for="inputEmail">Email</label>
+                            <input type="email" name="username" id="inputEmail" placeholder="xyz@isp.com">
+                        </div>
+                    </div>
+                    <div class="form_row login-form-section">
+                        <div>
+                            <label for="inputPassword">Password</label>
+                            <input type="password" name="password" id="inputPassword" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form_row space10">
+                        <label class="checkbox" for="rememberRemember">
+                            <input type="checkbox" id="rememberRemember" name="remember"> Remember Me
+                        </label>
+                    </div>
+                    <div class="form_row space10">
+                        <div class="right">
+                            <button class="btn">Login &raquo;</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="span6">
+                <h4>Not Registered?</h4>
+                <p><em>What are you waiting for?!</em> The ehack-CTF event is ...</p>
+                <p>Blah Blah</p>
+                <hr />
+                <div class="right">
+                    <button class="btn btn-success">Register Now!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:closeLoginModal();" class="btn">Close</a>
+        <a href="#" class="btn btn-primary">What&apos;s all this about?</a>
+    </div>
+</div>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#">infySec&apos;s CTF</a>
+            <div class="nav-collapse collapse">
+                <p class="navbar-text pull-right">
+                    <a href="javascript:openLoginModal();" class="navbar-link">Login</a>
+                </p>
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajsend %}
+<script type="text/javascript">
+//<!--
+function closeLoginModal() {
+    $('#loginModal').modal('hide');
+    $('#overlay').attr('style', 'display:none;');
+}
+
+function openLoginModal() {
+    $('#overlay').attr('style', 'display:block;');
+    $('#loginModal').modal('show');
+}
+
+$(document).ready(function() {
+    openLoginModal();
+});
+//-->
+    </script>
+{% endblock %}
