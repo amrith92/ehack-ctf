@@ -1,0 +1,3 @@
+ctf_login_homepage:
+    pattern:  /login
+    defaults: { _controller: CTFLoginBundle:Default:index }

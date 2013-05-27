@@ -1,0 +1,7 @@
+parameters:
+#    ctf_common.example.class: CTF\CommonBundle\Example
+
+services:
+#    ctf_common.example:
+#        class: %ctf_common.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

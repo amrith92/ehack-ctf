@@ -1,0 +1,18 @@
+Announce:
+    type: entity
+    table: announce
+    fields:
+        id:
+            id: true
+            type: bigint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        announce:
+            type: text
+            nullable: false
+        updatedTstamp:
+            type: datetime
+            nullable: false
+            column: updated_tstamp
+    lifecycleCallbacks: {  }

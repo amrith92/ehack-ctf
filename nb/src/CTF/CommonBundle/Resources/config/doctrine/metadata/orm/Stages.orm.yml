@@ -1,0 +1,34 @@
+Stages:
+    type: entity
+    table: stages
+    fields:
+        id:
+            id: true
+            type: bigint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        name:
+            type: text
+            nullable: false
+        description:
+            type: text
+            nullable: false
+    manyToMany:
+        question:
+            targetEntity: Questions
+            cascade: {  }
+            mappedBy: null
+            inversedBy: stage
+            joinTable:
+                name: stages_levels
+                joinColumns:
+                    -
+                        name: stage_id
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: question_id
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }
