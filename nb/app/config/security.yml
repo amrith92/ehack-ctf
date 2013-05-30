@@ -23,18 +23,20 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
         
-        login_firewall:
-          pattern: ^/user/login$
-          anonymous: ~
+        #login_firewall:
+        #  pattern: ^/login$
+        #  anonymous: ~
           
-        admin_area:
-          pattern: ^/user
+        secured_area:
+          pattern: ^/quest
+          anonymous: ~
           form_login:
             provider: users
-            login_path: /user/login
-            check_path: /user/login_check
+            login_path: /quest/login
+            check_path: /quest/login_check
+            default_target_path: /quest
           logout:
-            path: /user/logout
+            path: /quest/logout
             target: /
           remember_me:
             key: "%secret%"
@@ -43,7 +45,8 @@ security:
             domain: ~
 
     access_control:
-        - { path: ^/quest, roles: ROLE_ADMIN }
+        - { path: ^/quest/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/quest, roles: ROLE_USER }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #
         # You must uncomment the two following rules to restrict access to paths

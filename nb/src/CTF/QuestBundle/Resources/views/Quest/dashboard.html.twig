@@ -1,0 +1,23 @@
+{% extends 'CTFCommonBundle::layout-base.html.twig' %}
+{% block title %}
+Dashboard &middot; CTF
+{% endblock %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{{ asset('bundles/ctflogin/css/style.css') }}" type="text/css" media="screen" />
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span6">
+            <h1 class="navbar-text">Dashboard</h1>
+        </div>
+        <div class="span4">
+        </div>
+        <div class="span2">
+            <a href="{{ path('logout') }}">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,3 +1,7 @@
+ctf_quest:
+    resource: "@CTFQuestBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ctf_security:
     resource: "@CTFSecurityBundle/Resources/config/routing.yml"
     prefix:   /
@@ -24,11 +28,11 @@ ctf_login:
 #    prefix:   /_internal
 
 login:
-  pattern: /user/login
+  pattern: /quest/login
   defaults: { _controller: CTFSecurityBundle:Security:login }
   
 login_check:
-  pattern: /user/login_check
+  pattern: /quest/login_check
   
 logout:
-  pattern: /user/logout
+  pattern: /quest/logout

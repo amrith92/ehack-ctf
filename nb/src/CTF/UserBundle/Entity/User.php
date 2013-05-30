@@ -77,7 +77,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @inheritDoc
      */
     public function getSalt() {
-        return $this->salt;
+        return '';
     }
     
     /**

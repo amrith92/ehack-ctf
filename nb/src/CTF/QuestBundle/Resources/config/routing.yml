@@ -1,0 +1,3 @@
+ctf_quest_homepage:
+    pattern:  /quest
+    defaults: { _controller: CTFQuestBundle:Quest:dashboard }

@@ -1,0 +1,7 @@
+parameters:
+#    ctf_quest.example.class: CTF\QuestBundle\Example
+
+services:
+#    ctf_quest.example:
+#        class: %ctf_quest.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

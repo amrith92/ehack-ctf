@@ -16,8 +16,10 @@ class UserRepository extends EntityRepository implements UserProviderInterface
                 ->createQueryBuilder('u')
                 ->where('u.email = :email')
                 ->setParameter('email', $username)
-            ->getQuery()
+                ->getQuery()
         ;
+        
+        exit();
         
         try {
             $user = $q->getSingleResult();
@@ -26,6 +28,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface
                     'Unable to find an active admin with username "%s"',
                     $username
             );
+            
             throw new UsernameNotFoundException($message, null, 0, $e);
         }
         
