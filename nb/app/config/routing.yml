@@ -1,3 +1,11 @@
+ctf_security:
+    resource: "@CTFSecurityBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ctf_user:
+    resource: "@CTFUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ctf_common:
     resource: "@CTFCommonBundle/Resources/config/routing.yml"
     prefix:   /
@@ -14,3 +22,13 @@ ctf_login:
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #    prefix:   /_internal
+
+login:
+  pattern: /user/login
+  defaults: { _controller: CTFSecurityBundle:Security:login }
+  
+login_check:
+  pattern: /user/login_check
+  
+logout:
+  pattern: /user/logout

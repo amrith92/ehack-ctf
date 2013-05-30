@@ -21,6 +21,8 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new CTF\LoginBundle\CTFLoginBundle(),
             new CTF\CommonBundle\CTFCommonBundle(),
+            new CTF\UserBundle\CTFUserBundle(),
+            new CTF\SecurityBundle\CTFSecurityBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
