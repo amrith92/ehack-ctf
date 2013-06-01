@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
- * CTF\UserBundle\Entity\User
+ * CTF\UserBundle\User\Entity
  * 
  * @ORM\Entity
  * @ORM\Table(name="auth_users")
@@ -20,6 +20,48 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="google_id", type="string", length=50, nullable=false, unique=true)
+     */
+    protected $google_id;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="google_access_token", type="string", length=255)
+     */
+    protected $google_access_token;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="facebook_id", type="string", length=50, nullable=false, unique=true)
+     */
+    protected $facebook_id;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="facebook_access_token", type="string", length=255)
+     */
+    protected $facebook_access_token;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="twitter_id", type="string", length=50, nullable=false, unique=true)
+     */
+    protected $twitter_id;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="twitter_access_token", type="string", length=255)
+     */
+    protected $twitter_access_token;
     
     /**
      * @var string
@@ -115,10 +157,148 @@ class User extends BaseUser
     }
     
     /**
+     * Set googleId
+     * 
+     * @param string $id
+     * @return User
+     */
+    public function setGoogleId($id)
+    {
+        $this->google_id = $id;
+        
+        return $this;
+    }
+    
+    /**
+     * Get googleId
+     * 
+     * @return string
+     */
+    public function getGoogleId()
+    {
+        return $this->google_id;
+    }
+    
+    /**
+     * Set googleAccessToken
+     * 
+     * @param string $token
+     * @return User
+     */
+    public function setGoogleAccessToken($token)
+    {
+        $this->google_access_token = $token;
+        
+        return $this;
+    }
+    
+    /**
+     * Get googleAccessToken
+     * 
+     * @return string
+     */
+    public function getGoogleAccessToken()
+    {
+        return $this->google_access_token;
+    }
+    
+    /**
+     * Set facebookId
+     * 
+     * @param string $id
+     * @return User
+     */
+    public function setFacebookId($id)
+    {
+        $this->facebook_id = $id;
+        
+        return $this;
+    }
+    
+    /**
+     * Get facebookId
+     * 
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebook_id;
+    }
+    
+    /**
+     * Set facebookAccessToken
+     * 
+     * @param string $token
+     * @return User
+     */
+    public function setFacebookAccessToken($token)
+    {
+        $this->facebook_access_token = $token;
+        
+        return $this;
+    }
+    
+    /**
+     * Get facebookAccessToken
+     * 
+     * @return string
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebook_access_token;
+    }
+    
+    /**
+     * Set twitterId
+     * 
+     * @param string $id
+     * @return User
+     */
+    public function setTwitterId($id)
+    {
+        $this->twitter_id = $id;
+        
+        return $this;
+    }
+    
+    /**
+     * Get twitterId
+     * 
+     * @return string
+     */
+    public function getTwitterId()
+    {
+        return $this->twitter_id;
+    }
+    
+    /**
+     * Set twitterAccessToken
+     * 
+     * @param string $token
+     * @return User
+     */
+    public function setTwitterAccessToken($token)
+    {
+        $this->twitter_access_token = $token;
+        
+        return $this;
+    }
+    
+    /**
+     * Get twitterAccessToken
+     * 
+     * @return string
+     */
+    public function getTwitterAccessToken()
+    {
+        return $this->twitter_access_token;
+    }
+    
+    /**
      * Set fname
      *
      * @param string $fname
-     * @return AuthUsers
+     * @return User
      */
     public function setFname($fname)
     {
@@ -141,7 +321,7 @@ class User extends BaseUser
      * Set lname
      *
      * @param string $lname
-     * @return AuthUsers
+     * @return User
      */
     public function setLname($lname)
     {
@@ -164,7 +344,7 @@ class User extends BaseUser
      * Set dp
      *
      * @param string $dp
-     * @return AuthUsers
+     * @return User
      */
     public function setDp($dp)
     {
@@ -187,7 +367,7 @@ class User extends BaseUser
      * Set dob
      *
      * @param \DateTime $dob
-     * @return AuthUsers
+     * @return User
      */
     public function setDob($dob)
     {
@@ -210,7 +390,7 @@ class User extends BaseUser
      * Set aboutMe
      *
      * @param string $aboutMe
-     * @return AuthUsers
+     * @return User
      */
     public function setAboutMe($aboutMe)
     {
@@ -233,7 +413,7 @@ class User extends BaseUser
      * Set gender
      *
      * @param string $gender
-     * @return AuthUsers
+     * @return User
      */
     public function setGender($gender)
     {
@@ -256,7 +436,7 @@ class User extends BaseUser
      * Set phone
      *
      * @param string $phone
-     * @return AuthUsers
+     * @return User
      */
     public function setPhone($phone)
     {
@@ -279,7 +459,7 @@ class User extends BaseUser
      * Set state
      *
      * @param string $state
-     * @return AuthUsers
+     * @return User
      */
     public function setState($state)
     {
@@ -302,7 +482,7 @@ class User extends BaseUser
      * Set city
      *
      * @param string $city
-     * @return AuthUsers
+     * @return User
      */
     public function setCity($city)
     {
@@ -325,7 +505,7 @@ class User extends BaseUser
      * Set website
      *
      * @param string $website
-     * @return AuthUsers
+     * @return User
      */
     public function setWebsite($website)
     {
@@ -348,7 +528,7 @@ class User extends BaseUser
      * Set location
      *
      * @param point $location
-     * @return AuthUsers
+     * @return User
      */
     public function setLocation($location)
     {
@@ -371,7 +551,7 @@ class User extends BaseUser
      * Set loginMode
      *
      * @param string $loginMode
-     * @return AuthUsers
+     * @return User
      */
     public function setLoginMode($loginMode)
     {
@@ -394,7 +574,7 @@ class User extends BaseUser
      * Set org
      *
      * @param \CTF\CommonBundle\Entity\Organization $org
-     * @return AuthUsers
+     * @return User
      */
     public function setOrg(\CTF\CommonBundle\Entity\Organization $org = null)
     {

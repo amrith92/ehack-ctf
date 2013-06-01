@@ -1,6 +1,17 @@
-#hwi_oauth_redirect:
-#    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-#    prefix:   /connect
+hwi_oauth_redirect:
+  resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+  prefix: /connect
+
+hwi_oauth_security:
+  resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+  prefix: /connect
+ 
+hwi_oauth_connect:
+  resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+  prefix: /connect
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -50,21 +61,21 @@ ctf_login:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #    prefix:   /_internal
 
-#login:
-#  pattern: /quest/login
-#  defaults: { _controller: CTFSecurityBundle:Security:login }
+login:
+  pattern: /login
+  defaults: { _controller: CTFSecurityBundle:Security:login }
   
-#login_check:
-#  pattern: /quest/login_check
+login_check:
+  pattern: /login_check
   
-#logout:
-#  pattern: /quest/logout
+logout:
+  pattern: /logout
 
-#facebook_login:
-#  pattern: /quest/login/facebook
+facebook_login:
+  pattern: /login/facebook
 
-#gplus_login:
-#  pattern: /quest/login/google
+google_login:
+  pattern: /login/google
 
 #twitter_login:
-#  pattern: /quest/login/twitter
+#  pattern: /login/twitter

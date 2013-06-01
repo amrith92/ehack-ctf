@@ -20,6 +20,7 @@
         "jms/di-extra-bundle": "1.1.*",
         "kriswallsmith/assetic": "1.1.*@dev",
 		"friendsofsymfony/user-bundle": "~2.0@dev",
+		"friendsofsymfony/jsrouting-bundle": "~1.1",
 		"hwi/oauth-bundle": "*"
     },
     "scripts": {

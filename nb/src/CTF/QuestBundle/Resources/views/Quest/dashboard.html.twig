@@ -7,6 +7,21 @@ Dashboard &middot; CTF
 <link rel="stylesheet" href="{{ asset('bundles/ctflogin/css/style.css') }}" type="text/css" media="screen" />
 {% endblock %}
 
+{% block extrajs %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript">
+//<!--
+
+function ajaxify() {
+    $.get(Routing.generate('ctf_quest_homepage', null), function(data) {
+        alert(data);
+    });
+}
+//-->
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row-fluid">
@@ -17,6 +32,11 @@ Dashboard &middot; CTF
         </div>
         <div class="span2">
             <a href="{{ path('logout') }}">Logout</a>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <button class="btn-success" onclick="javascript:ajaxify();">AJAXify Me!</button>
         </div>
     </div>
 </div>

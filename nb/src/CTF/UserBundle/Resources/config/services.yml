@@ -1,10 +1,13 @@
 parameters:
 #    ctf_user.example.class: CTF\UserBundle\Example
+  ctf_user_provider.class: CTF\UserBundle\Entity\UserProvider
 
 services:
 #    ctf_user.example:
 #        class: %ctf_user.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
 
-  ctf_user.entity.user:
-    class: CTF\UserBundle\Entity\User
+  ctf_user_provider:
+    class: "%ctf_user_provider.class%"
+    arguments: [@fos_user.user_manager, {facebook: facebook_id, google: google_id}]
+    
