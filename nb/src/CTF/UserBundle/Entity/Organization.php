@@ -1,6 +1,6 @@
 <?php
 
-namespace CTF\CommonBundle\Entity;
+namespace CTF\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

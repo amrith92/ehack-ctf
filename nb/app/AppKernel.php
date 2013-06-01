@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            //new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new CTF\LoginBundle\CTFLoginBundle(),
             new CTF\CommonBundle\CTFCommonBundle(),
             new CTF\UserBundle\CTFUserBundle(),

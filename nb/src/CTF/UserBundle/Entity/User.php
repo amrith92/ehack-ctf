@@ -3,154 +3,413 @@
 namespace CTF\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * CTF\UserBundle\Entity\User
  * 
- * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="CTF\UserBundle\Entity\UserRepository")
+ * @ORM\Entity
+ * @ORM\Table(name="auth_users")
+ * ORM\Entity(repositoryClass="CTF\UserBundle\Entity\UserRepository")
  */
-class User implements AdvancedUserInterface, \Serializable
+class User extends BaseUser
 {
     /**
-     * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="bigint", nullable=false)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
     
     /**
-     * @ORM\Column(type="string", length=100, unique=true)
+     * @var string
+     *
+     * @ORM\Column(name="fname", type="string", length=50, nullable=false)
      */
-    private $email;
+    protected $fname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lname", type="string", length=50, nullable=false)
+     */
+    protected $lname;
     
     /**
-     * @ORM\Column(type="string", length=32)
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dob", type="date", nullable=false)
      */
-    private $salt;
+    private $dob;
     
     /**
-     * @ORM\Column(type="string", length=40)
+     * @var string
+     *
+     * @ORM\Column(name="about_me", type="text", nullable=true)
      */
-    private $password;
+    private $aboutMe;
     
     /**
-     * @ORM\Column(name="sms_verify", type="boolean")
+     * @var string
+     *
+     * @ORM\Column(name="gender", type="string", nullable=false)
      */
-    private $isVerified;
+    private $gender;
     
     /**
-     * @ORM\Column(name="is_banned", type="boolean")
+     * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=14, nullable=false)
      */
-    private $isBanned;
+    private $phone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="state", type="string", length=25, nullable=false)
+     */
+    private $state;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="city", type="string", length=30, nullable=false)
+     */
+    private $city;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="website", type="text", nullable=true)
+     */
+    private $website;
+
+    /**
+     * @var point
+     *
+     * @ORM\Column(name="location", type="point", nullable=true)
+     */
+    private $location;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login_mode", type="string", nullable=true)
+     */
+    private $loginMode;
+    
+    /**
+     * @var \Organization
+     *
+     * @ORM\ManyToOne(targetEntity="Organization")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="org_id", referencedColumnName="id")
+     * })
+     */
+    private $org;
     
     public function __construct()
     {
-        $this->isVerified = true;
-        $this->isBanned = false;
-        $this->salt = md5(uniqid(null, true));
+        parent::__construct();
+        // your own logic
     }
     
     /**
-     * Sets ID
+     * Set fname
+     *
+     * @param string $fname
+     * @return AuthUsers
      */
-    public function setId($id) {
-        $this->id = $id;
+    public function setFname($fname)
+    {
+        $this->fname = $fname;
+    
+        return $this;
+    }
+
+    /**
+     * Get fname
+     *
+     * @return string 
+     */
+    public function getFname()
+    {
+        return $this->fname;
+    }
+
+    /**
+     * Set lname
+     *
+     * @param string $lname
+     * @return AuthUsers
+     */
+    public function setLname($lname)
+    {
+        $this->lname = $lname;
+    
+        return $this;
+    }
+
+    /**
+     * Get lname
+     *
+     * @return string 
+     */
+    public function getLname()
+    {
+        return $this->lname;
+    }
+
+    /**
+     * Set dp
+     *
+     * @param string $dp
+     * @return AuthUsers
+     */
+    public function setDp($dp)
+    {
+        $this->dp = $dp;
+    
+        return $this;
+    }
+
+    /**
+     * Get dp
+     *
+     * @return string 
+     */
+    public function getDp()
+    {
+        return $this->dp;
+    }
+
+    /**
+     * Set dob
+     *
+     * @param \DateTime $dob
+     * @return AuthUsers
+     */
+    public function setDob($dob)
+    {
+        $this->dob = $dob;
+    
+        return $this;
+    }
+
+    /**
+     * Get dob
+     *
+     * @return \DateTime 
+     */
+    public function getDob()
+    {
+        return $this->dob;
+    }
+
+    /**
+     * Set aboutMe
+     *
+     * @param string $aboutMe
+     * @return AuthUsers
+     */
+    public function setAboutMe($aboutMe)
+    {
+        $this->aboutMe = $aboutMe;
+    
+        return $this;
+    }
+
+    /**
+     * Get aboutMe
+     *
+     * @return string 
+     */
+    public function getAboutMe()
+    {
+        return $this->aboutMe;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     * @return AuthUsers
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+    
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string 
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     * @return AuthUsers
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string 
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return AuthUsers
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return AuthUsers
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set website
+     *
+     * @param string $website
+     * @return AuthUsers
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+    
+        return $this;
+    }
+
+    /**
+     * Get website
+     *
+     * @return string 
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * Set location
+     *
+     * @param point $location
+     * @return AuthUsers
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return point 
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set loginMode
+     *
+     * @param string $loginMode
+     * @return AuthUsers
+     */
+    public function setLoginMode($loginMode)
+    {
+        $this->loginMode = $loginMode;
+    
+        return $this;
+    }
+
+    /**
+     * Get loginMode
+     *
+     * @return string 
+     */
+    public function getLoginMode()
+    {
+        return $this->loginMode;
     }
     
     /**
-     * Returns ID
+     * Set org
+     *
+     * @param \CTF\CommonBundle\Entity\Organization $org
+     * @return AuthUsers
      */
-    public function getId() {
-        return $this->id;
-    }
+    public function setOrg(\CTF\CommonBundle\Entity\Organization $org = null)
+    {
+        $this->org = $org;
     
-    /**
-     * @inheritDoc
-     */
-    public function getUsername() {
-        return $this->email;
+        return $this;
     }
-    
+
     /**
-     * @inheritDoc
+     * Get org
+     *
+     * @return \CTF\CommonBundle\Entity\Organization 
      */
-    public function getSalt() {
-        return '';
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function getPassword() {
-        return $this->password;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function getRoles() {
-        return array('ROLE_USER');
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function eraseCredentials() {
-        ;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function isAccountNonExpired() {
-        return true;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function isAccountNonLocked() {
-        return !$this->isBanned;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function isCredentialsNonExpired() {
-        return true;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function isEnabled() {
-        return $this->isVerified;
-    }
-    
-    /**
-     * @see \Serializable::serialize()
-     */
-    public function serialize() {
-        return serialize(array(
-            $this->id,
-        ));
-    }
-    
-    /**
-     * @see \Serializable::unserialize()
-     */
-    public function unserialize($serialized) {
-        list (
-                $this->id
-        ) = unserialize($serialized);
-    }
-    
-    /**
-     * @see \Symfony\Component\Security\Core\User\EquatableInterface::isEqualTo()
-     */
-    public function isEqualTo(UserInterface $user) {
-        return $this->email === $user->getUsername();
+    public function getOrg()
+    {
+        return $this->org;
     }
 }

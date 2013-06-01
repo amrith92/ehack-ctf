@@ -1,0 +1,143 @@
+AuthUsers:
+    type: entity
+    table: auth_users
+    fields:
+        id:
+            id: true
+            type: bigint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        username:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        usernameCanonical:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+            column: username_canonical
+        email:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        emailCanonical:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+            column: email_canonical
+        enabled:
+            type: boolean
+            nullable: false
+        salt:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        password:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        lastLogin:
+            type: datetime
+            nullable: true
+            column: last_login
+        locked:
+            type: boolean
+            nullable: false
+        expired:
+            type: boolean
+            nullable: false
+        expiresAt:
+            type: datetime
+            nullable: true
+            column: expires_at
+        confirmationToken:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+            column: confirmation_token
+        passwordRequestedAt:
+            type: datetime
+            nullable: true
+            column: password_requested_at
+        roles:
+            type: array
+            nullable: false
+        credentialsExpired:
+            type: boolean
+            nullable: false
+            column: credentials_expired
+        credentialsExpireAt:
+            type: datetime
+            nullable: true
+            column: credentials_expire_at
+        fname:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+        lname:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+        dp:
+            type: blob
+            nullable: false
+        dob:
+            type: date
+            nullable: false
+        aboutMe:
+            type: text
+            nullable: true
+            column: about_me
+        gender:
+            type: string
+            length: null
+            fixed: false
+            nullable: false
+        phone:
+            type: string
+            length: 14
+            fixed: false
+            nullable: false
+        state:
+            type: string
+            length: 25
+            fixed: false
+            nullable: false
+        city:
+            type: string
+            length: 30
+            fixed: false
+            nullable: false
+        website:
+            type: text
+            nullable: true
+        location:
+            type: point
+            nullable: true
+        loginMode:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+            column: login_mode
+    manyToOne:
+        org:
+            targetEntity: Organization
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                org_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
