@@ -45,7 +45,7 @@ body {
     top:0;
     left: 0;
     z-index: 400;
-    background-color: rgba(10, 10, 10, 0.6);
+    background-color: rgba(10, 10, 10, 0.4);
     width: 100%;
     height: 100%;
     display: none;
@@ -127,4 +127,16 @@ button.close, button.close:hover {
 
 #loginModal {
     z-index: 99999;
+}
+
+.social-login {
+    text-align: center;
+}
+
+.social-login div {
+    margin: 10px 0;
+}
+
+.social-login div:first-child {
+    margin: 0;
 }

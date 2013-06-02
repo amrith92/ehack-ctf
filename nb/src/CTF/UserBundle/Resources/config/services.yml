@@ -9,5 +9,5 @@ services:
 
   ctf_user_provider:
     class: "%ctf_user_provider.class%"
-    arguments: [@fos_user.user_manager, {facebook: facebook_id, google: google_id}]
+    arguments: [@doctrine.orm.entity_manager, @fos_user.user_manager, {facebook: facebook_id, google: google_id}]
     

@@ -1,0 +1,16 @@
+{% block subject %}Resetting your password{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Hello {{ user.username }} !
+
+You can reset your email by accessing {{ confirmationUrl }}
+
+Greetings,
+ehack CTF Team
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% include 'CTFUserBundle:User:resetting.html.twig' %}
+{% endblock %}

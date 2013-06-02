@@ -8,9 +8,8 @@ use FOS\UserBundle\Model\User as BaseUser;
 /**
  * CTF\UserBundle\User\Entity
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CTF\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="auth_users")
- * ORM\Entity(repositoryClass="CTF\UserBundle\Entity\UserRepository")
  */
 class User extends BaseUser
 {
@@ -101,14 +100,14 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", length=14, nullable=false)
+     * @ORM\Column(name="phone", type="string", length=30, nullable=false)
      */
     private $phone;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=25, nullable=false)
+     * @ORM\Column(name="state", type="string", length=30, nullable=false)
      */
     private $state;
 

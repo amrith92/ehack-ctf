@@ -1,39 +1,40 @@
-{% extends 'CTFCommonBundle::layout-base.html.twig' %}
+{% extends '::base.html.twig' %}
 
-{% block title %}
-Login
-{% endblock %}
+{% block title %}Login or Register &middot; ehack CTF{% endblock %}
 
 {% block extracss %}
 <link rel="stylesheet" href="{{ asset('bundles/ctflogin/css/style.css') }}" type="text/css" media="screen" />
 {% endblock %}
 
 {% block content %}
+    {% block fos_user_content %}{% endblock %}
+
 <div id="overlay">
 
 </div>
 <div class="modal" id="loginModal">
     <div class="modal-header">
         <button type="button" class="close" onclick="javascript:closeLoginModal();" aria-hidden="true">&times;</button>
-        <h3>Login &middot; or &middot; Register</h3>
+        <h3>Login or Register</h3>
     </div>
     <div class="modal-body">
         <div class="row-fluid">
             <div class="span6 right-separator">
                 {% if error %}
-                    <div>{{ error.message }}</div>
+                    <div>{{ error|trans }}</div>
                 {% endif %}
-                <form class="login-form" action="{{ path('login_check') }}" method="post">
+                <form class="login-form" action="{{ path("fos_user_security_check") }}" method="post">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
                     <div class="form_row login-form-section">
                         <div>
                             <label for="inputEmail">Email</label>
-                            <input type="email" name="_username" id="inputEmail" placeholder="xyz@isp.com">
+                            <input type="email" name="_username" id="inputEmail" placeholder="xyz@isp.com" required="required">
                         </div>
                     </div>
                     <div class="form_row login-form-section">
                         <div>
                             <label for="inputPassword">Password</label>
-                            <input type="password" name="_password" id="inputPassword" placeholder="Password">
+                            <input type="password" name="_password" id="inputPassword" placeholder="Password" required="required">
                         </div>
                     </div>
                     <div class="form_row space10">
@@ -44,18 +45,25 @@ Login
                     <input type="hidden" name="_target_path" value="/quest" />
                     <div class="form_row space10">
                         <div class="right">
-                            <button class="btn">Login &raquo;</button>
+                            <button class="btn" name="_submit">Take Me &raquo;</button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="span6">
                 <h4>Not Registered?</h4>
-                <p><em>What are you waiting for?!</em> The ehack-CTF event is ...</p>
-                <p>Blah Blah</p>
+                <p>Don&apos;t worry! Register for the event with facebook, google or twitter! Just sign-in!</p>
                 <hr />
-                <div class="right">
-                    <button class="btn btn-success">Register Now!</button>
+                <div class="social-login centered">
+                    <div>
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" target="_self"><img src="{{ asset('bundles/ctfcommon/images/facebook-connect.png') }}" title="facebook-connect" /></a>
+                    </div>
+                    <div>
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" target="_self"><img src="{{ asset('bundles/ctfcommon/images/google-connect.png') }}" title="google-connect" /></a>
+                    </div>
+                    <div>
+                        <a href="#" target="_self"><img src="{{ asset('bundles/ctfcommon/images/twitter-connect.png') }}" title="twitter-connect" /></a>
+                    </div>
                 </div>
             </div>
         </div>

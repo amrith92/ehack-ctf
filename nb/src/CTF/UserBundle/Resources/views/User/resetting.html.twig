@@ -1,0 +1,22 @@
+{% extends ':Email:basic.html.twig' %}
+
+{% block title %}
+Password Reset :: ehack CTF
+{% endblock %}
+
+{% block summary %}
+This is an auto-generated email in response to your password-reset request for the ehack CTF event.
+{% endblock %}
+
+{% block headerImage %}
+{{ asset('bundles/ctfcommon/images/header-image.jpg') }}
+{% endblock %}
+
+{% block content %}
+<h3>Hello {{ user.username }}!</h3>
+
+You can reset your email by accessing <a href="{{ confirmationUrl }}" target="_blank">{{ confirmationUrl }}</a>
+
+<em>Greetings,</em>
+<strong>ehack CTF Team</strong>
+{% endblock %}

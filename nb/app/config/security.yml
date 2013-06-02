@@ -31,7 +31,7 @@ security:
             resource_owners:
               facebook: "/login/facebook"
               google: "/login/google"
-            login_path: /connect
+            login_path: /login
             check_path: /connect
             oauth_user_provider:
               service: ctf_user_provider      

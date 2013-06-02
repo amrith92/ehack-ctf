@@ -75,6 +75,20 @@ fos_user:
   db_driver: orm
   firewall_name: secured_area
   user_class: CTF\UserBundle\Entity\User
+  registration:
+    confirmation:
+      enabled:    false
+  from_email:
+    address: noreply@thegeekmachine.co
+    sender_name: ehack CTF
+  resetting:
+    email:
+      template: CTFUserBundle:User:resetting.email.twig
+      from_email:
+        address: reset@thegeekmachine.co
+        sender_name: ehack CTF Password Reset
+  service:
+    mailer: fos_user.mailer.twig_swift
 
 hwi_oauth:
   firewall_name: secured_area
