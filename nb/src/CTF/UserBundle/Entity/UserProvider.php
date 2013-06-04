@@ -29,28 +29,16 @@ class UserProvider extends FOSUBUserProvider {
      * {@inheritDoc}
      */
     public function connect($user, UserResponseInterface $response) {
-        $property = $this->getProperty($response);
-        $username = $response->getUsername();
-
-        // on connect, get the access token and user-ID
-        $service = $response->getResourceOwner()->getName();
-
-        $setter = 'set' . ucfirst($service);
-        $setter_id = $setter . 'Id';
-        $setter_token = $setter . 'AccessToken';
-
-        // disconnect previously connected users
-        if (null !== $previousUser = $this->userManager->findUserBy(array($property => $username))) {
-            $previousUser->$setter_id(null);
-            $previousUser->$setter_token(null);
-            $this->userManager->updateUser($previousUser);
+        $attr = $response->getResponse();
+        switch ($response->getResourceOwner()->getName()) {
+            case 'google':
+                $user = $this->userRepository->findOneByGoogleId($attr['id']);
+                if ($user !== null) {
+                    $user->setGoogleAccessToken($response->getAccessToken());
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
+                }
         }
-
-        // connect current user
-        $user->$setter_id($username);
-        $user->$setter_token($response->getAccessToken());
-
-        $this->userManager->updateUser($user);
     }
 
     /**
@@ -70,7 +58,6 @@ class UserProvider extends FOSUBUserProvider {
                         if (!$user->getLname()) {
                             $user->setLname($attr['family_name']);
                         }
-                        //$user->setGoogleName($attr['name']);
                     } else {
                         $user = new User();
                         $user->setUsername($this->userRepository->createUsernameByEmail($attr['email']));

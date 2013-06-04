@@ -87,8 +87,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
     }
     
     public function createUsernameByEmail($email) {
-        $username = "";
-        list($username) = explode('@', $email, 1);
+        list($username) = explode('@', $email, 2);
         return $username;
     }
 }

@@ -1,0 +1,41 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+{{ app.user.username }}&apos;s Profile &middot; ehack CTF
+{% endblock %}
+
+{% block content %}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span8">
+            <form class="form-horizontal" action="#" method="post" {{ form_enctype(form) }}>
+                {{ form_widget(form) }}
+
+                <button class="btn">Save</button>
+            </form>
+        </div>
+        <div class="span4">
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajsend %}
+<script type="text/javascript">
+//<!--
+$(document).ready(function() {
+    $('.date').datepicker({
+        dateFormat: 'dd-mm-yy',
+        changeMonth: true,
+        changeYear: true
+    });
+});
+//-->
+</script>
+{% endblock %}

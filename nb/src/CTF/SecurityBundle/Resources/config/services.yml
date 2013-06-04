@@ -1,7 +1,0 @@
-parameters:
-#    ctf_security.example.class: CTF\SecurityBundle\Example
-
-services:
-#    ctf_security.example:
-#        class: %ctf_security.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

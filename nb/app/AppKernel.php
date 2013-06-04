@@ -25,7 +25,6 @@ class AppKernel extends Kernel
             new CTF\LoginBundle\CTFLoginBundle(),
             new CTF\CommonBundle\CTFCommonBundle(),
             new CTF\UserBundle\CTFUserBundle(),
-            new CTF\SecurityBundle\CTFSecurityBundle(),
             new CTF\QuestBundle\CTFQuestBundle(),
         );
 

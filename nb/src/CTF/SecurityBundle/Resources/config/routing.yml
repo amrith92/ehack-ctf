@@ -1,3 +1,0 @@
-ctf_security_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: CTFSecurityBundle:Default:index }

@@ -1,3 +1,3 @@
 ctf_user_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: CTFUserBundle:Default:index }
+    pattern:  /profile
+    defaults: { _controller: CTFUserBundle:User:profile }

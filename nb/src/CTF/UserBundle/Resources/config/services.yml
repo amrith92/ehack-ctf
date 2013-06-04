@@ -1,11 +1,15 @@
 parameters:
 #    ctf_user.example.class: CTF\UserBundle\Example
   ctf_user_provider.class: CTF\UserBundle\Entity\UserProvider
+  ctf_user_utils.class: CTF\UserBundle\Util\UserUtils
 
 services:
 #    ctf_user.example:
 #        class: %ctf_user.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+  ctf_user_util:
+    class: "%ctf_user_utils.class%"
 
   ctf_user_provider:
     class: "%ctf_user_provider.class%"
