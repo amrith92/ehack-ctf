@@ -105,9 +105,12 @@ class User extends BaseUser
     private $phone;
 
     /**
-     * @var string
+     * @var \Zone
      *
-     * @ORM\Column(name="state", type="string", length=30, nullable=false)
+     * @ORM\ManyToOne(targetEntity="Zone")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="state_id", referencedColumnName="zone_id")
+     * })
      */
     private $state;
 
@@ -457,10 +460,10 @@ class User extends BaseUser
     /**
      * Set state
      *
-     * @param string $state
+     * @param \CTF\UserBundle\Entity\Zone $state
      * @return User
      */
-    public function setState($state)
+    public function setState(\CTF\UserBundle\Entity\Zone $state)
     {
         $this->state = $state;
     
@@ -470,7 +473,7 @@ class User extends BaseUser
     /**
      * Get state
      *
-     * @return string 
+     * @return \CTF\UserBundle\Entity\Zone
      */
     public function getState()
     {
@@ -572,10 +575,10 @@ class User extends BaseUser
     /**
      * Set org
      *
-     * @param \CTF\CommonBundle\Entity\Organization $org
+     * @param \CTF\UserBundle\Entity\Organization $org
      * @return User
      */
-    public function setOrg(\CTF\CommonBundle\Entity\Organization $org = null)
+    public function setOrg(\CTF\UserBundle\Entity\Organization $org = null)
     {
         $this->org = $org;
     

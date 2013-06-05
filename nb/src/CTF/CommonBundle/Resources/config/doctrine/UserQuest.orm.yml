@@ -1,0 +1,70 @@
+UserQuest:
+    type: entity
+    table: user_quest
+    fields:
+        id:
+            id: true
+            type: bigint
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        questLevel:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: quest_level
+        currentLevel:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: current_level
+        score:
+            type: integer
+            unsigned: false
+            nullable: false
+    manyToMany:
+        question:
+            targetEntity: Questions
+            cascade: {  }
+            mappedBy: null
+            inversedBy: quest
+            joinTable:
+                name: user_quest_history
+                joinColumns:
+                    -
+                        name: quest_id
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: question_id
+                        referencedColumnName: id
+            orderBy: null
+    manyToOne:
+        currentStage:
+            targetEntity: Stages
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                current_stage:
+                    referencedColumnName: id
+            orphanRemoval: false
+        questStage:
+            targetEntity: Stages
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                quest_stage:
+                    referencedColumnName: id
+            orphanRemoval: false
+        user:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

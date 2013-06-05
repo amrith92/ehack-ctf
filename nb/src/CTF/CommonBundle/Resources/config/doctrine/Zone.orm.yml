@@ -1,0 +1,29 @@
+Zone:
+    type: entity
+    table: zone
+    fields:
+        zoneId:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: zone_id
+            generator:
+                strategy: IDENTITY
+        code:
+            type: text
+            nullable: true
+        name:
+            type: text
+            nullable: true
+    manyToOne:
+        country:
+            targetEntity: Countries
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                country_id:
+                    referencedColumnName: country_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

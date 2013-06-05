@@ -1,3 +1,15 @@
 ctf_user_homepage:
     pattern:  /profile
     defaults: { _controller: CTFUserBundle:User:profile }
+
+ctf_list_countries:
+    pattern: /country/get
+    defaults: { _controller: CTFUserBundle:User:getCountries }
+    options:
+        expose: true
+
+ctf_list_states:
+    pattern: /states/get/{id}
+    defaults: { _controller: CTFUserBundle:User:getStates }
+    options:
+        expose: true

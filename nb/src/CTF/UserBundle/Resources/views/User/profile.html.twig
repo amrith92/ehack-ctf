@@ -27,6 +27,8 @@
 {% endblock %}
 
 {% block extrajsend %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
 $(document).ready(function() {
@@ -34,6 +36,26 @@ $(document).ready(function() {
         dateFormat: 'dd-mm-yy',
         changeMonth: true,
         changeYear: true
+    });
+    
+    $.get(Routing.generate('ctf_list_countries', null), function(data) {
+        data = JSON.parse(data);
+        for (var i = 0; i < data.length; ++i) {
+            $('#ctf_userbundle_usertype_country').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+        }
+    });
+    
+    $( "[title]" ).tooltip();
+    
+    $('#ctf_userbundle_usertype_country').change(function() {
+        var country = $(this).val();
+        $.get(Routing.generate('ctf_list_states', { id: country }), function(data) {
+            data = JSON.parse(data);
+            $('#ctf_userbundle_usertype_state').empty();
+            for (var i = 0; i < data.length; ++i) {
+                $('#ctf_userbundle_usertype_state').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        });
     });
 });
 //-->

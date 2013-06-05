@@ -49,9 +49,25 @@ class UserType extends AbstractType
                 'choices'   => array('' => 'Select One', 'Male' => 'Male', 'Female' => 'Female'),
                 'required'  => true
             ))
-            ->add('phone')
-            ->add('state')
-            ->add('city')
+            ->add('phone', 'integer', array(
+                'required' => true,
+                'label' => 'Mobile'
+            ))
+            ->add('country', 'choice', array(
+                'mapped' => false,
+                'label' => 'Country'
+            ))
+            ->add('state', 'choice', array(
+                'required' => true,
+                'label' => 'State',
+                //'property' => 'name',
+                'mapped' => false,
+                'attr' => array('title' => 'Select country and then select state')
+            ))
+            ->add('city', 'text', array(
+                'required' => true,
+                'label' => 'City / Town'
+            ))
             ->add('website', 'textarea', array(
                 'label' => 'Website(s)'
             ))

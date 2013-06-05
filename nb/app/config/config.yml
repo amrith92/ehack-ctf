@@ -118,4 +118,4 @@ hwi_oauth:
     #  client_secret: ~
 
 fos_js_routing:
-    routes_to_expose: ctf_quest_homepage
+    routes_to_expose: ctf_quest_homepage, ctf_list_countries
