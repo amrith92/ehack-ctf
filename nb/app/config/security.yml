@@ -31,10 +31,11 @@ security:
             resource_owners:
               facebook: "/login/facebook"
               google: "/login/google"
+              twitter: "/login/twitter"
             login_path: /login
             check_path: /connect
             oauth_user_provider:
-              service: ctf_user_provider      
+              service: ctf_user_provider
           logout:
             path: /logout
             target: /

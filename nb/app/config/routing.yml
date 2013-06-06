@@ -73,5 +73,5 @@ facebook_login:
 google_login:
   pattern: /login/google
 
-#twitter_login:
-#  pattern: /login/twitter
+twitter_login:
+  pattern: /login/twitter

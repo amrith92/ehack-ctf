@@ -5,9 +5,16 @@ namespace CTF\UserBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use CTF\UserBundle\Form\Event\UserEditEventListener;
 
 class UserType extends AbstractType
 {
+    private $userEditListener;
+    
+    public function __construct(UserEditEventListener $listener) {
+        $this->userEditListener = $listener;
+    }
+    
     /**
      * 
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
@@ -53,16 +60,13 @@ class UserType extends AbstractType
                 'required' => true,
                 'label' => 'Mobile'
             ))
-            ->add('country', 'choice', array(
-                'mapped' => false,
-                'label' => 'Country'
-            ))
-            ->add('state', 'choice', array(
+            ->add('country', null, array(
+                'label' => 'Country',
+                'empty_value' => 'Choose a Country',
                 'required' => true,
-                'label' => 'State',
-                //'property' => 'name',
-                'mapped' => false,
-                'attr' => array('title' => 'Select country and then select state')
+                'mapped' => true,
+                'property_path' => 'country',
+                'property' => 'name'
             ))
             ->add('city', 'text', array(
                 'required' => true,
@@ -76,6 +80,8 @@ class UserType extends AbstractType
                 'label' => 'Organization'
             ))
         ;
+        
+        $builder->addEventSubscriber($this->userEditListener);
     }
 
     /**

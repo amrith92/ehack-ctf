@@ -19,7 +19,7 @@ class QuestController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         if (false == $this->get('ctf_user_util')->hasFullyRegistered($user)) {
             $this->get('session')->getFlashBag()->add('notice', "You've logged in successfully, but your profile isn't quite complete yet! Take a moment to fill in necessary details.");
-            return $this->redirect($this->generateUrl('ctf_user_homepage'));
+            return $this->redirect($this->generateUrl('ctf_user_edit_profile'));
         }
         
         return $this->render('CTFQuestBundle:Quest:dashboard.html.twig');

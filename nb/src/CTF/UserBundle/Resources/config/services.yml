@@ -8,6 +8,16 @@ services:
 #        class: %ctf_user.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
 
+  ctf.form.profile_edit:
+    class: "CTF\UserBundle\Form\UserType"
+    arguments: [@ctf.form.profile_edit_listener]
+    tags:
+      - { name: form.type, alias: ctf_edit_profile }
+
+  ctf.form.profile_edit_listener:
+    class: "CTF\UserBundle\Form\Event\UserEditEventListener"
+    arguments: [@form.factory, @doctrine.orm.entity_manager]
+
   ctf_user_util:
     class: "%ctf_user_utils.class%"
 

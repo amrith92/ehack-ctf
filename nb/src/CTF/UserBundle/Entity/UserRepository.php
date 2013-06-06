@@ -34,6 +34,25 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
 
         return $user;
     }
+    
+    public function findByUsername($username) {
+        $q = $this
+                ->createQueryBuilder('u')
+                ->where('u.email = :email')
+                ->orWhere('u.username = :username')
+                ->setParameter('email', $username)
+                ->setParameter('username', $username)
+                ->getQuery()
+        ;
+
+        try {
+            $user = $q->getSingleResult();
+        } catch (NoResultException $e) {
+            $user = null;
+        }
+
+        return $user;
+    }
 
     public function refreshUser(UserInterface $user) {
         $class = get_class($user);
@@ -56,6 +75,40 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         $q = $this
                 ->createQueryBuilder('u')
                 ->where('u.google_id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()
+        ;
+        
+        try {
+            $user = $q->getSingleResult();
+        } catch (NoResultException $e) {
+            $user = null;
+        }
+
+        return $user;
+    }
+    
+    public function findOneByFacebookId($id) {
+        $q = $this
+                ->createQueryBuilder('u')
+                ->where('u.facebook_id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()
+        ;
+        
+        try {
+            $user = $q->getSingleResult();
+        } catch (NoResultException $e) {
+            $user = null;
+        }
+
+        return $user;
+    }
+    
+    public function findOneByTwitterId($id) {
+        $q = $this
+                ->createQueryBuilder('u')
+                ->where('u.twitter_id = :id')
                 ->setParameter('id', $id)
                 ->getQuery()
         ;

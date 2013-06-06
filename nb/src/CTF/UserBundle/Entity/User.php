@@ -4,6 +4,7 @@ namespace CTF\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CTF\UserBundle\User\Entity
@@ -77,6 +78,13 @@ class User extends BaseUser
     protected $lname;
     
     /**
+     * @var string
+     * 
+     * @ORM\Column(name="dp", type="string")
+     */
+    protected $imageUrl;
+    
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dob", type="date", nullable=false)
@@ -103,9 +111,20 @@ class User extends BaseUser
      * @ORM\Column(name="phone", type="string", length=30, nullable=false)
      */
     private $phone;
+    
+    /**
+     *
+     * @var Countries
+     * 
+     * @ORM\ManyToOne(targetEntity="Countries")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="country_id", referencedColumnName="country_id")
+     * })
+     */
+    private $country;
 
     /**
-     * @var \Zone
+     * @var Zone
      *
      * @ORM\ManyToOne(targetEntity="Zone")
      * @ORM\JoinColumns({
@@ -345,24 +364,24 @@ class User extends BaseUser
     /**
      * Set dp
      *
-     * @param string $dp
+     * @param string $url
      * @return User
      */
-    public function setDp($dp)
+    public function setImageUrl($url)
     {
-        $this->dp = $dp;
+        $this->imageUrl = $url;
     
         return $this;
     }
 
     /**
-     * Get dp
+     * Get Image URL
      *
      * @return string 
      */
-    public function getDp()
+    public function getImageURL()
     {
-        return $this->dp;
+        return $this->imageUrl;
     }
 
     /**
@@ -455,6 +474,29 @@ class User extends BaseUser
     public function getPhone()
     {
         return $this->phone;
+    }
+    
+    /**
+     * Set country
+     *
+     * @param \CTF\UserBundle\Entity\Countries $country
+     * @return User
+     */
+    public function setCountry(\CTF\UserBundle\Entity\Countries $country)
+    {
+        $this->country = $country;
+    
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return \CTF\UserBundle\Entity\Countries
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 
     /**

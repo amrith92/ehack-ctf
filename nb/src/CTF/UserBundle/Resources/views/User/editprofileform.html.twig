@@ -1,0 +1,43 @@
+{# empty Twig template #}
+<form class="form-horizontal" action="{{ path('ctf_user_edit_profile') }}" method="post" {{ form_enctype(form) }} id="edit-form">
+    {{ form_row(form.username) }}
+    {{ form_row(form.email) }}
+    <hr />
+    {% if form.password is defined %}
+    {{ form_row(form.password) }}
+    <hr />
+    {% endif %}
+    {{ form_row(form.fname) }}
+    {{ form_row(form.lname) }}
+    <hr />
+    {{ form_row(form.dob) }}
+    {{ form_row(form.gender) }}
+    <hr />
+    {{ form_row(form.aboutMe) }}
+    {{ form_row(form.website) }}
+    <hr />
+    {{ form_row(form.country) }}
+    {% if form.state is defined %}
+    {{ form_row(form.state) }}
+    {% endif %}
+    {{ form_row(form.city) }}
+    <hr />
+    {{ form_row(form.phone) }}
+    {{ form_row(form.location) }}
+    <hr />
+    {{ form_row(form.org) }}
+    
+    {{ form_rest(form) }}
+
+    <button class="btn">Save</button>
+</form>
+<script type="text/javascript">
+//<!--
+$('#ctf_userbundle_usertype_country').on('change', function() {
+    $.post(Routing.generate('ctf_get_edit_form', null), $("#edit-form").serialize(), function(data) {
+        $('#editForm').empty();
+        $('#editForm').append(data);
+    }, "html");
+});
+//-->
+</script>

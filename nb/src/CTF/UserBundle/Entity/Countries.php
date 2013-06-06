@@ -54,7 +54,7 @@ class Countries
     /**
      * 
      * @param integer $id
-     * @return \CTF\UserBundle\Entity\Organization
+     * @return \CTF\UserBundle\Entity\Countries
      */
     public function setId($id)
     {
@@ -75,7 +75,7 @@ class Countries
     /**
      * 
      * @param string $name
-     * @return \CTF\UserBundle\Entity\Organization
+     * @return \CTF\UserBundle\Entity\Countries
      */
     public function setName($name)
     {
@@ -96,7 +96,7 @@ class Countries
     /**
      * 
      * @param string $code
-     * @return \CTF\UserBundle\Entity\Organization
+     * @return \CTF\UserBundle\Entity\Countries
      */
     public function setIsoCode2($code)
     {
@@ -117,7 +117,7 @@ class Countries
     /**
      * 
      * @param string $code
-     * @return \CTF\UserBundle\Entity\Organization
+     * @return \CTF\UserBundle\Entity\Countries
      */
     public function setIsoCode3($code)
     {
@@ -138,7 +138,7 @@ class Countries
     /**
      * 
      * @param boolean $req
-     * @return \CTF\UserBundle\Entity\Organization
+     * @return \CTF\UserBundle\Entity\Countries
      */
     public function setPostCodeRequired($req)
     {

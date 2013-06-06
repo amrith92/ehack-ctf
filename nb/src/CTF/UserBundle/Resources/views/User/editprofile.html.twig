@@ -1,0 +1,61 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+{{ app.user.username }}&apos;s Profile &middot; ehack CTF
+{% endblock %}
+
+{% block content %}
+<div class="clearfix">&nbsp;</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-error clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span8" id="editForm">
+            {% include "CTFUserBundle:User:editprofileform.html.twig" with { 'form': form } only %}
+        </div>
+        <div class="span4">
+            {% if profilePic is defined %}
+                <img src="{{ profilePic }}" title="Your profile pic!" width="160" class="img-polaroid" />
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajsend %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript">
+//<!--
+$(document).ready(function() {
+    $('.date').datepicker({
+        dateFormat: 'dd-mm-yy',
+        changeMonth: true,
+        changeYear: true
+    });
+    
+    $( "[title]" ).tooltip();
+});
+//-->
+</script>
+{% endblock %}
