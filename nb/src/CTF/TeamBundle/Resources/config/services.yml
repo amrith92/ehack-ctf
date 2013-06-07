@@ -1,0 +1,7 @@
+parameters:
+#    ctf_team.example.class: CTF\TeamBundle\Example
+
+services:
+#    ctf_team.example:
+#        class: %ctf_team.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

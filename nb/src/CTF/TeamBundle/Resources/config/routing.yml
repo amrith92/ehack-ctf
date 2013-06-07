@@ -1,0 +1,3 @@
+ctf_team_select:
+    pattern:  /team/select
+    defaults: { _controller: CTFTeamBundle:Team:select }

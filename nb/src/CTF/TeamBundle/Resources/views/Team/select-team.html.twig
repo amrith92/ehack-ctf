@@ -1,0 +1,73 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+{{ app.user.username }}&apos;s Profile &middot; ehack CTF
+{% endblock %}
+
+{% block extrajsend %}
+<!--[if lt IE 9]><script type="text/javascript" src="{{ asset('bundles/ctfteam/js/excanvas.js') }}"></script><![endif]-->
+<script src="{{ asset('bundles/ctfteam/js/jquery.tagcanvas.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+//<!--
+$(document).ready(function() {
+  if( ! $('#teamCanvas').tagcanvas({
+    textColour : '#000',
+    textFont: '"Helvetica Neue",Helvetica,Arial,sans-serif',
+    textHeight: 18,
+    outlineThickness : 1,
+    maxSpeed : 0.03,
+    depth : 0.75,
+    outlineColour: '#e74c3c',
+    outlineMethod: 'block',
+    outlineOffset: 10,
+  }, 'tags')) {
+    $('#teamcloud').hide();
+  }
+});
+//-->
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="clearfix">&nbsp;</div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div id="teamcloud">
+                    <canvas width="900" height="300" id="teamCanvas">
+
+                    </canvas>
+                    <div id="tags">
+                        <ul>
+                            <li><a href="#">Team#1</a></li>
+                            <li><a href="#">Team#2</a></li>
+                            <li><a href="#">Team#3</a></li>
+                            <li><a href="#">Team#4</a></li>
+                            <li><a href="#">Team#5</a></li>
+                            <li><a href="#">Team#6</a></li>
+                            <li><a href="#">Team#7</a></li>
+                            <li><a href="#">Team#8</a></li>
+                            <li><a href="#">Team#9</a></li>
+                            <li><a href="#">Team#10</a></li>
+                            <li><a href="#">Team#11</a></li>
+                            <li><a href="#">Team#12</a></li>
+                            <li><a href="#">Team#13</a></li>
+                            <li><a href="#">Team#14</a></li>
+                            <li><a href="#">Team#15</a></li>
+                            <li><a href="#">Team#16</a></li>
+                            <li><a href="#">Team#17</a></li>
+                            <li><a href="#">Team#18</a></li>
+                            <li><a href="#">Team#19</a></li>
+                            <li><a href="#">Team#20</a></li>
+                            <li><a href="#">Team#21</a></li>
+                            <li><a href="#">Team#22</a></li>
+                            <li><a href="#">Team#23</a></li>
+                            <li><a href="#">Team#24</a></li>
+                            <li><a href="#">Team#25</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

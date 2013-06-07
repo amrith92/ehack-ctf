@@ -1,6 +1,6 @@
-Stages:
+Team:
     type: entity
-    table: stages
+    table: team
     fields:
         id:
             id: true
@@ -9,26 +9,36 @@ Stages:
             generator:
                 strategy: IDENTITY
         name:
-            type: text
+            type: string
+            length: 30
+            fixed: false
             nullable: false
-        description:
+        status:
             type: text
+            nullable: true
+        score:
+            type: integer
+            unsigned: false
             nullable: false
+        teamPic:
+            type: text
+            nullable: true
+            column: team_pic
     manyToMany:
-        question:
-            targetEntity: Questions
+        user:
+            targetEntity: AuthUsers
             cascade: {  }
             mappedBy: null
-            inversedBy: stage
+            inversedBy: team
             joinTable:
-                name: stages_levels
+                name: team_members
                 joinColumns:
                     -
-                        name: stage_id
+                        name: team_id
                         referencedColumnName: id
                 inverseJoinColumns:
                     -
-                        name: question_id
+                        name: user_id
                         referencedColumnName: id
             orderBy: null
     lifecycleCallbacks: {  }

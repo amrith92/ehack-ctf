@@ -1,6 +1,6 @@
-Announce:
+Organization:
     type: entity
-    table: announce
+    table: organization
     fields:
         id:
             id: true
@@ -8,11 +8,9 @@ Announce:
             nullable: false
             generator:
                 strategy: IDENTITY
-        announce:
-            type: text
+        name:
+            type: string
+            length: 100
+            fixed: false
             nullable: false
-        updatedTstamp:
-            type: datetime
-            nullable: false
-            column: updated_tstamp
     lifecycleCallbacks: {  }
