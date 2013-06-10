@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/bootstrap.css') }}" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/bootstrap-responsive.css') }}" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/eggplant/jquery-ui-1.10.3.custom.min.css') }}" type="text/css" media="screen" />
+    {# <link href="{{ asset('bundles/ctfcommon/css/flat-ui.css') }}" rel="stylesheet" /> #}
     {% block extracss %}{% endblock %}
-    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/jquery-1.9.1.js') }}" ></script>
-    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/jquery-ui-1.10.3.custom.min.js') }}" ></script>
-    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/cookiemanager.js') }}" ></script>
-    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/modernizr.js') }}" ></script>
+    <!--[if lt IE 9]>
+      <script src="{{ asset('bundles/ctfcommon/js/html5shiv.js') }}"></script>
+    <![endif]-->
     {% block extrajs %}{% endblock %}
 </head>
 <body>
@@ -50,7 +50,25 @@
     </div>
     {% endblock %}
     {% block content %}{% endblock %}
+    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/jquery-1.9.1.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/jquery-ui-1.10.3.custom.min.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/cookiemanager.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/modernizr.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/bootstrap.js') }}" ></script>
+    {#
+    <script src="{{ asset('bundles/ctfcommon/js/jquery.dropkick-1.0.0.js') }}"></script>
+    <script src="{{ asset('bundles/ctfcommon/js/custom_checkbox_and_radio.js') }}"></script>
+    <script src="{{ asset('bundles/ctfcommon/js/custom_radio.js') }}"></script>
+    <script src="{{ asset('bundles/ctfcommon/js/jquery.tagsinput.js') }}"></script>
+    <script src="{{ asset('bundles/ctfcommon/js/bootstrap-tooltip.js') }}"></script>
+    <script src="{{ asset('bundles/ctfcommon/js/jquery.placeholder.js') }}"></script>
+    <script src="http://vjs.zencdn.net/c/video.js"></script>
+    <script src="{{ asset('bundles/ctfcommon/js/application.js') }}"></script>
+    #}
+    <!--[if lt IE 8]>
+      <script src="{{ asset('bundles/ctfcommon/js/icon-font-ie7.js') }}"></script>
+      <script src="{{ asset('bundles/ctfcommon/js/icon-font-ie7-24.js') }}"></script>
+    <![endif]-->
     {% block extrajsend %}{% endblock %}
 </body>
 </html>

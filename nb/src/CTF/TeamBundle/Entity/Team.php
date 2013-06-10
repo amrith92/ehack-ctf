@@ -53,6 +53,20 @@ class Team {
     
     /**
      * 
+     * @ORM\ManyToMany(targetEntity="\CTF\TeamBundle\Entity\TeamMemberRequest")
+     * @ORM\JoinTable(name="team_requests",
+     *      joinColumns={@ORM\JoinColumn(name="team_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="request_id", referencedColumnName="id", unique=true)}
+     * )
+     */
+    private $requests;
+    
+    public function __construct() {
+        $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * 
      * @param integer $id
      * @return \CTF\TeamBundle\Entity\Team
      */

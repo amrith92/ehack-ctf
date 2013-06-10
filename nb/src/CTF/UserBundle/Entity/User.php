@@ -7,7 +7,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * CTF\UserBundle\User\Entity
+ * \CTF\UserBundle\User\Entity
  * 
  * @ORM\Entity(repositoryClass="CTF\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="auth_users")
@@ -114,9 +114,9 @@ class User extends BaseUser
     
     /**
      *
-     * @var Countries
+     * @var \CTF\UserBundle\Entity\Countries
      * 
-     * @ORM\ManyToOne(targetEntity="Countries")
+     * @ORM\ManyToOne(targetEntity="\CTF\UserBundle\Entity\Countries")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="country_id", referencedColumnName="country_id")
      * })
@@ -124,9 +124,9 @@ class User extends BaseUser
     private $country;
 
     /**
-     * @var Zone
+     * @var \CTF\UserBundle\Entity\Zone
      *
-     * @ORM\ManyToOne(targetEntity="Zone")
+     * @ORM\ManyToOne(targetEntity="\CTF\UserBundle\Entity\Zone")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="state_id", referencedColumnName="zone_id")
      * })
@@ -162,9 +162,9 @@ class User extends BaseUser
     private $loginMode;
     
     /**
-     * @var \Organization
+     * @var \CTF\UserBundle\Entity\Organization
      *
-     * @ORM\ManyToOne(targetEntity="Organization")
+     * @ORM\ManyToOne(targetEntity="\CTF\UserBundle\Entity\Organization")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="org_id", referencedColumnName="id")
      * })
