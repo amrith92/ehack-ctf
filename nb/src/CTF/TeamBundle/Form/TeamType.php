@@ -11,11 +11,11 @@ class TeamType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', 'text', array(
+                'label' => 'Name'
+            ))
             ->add('status')
-            ->add('score')
             ->add('teamPic')
-            ->add('requests')
         ;
     }
 

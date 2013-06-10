@@ -7,22 +7,30 @@
 {% block extrajsend %}
 <!--[if lt IE 9]><script type="text/javascript" src="{{ asset('bundles/ctfteam/js/excanvas.js') }}"></script><![endif]-->
 <script src="{{ asset('bundles/ctfteam/js/jquery.tagcanvas.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
 $(document).ready(function() {
-  if( ! $('#teamCanvas').tagcanvas({
-    textColour : '#000',
-    textFont: '"Helvetica Neue",Helvetica,Arial,sans-serif',
-    textHeight: 18,
-    outlineThickness : 1,
-    maxSpeed : 0.03,
-    depth : 0.75,
-    outlineColour: '#e74c3c',
-    outlineMethod: 'block',
-    outlineOffset: 10,
-  }, 'tags')) {
-    $('#teamcloud').hide();
-  }
+    if( ! $('#teamCanvas').tagcanvas({
+      textColour : '#000',
+      textFont: '"Helvetica Neue",Helvetica,Arial,sans-serif',
+      textHeight: 18,
+      outlineThickness : 1,
+      maxSpeed : 0.03,
+      depth : 0.75,
+      outlineColour: '#e74c3c',
+      outlineMethod: 'block',
+      outlineOffset: 10,
+    }, 'tags')) {
+      $('#teamcloud').hide();
+    }
+});
+
+$("#teamFormContainer").on('change', '#select_team input:radio', function(event) {
+    $.post(Routing.generate('ctf_team_select_ajax', null), $("#select_team").serialize(), function(data) {
+        $('#select_team').html(data).show();
+    }, "html");
 });
 //-->
 </script>
@@ -71,15 +79,7 @@ $(document).ready(function() {
         </div>
         <div class="row-fluid">
             <div class="span12">
-                <form action="#" class="form-horizontal" method="post" {{ form_enctype(form) }} />
-                    <fieldset>
-                        <legend>Team</legend>
-                        {{ form_widget(form) }}
-                        {{ form_rest(form) }}
-                
-                        <button class="btn">Select</button>
-                    </fieldset>
-                </form>
+                {% include "CTFTeamBundle:Team:select-team.form.html.twig" with { 'form': form } only %}
             </div>
         </div>
     </div>

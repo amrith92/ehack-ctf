@@ -27,6 +27,9 @@ class Team {
      * @var string
      * 
      * @ORM\Column(name="name", type="string", length=30, nullable=false, unique=true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
      */
     private $name;
     
@@ -48,6 +51,8 @@ class Team {
      * @var string
      * 
      * @ORM\Column(name="team_pic", type="string", nullable=true)
+     * @Assert\Blank()
+     * @Assert\Url()
      */
     private $teamPic;
     

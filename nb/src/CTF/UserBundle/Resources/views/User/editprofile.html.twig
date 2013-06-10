@@ -55,6 +55,17 @@ $(document).ready(function() {
     });
     
     $( "[title]" ).tooltip();
+    
+    $('#editForm').on('change', '#ctf_userbundle_usertype_country', function() {
+        $.post(Routing.generate('ctf_get_edit_form', null), $("#edit-form").serialize(), function(data) {
+            $('#edit-form').html(data).show();
+            $('.date').datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true
+            });
+        }, "html");
+    });
 });
 //-->
 </script>

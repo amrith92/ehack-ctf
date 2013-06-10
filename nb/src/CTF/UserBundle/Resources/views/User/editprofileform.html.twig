@@ -1,4 +1,4 @@
-{# empty Twig template #}
+{# edit profile form #}
 <form class="form-horizontal" action="{{ path('ctf_user_edit_profile') }}" method="post" {{ form_enctype(form) }} id="edit-form">
     {{ form_row(form.username) }}
     {{ form_row(form.email) }}
@@ -31,13 +31,3 @@
 
     <button class="btn">Save</button>
 </form>
-<script type="text/javascript">
-//<!--
-$('#ctf_userbundle_usertype_country').on('change', function() {
-    $.post(Routing.generate('ctf_get_edit_form', null), $("#edit-form").serialize(), function(data) {
-        $('#editForm').empty();
-        $('#editForm').append(data);
-    }, "html");
-});
-//-->
-</script>

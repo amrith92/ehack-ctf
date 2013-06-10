@@ -1,3 +1,15 @@
 ctf_team_select:
     pattern:  /team/select
     defaults: { _controller: CTFTeamBundle:Team:select }
+    options:
+      expose: true
+
+ctf_team_select_ajax:
+    pattern:  /team/select/listen
+    defaults: { _controller: CTFTeamBundle:Team:selectAjax }
+    options:
+      expose: true
+
+ctf_team_select_action:
+    pattern: /team/select/do
+    defaults: { _controller: CTFTeamBundle:Team:selectTeam }

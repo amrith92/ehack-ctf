@@ -1,0 +1,21 @@
+{# empty Twig template #}
+<div id="teamFormContainer">
+    <form action="{{ path('ctf_team_select_action') }}" class="form-horizontal" method="post" {{ form_enctype(form) }} id="select_team" />
+        <fieldset>
+            <legend>Team</legend>
+            {{ form_errors(form) }}
+            
+            <div>
+                {{ form_label(form.is_selecting, label | default(null), { 'label_attr': { 'class': 'radio'} }) }}
+                {{ form_errors(form.is_selecting) }}
+                {{ form_widget(form.is_selecting) }}
+            </div>
+            
+            {{ form_rest(form) }}
+
+            <div class="form-row">
+                <button class="btn">Select</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
