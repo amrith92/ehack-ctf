@@ -15,7 +15,9 @@ class UserController extends Controller {
         }
         
         $user = $this->get('security.context')->getToken()->getUser();
-        $form = $this->createForm($this->get('ctf.form.profile_edit'), $user);
+        $form = $this->createForm($this->get('ctf.form.profile_edit'), $user, array(
+            'em' => $this->getDoctrine()->getManager()
+        ));
         
         if ($request->isMethod('POST')) {
             $form->bind($request);
@@ -28,7 +30,7 @@ class UserController extends Controller {
                 $user->setFname($data->getFname());
                 $user->setLname($data->getLname());
                 $user->setPhone($data->getPhone());
-                if (null !== $data->getPassword()) {
+                if (null !== $data->getPassword() && $data->getPassword() !== $user->getPlainPassword()) {
                     $user->setPlainPassword($data->getPassword());
                 }
                 $user->setCountry($data->getCountry());
@@ -39,7 +41,9 @@ class UserController extends Controller {
                 $user->setCity($data->getCity());
                 $user->setWebsite($data->getWebsite());
                 $userManager->updateUser($user);
-                $form = $this->createForm($this->get('ctf.form.profile_edit'), $user);
+                $form = $this->createForm($this->get('ctf.form.profile_edit'), $user, array(
+                    'em' => $this->getDoctrine()->getManager()
+                ));
                 $this->get('session')->getFlashBag()->add('success', "All changes saved!");
             } else {
                 $this->get('session')->getFlashBag()->add('error', "You have entered invalid data in the form!");
@@ -81,7 +85,9 @@ class UserController extends Controller {
         }
         
         if ($this->getRequest()->isXmlHttpRequest()) {
-            $form = $this->createForm($this->get('ctf.form.profile_edit'));
+            $form = $this->createForm($this->get('ctf.form.profile_edit'), null, array(
+                'em' => $this->getDoctrine()->getManager()
+            ));
             $form->bind($request);
             
             return $this->render('CTFUserBundle:User:editprofileform.html.twig', array(

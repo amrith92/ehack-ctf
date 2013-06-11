@@ -107,13 +107,15 @@ class UserEditEventListener implements EventSubscriberInterface {
             $form->add($this->factory->createNamed('state', 'entity', null, $formOptions));
         }
         
-        $form->add($this->factory->createNamed('password', 'repeated', $data['password'], array(
-            'type' => 'password',
-            'invalid_message' => 'The password fields must match.',
-            'required' => true,
-            'first_options'  => array('label' => 'Password'),
-            'second_options' => array('label' => 'Repeat Password'),
-            'property_path' => 'password'
-        )));
+        if (isset($data['password']) && null !== $data['password']) {
+            $form->add($this->factory->createNamed('password', 'repeated', $data['password'], array(
+                'type' => 'password',
+                'invalid_message' => 'The password fields must match.',
+                'required' => true,
+                'first_options'  => array('label' => 'Password'),
+                'second_options' => array('label' => 'Repeat Password'),
+                'property_path' => 'password'
+            )));
+        }
     }
 }

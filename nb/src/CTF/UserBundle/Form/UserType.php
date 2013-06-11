@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use CTF\UserBundle\Form\Event\UserEditEventListener;
+use CTF\UserBundle\Form\Transformer\PlacesToOrganizationTransformer;
+use CTF\UserBundle\Form\Transformer\TextToPointTransformer;
 
 class UserType extends AbstractType
 {
@@ -22,6 +24,10 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entityManager = $options['em'];
+        $organizationTransformer = new PlacesToOrganizationTransformer($entityManager);
+        $pointTransformer = new TextToPointTransformer();
+        
         $builder
             ->add('username', 'text', array(
                 'required' => true,
@@ -75,10 +81,18 @@ class UserType extends AbstractType
             ->add('website', 'textarea', array(
                 'label' => 'Website(s)'
             ))
-            ->add('location')
-            ->add('org', null, array(
-                'label' => 'Organization'
-            ))
+            ->add(
+                $builder->create('location', 'text', array(
+                    'label' => 'Location',
+                    'read_only' => true
+                ))->addModelTransformer($pointTransformer)
+            )
+            ->add(
+                $builder->create('org', 'text', array(
+                    'label' => 'Organization',
+                    'attr' => array('autocomplete' => 'off', 'class' => 'input-xxlarge')
+                ))->addModelTransformer($organizationTransformer)
+            )
         ;
         
         $builder->addEventSubscriber($this->userEditListener);
@@ -92,6 +106,14 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'CTF\UserBundle\Entity\User'
+        ));
+        
+        $resolver->setRequired(array(
+            'em',
+        ));
+
+        $resolver->setAllowedTypes(array(
+            'em' => 'Doctrine\Common\Persistence\ObjectManager',
         ));
     }
 
