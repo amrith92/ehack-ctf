@@ -30,7 +30,7 @@ class UserController extends Controller {
                 $user->setFname($data->getFname());
                 $user->setLname($data->getLname());
                 $user->setPhone($data->getPhone());
-                if (null !== $data->getPassword() && $data->getPassword() !== $user->getPlainPassword()) {
+                if (null !== $data->getPassword() && $data->getPassword() !== $user->getPassword()) {
                     $user->setPlainPassword($data->getPassword());
                 }
                 $user->setCountry($data->getCountry());
@@ -41,10 +41,9 @@ class UserController extends Controller {
                 $user->setCity($data->getCity());
                 $user->setWebsite($data->getWebsite());
                 $userManager->updateUser($user);
-                $form = $this->createForm($this->get('ctf.form.profile_edit'), $user, array(
-                    'em' => $this->getDoctrine()->getManager()
-                ));
+                
                 $this->get('session')->getFlashBag()->add('success', "All changes saved!");
+                $this->redirect($this->generateUrl('ctf_user_edit_profile'));
             } else {
                 $this->get('session')->getFlashBag()->add('error', "You have entered invalid data in the form!");
             }

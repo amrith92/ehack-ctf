@@ -12,6 +12,10 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
+        in_memory:
+          memory:
+            users:
+              admin: { password: PASS_word, roles: 'ROLE_ADMIN' }
         fos_userbundle:
           id: fos_user.user_provider.username_email
 
@@ -19,7 +23,16 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-          
+        
+        admin_area:
+          pattern: ^/admin
+          anonymous: ~
+          http_basic:
+            realm: "ehack CTF Admin Area"
+          logout:
+            path:   /admin/logout
+            target: /
+        
         secured_area:
           pattern: ^/
           remember_me:
@@ -55,6 +68,7 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/quest, role: ROLE_USER }
+        - { path: ^/admin, role: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #
         # You must uncomment the two following rules to restrict access to paths

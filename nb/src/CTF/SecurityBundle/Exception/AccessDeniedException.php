@@ -2,6 +2,8 @@
 
 namespace CTF\SecurityBundle\Exception;
 
-class AccessDeniedException extends \Exception {
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
+class AccessDeniedException extends AccessDeniedException {
     
 }

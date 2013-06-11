@@ -1,3 +1,7 @@
+ctf_admin:
+    resource: "@CTFAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ctf_team:
     resource: "@CTFTeamBundle/Resources/config/routing.yml"
     prefix:   /
@@ -79,3 +83,6 @@ google_login:
 
 twitter_login:
   pattern: /login/twitter
+  
+admin_logout:
+    pattern: /admin/logout

@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/normalize.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/bootstrap.css') }}" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/bootstrap-responsive.css') }}" type="text/css" media="screen" />
+    {% if light is not defined %}
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/darkstrap.css') }}" type="text/css" media="screen" />
+    {% endif %}
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/eggplant/jquery-ui-1.10.3.custom.min.css') }}" type="text/css" media="screen" />
     <link href="{{ asset('bundles/ctfcommon/js/chosen/chosen.css') }}" rel="stylesheet" />
     {# <link href="{{ asset('bundles/ctfcommon/css/flat-ui.css') }}" rel="stylesheet" /> #}
@@ -38,11 +40,7 @@
                         Logged in as <a href="{{ path('ctf_user_edit_profile') }}" class="navbar-link">{{ app.user.username }}</a> | <a href="{{ path('logout') }}" class="navbar-link">Logout</a>
                         {% endif %}
                     </p>
-                    <ul class="nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="{{ path('ctf_quest_homepage') }}">Quest</a></li>
-                    </ul>
+                    {% include "::menuitems.html.twig" with { 'active': active } only %}
                 </div><!--/.nav-collapse -->
             </div>
         </div>
