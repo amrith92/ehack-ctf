@@ -1,3 +1,7 @@
 ctf_common_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: CTFCommonBundle:Default:index }
+
+upload:
+    pattern: /upload
+    defaults: { _controller: CTFCommonBundle:Upload:upload }

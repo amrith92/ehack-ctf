@@ -6,34 +6,39 @@
 
 {% block extrajsend %}
 <!--[if lt IE 9]><script type="text/javascript" src="{{ asset('bundles/ctfteam/js/excanvas.js') }}"></script><![endif]-->
-<script src="{{ asset('bundles/ctfteam/js/jquery.tagcanvas.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/ctfteam/js/jquery.tagcanvas.select.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
 $(document).ready(function() {
-    if( ! $('#teamCanvas').tagcanvas({
-      textColour : '#000',
-      textFont: '"Helvetica Neue",Helvetica,Arial,sans-serif',
-      textHeight: 18,
-      outlineThickness : 1,
-      maxSpeed : 0.03,
-      depth : 0.75,
-      outlineColour: '#e74c3c',
-      outlineMethod: 'block',
-      outlineOffset: 10,
-    }, 'tags')) {
-      $('#teamcloud').hide();
-    }
+    $( "#tabs" ).tabs();
 });
-
 $("#teamFormContainer").on('change', '#select_team input:radio', function(event) {
-    $.post(Routing.generate('ctf_team_select_ajax', null), $("#select_team").serialize(), function(data) {
-        $('#select_team').html(data).show();
+    var dataSend = $('#select_team').serialize();
+    $.post(Routing.generate('ctf_team_select_ajax', null), dataSend, function(data) {
+        $('#formContent').replaceWith(data);
+        
+        var val = $('#ctf_teambundle_teamselecttype_is_selecting_0').val();
+        if ('select' == val) {
+            if( ! $('#teamCanvas').tagcanvas({
+                textColour : '#fff',
+                textFont: '"Helvetica Neue",Helvetica,Arial,sans-serif',
+                textHeight: 18,
+                outlineThickness : 1,
+                maxSpeed : 0.03,
+                depth : 0.75,
+                outlineColour: '#e74c3c',
+                outlineMethod: 'block',
+                outlineOffset: 10,
+              }, 'tags', 'ctf_teambundle_teamselecttype_team')) {
+                $('#teamcloud').hide();
+              }
+        }
     }, "html");
 });
 //-->
-</script>
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -41,46 +46,42 @@ $("#teamFormContainer").on('change', '#select_team input:radio', function(event)
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span12">
-                <div id="teamcloud">
-                    <canvas width="900" height="300" id="teamCanvas">
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="alert clearfix">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tab1">New Request</a></li>
+                    <li><a href="#tab2">Your Requests</a></li>
+                </ul>
+                <div id="tab1" class="clearfix">
+                        <div class="span5">
+                            <div id="teamcloud">
+                                <canvas width="500" height="300" id="teamCanvas">
 
-                    </canvas>
-                    <div id="tags">
-                        <ul>
-                            <li><a href="#">Team#1</a></li>
-                            <li><a href="#">Team#2</a></li>
-                            <li><a href="#">Team#3</a></li>
-                            <li><a href="#">Team#4</a></li>
-                            <li><a href="#">Team#5</a></li>
-                            <li><a href="#">Team#6</a></li>
-                            <li><a href="#">Team#7</a></li>
-                            <li><a href="#">Team#8</a></li>
-                            <li><a href="#">Team#9</a></li>
-                            <li><a href="#">Team#10</a></li>
-                            <li><a href="#">Team#11</a></li>
-                            <li><a href="#">Team#12</a></li>
-                            <li><a href="#">Team#13</a></li>
-                            <li><a href="#">Team#14</a></li>
-                            <li><a href="#">Team#15</a></li>
-                            <li><a href="#">Team#16</a></li>
-                            <li><a href="#">Team#17</a></li>
-                            <li><a href="#">Team#18</a></li>
-                            <li><a href="#">Team#19</a></li>
-                            <li><a href="#">Team#20</a></li>
-                            <li><a href="#">Team#21</a></li>
-                            <li><a href="#">Team#22</a></li>
-                            <li><a href="#">Team#23</a></li>
-                            <li><a href="#">Team#24</a></li>
-                            <li><a href="#">Team#25</a></li>
-                        </ul>
+                                </canvas>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            {% include "CTFTeamBundle:Team:select-team.form.html.twig" with { 'form': form } only %}
+                        </div>
+                </div>
+                <div id="tab2" class="clearfix">
+                    <div class="span12">
+                        <p>
+                            Below, you will find requests you have made previously (if any) to join
+                            a team, along with their response (if the team's ADMINs have changed it)
+                        </p>
+                        <hr />
+                        {% include "CTFTeamBundle:Team:team-requests.html.twig" with { 'requests': requests } only %}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row-fluid">
-            <div class="span12">
-                {% include "CTFTeamBundle:Team:select-team.form.html.twig" with { 'form': form } only %}
-            </div>
-        </div>
-    </div>
 {% endblock %}

@@ -4,12 +4,14 @@ namespace CTF\TeamBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * \CTF\TeamBundle\Entity\Team
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\CTF\TeamBundle\Entity\TeamRepository")
  * @ORM\Table(name="team")
+ * @UniqueEntity(fields={"name"}, message="Team name already selected!")
  */
 class Team {
     
@@ -27,7 +29,6 @@ class Team {
      * @var string
      * 
      * @ORM\Column(name="name", type="string", length=30, nullable=false, unique=true)
-     * @Assert\NotNull()
      * @Assert\NotBlank()
      * @Assert\Length(max=30)
      */
@@ -58,7 +59,7 @@ class Team {
     
     /**
      * 
-     * @ORM\ManyToMany(targetEntity="\CTF\TeamBundle\Entity\TeamMemberRequest")
+     * @ORM\ManyToMany(targetEntity="\CTF\TeamBundle\Entity\TeamMemberRequest", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="team_requests",
      *      joinColumns={@ORM\JoinColumn(name="team_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="request_id", referencedColumnName="id", unique=true)}
@@ -163,5 +164,34 @@ class Team {
      */
     public function getTeamPic() {
         return $this->teamPic;
+    }
+    
+    /**
+     * 
+     * @param ArrayCollection $requests
+     * @return \CTF\TeamBundle\Entity\Team
+     */
+    public function setRequests($requests) {
+        $this->requests = $requests;
+        
+        return $this;
+    }
+    
+    /**
+     * @return \CTF\TeamBundle\Entity\TeamMemberRequest
+     */
+    public function getRequests() {
+        return $this->requests;
+    }
+    
+    /**
+     * 
+     * @param \CTF\TeamBundle\Entity\TeamMemberRequest $request
+     * @return \CTF\TeamBundle\Entity\Team
+     */
+    public function addRequest($request) {
+        $this->requests[] = $request;
+        
+        return $this;
     }
 }

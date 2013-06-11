@@ -1,15 +1,58 @@
 {# empty Twig template #}
+{% form_theme form '::form-theme.html.twig' %}
+
 <div id="teamFormContainer">
-    <form action="{{ path('ctf_team_select_action') }}" class="form-horizontal" method="post" {{ form_enctype(form) }} id="select_team" />
+    <div id="formContent">
+    <form action="{{ path('ctf_team_select_action') }}" method="post" {{ form_enctype(form) }} id="select_team">
         <fieldset>
             <legend>Team</legend>
             {{ form_errors(form) }}
             
-            <div>
-                {{ form_label(form.is_selecting, label | default(null), { 'label_attr': { 'class': 'radio'} }) }}
-                {{ form_errors(form.is_selecting) }}
-                {{ form_widget(form.is_selecting) }}
+            <div class="control-group">
+                <div class="controls">
+                    {{ form_label(form.is_selecting) }}
+                    {{ form_errors(form.is_selecting) }}
+                    {{ form_widget(form.is_selecting) }}
+                </div>
             </div>
+            
+            {% if selectmap is defined %}
+            <hr />
+            <div id="tags" class="control-group">
+                {{ form_label(form.team) }}
+                <div class="controls">
+                    {{ form_errors(form.team) }}
+                    {{ form_widget(form.team) }}
+                </div>
+            </div>
+            {% elseif form.team is defined %}
+            <hr />
+            {{ form_label(form.team) }}
+            {{ form_errors(form.team) }}
+            <div class="control-group">
+                {{ form_label(form.team.name) }}
+                {{ form_errors(form.team.name) }}
+                <div class="controls">
+                    {{ form_widget(form.team.name) }}
+                </div>
+            </div>
+            <div class="control-group">
+                {{ form_label(form.team.status) }}
+                {{ form_errors(form.team.status) }}
+                <div class="controls">
+                    {{ form_widget(form.team.status) }}
+                </div>
+            </div>
+            <div class="control-group">
+                {{ form_label(form.team.teamPic) }}
+                {{ form_errors(form.team.teamPic) }}
+                <div class="controls">
+                    {{ form_widget(form.team.teamPic) }}
+                </div>
+            </div>
+            <div>
+            
+            {% endif %}
             
             {{ form_rest(form) }}
 
@@ -18,4 +61,5 @@
             </div>
         </fieldset>
     </form>
+    </div>
 </div>

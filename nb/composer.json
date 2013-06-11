@@ -21,7 +21,8 @@
         "kriswallsmith/assetic": "1.1.*@dev",
 		"friendsofsymfony/user-bundle": "~2.0@dev",
 		"friendsofsymfony/jsrouting-bundle": "~1.1",
-		"hwi/oauth-bundle": "*"
+		"hwi/oauth-bundle": "*",
+		"punkave/symfony2-file-uploader-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

@@ -15,7 +15,15 @@ class TeamType extends AbstractType
                 'label' => 'Name'
             ))
             ->add('status')
-            ->add('teamPic')
+            ->add('teamPic', 'text', array(
+                'read_only' => true,
+                'label' => 'Team Display Picture URL'
+            ))
+            ->add('attachment', 'file', array(
+                'mapped' => false,
+                'label' => 'Upload Picture...',
+                'required' => false
+            ))
         ;
     }
 

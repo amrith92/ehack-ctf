@@ -51,14 +51,14 @@ class TeamMemberRequest {
     /**
      * @var \DateTime
      * 
-     * @ORM\Column(name="updatedTimestamp", type="datetimetz")
+     * @ORM\Column(name="updated_timestamp", type="datetimetz")
      */
     private $updatedTimestamp;
     
     /**
      * @var \DateTime
      * 
-     * @ORM\Column(name="createdTimestamp", type="datetimetz")
+     * @ORM\Column(name="created_timestamp", type="datetimetz")
      */
     private $createdTimestamp;
     

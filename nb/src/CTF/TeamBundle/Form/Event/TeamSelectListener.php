@@ -88,11 +88,7 @@ class TeamSelectListener implements EventSubscriberInterface {
         );*/
         
         $form->add(
-            $this->factory->createNamed('team', 'form', array(
-                'type' => new \CTF\TeamBundle\Form\TeamType(),
-                'compound' => true,
-                'by_reference' => false,
-            ))
+            $this->factory->createNamed('team', new \CTF\TeamBundle\Form\TeamType())
         );
     }
 }

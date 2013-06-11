@@ -1,0 +1,21 @@
+{# This twig file represents team-member request (READ-ONLY) #}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Team&apos;s Name</th>
+            <th>Team&apos;s Status</th>
+            <th>Request Sent At</th>
+            <th>Current Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in requests %}
+        <tr>
+            <td>{{ request['team_name'] }}</td>
+            <td>{{ request['team_status'] }}</td>
+            <td>{{ request['created'] | date }}</td>
+            <td>{{ request['status'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
