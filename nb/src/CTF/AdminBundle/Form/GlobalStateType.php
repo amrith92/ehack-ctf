@@ -11,8 +11,20 @@ class GlobalStateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('enableCtf')
-            ->add('enableChat')
+            ->add('enableCtf', 'choice', array(
+                'label' => 'Toggle CTF',
+                'required' => true,
+                'choices' => array('0' => 'Off', '1' => 'On'),
+                'expanded' => true,
+                'multiple' => false
+            ))
+            ->add('enableChat', 'choice', array(
+                'label' => 'Toggle Chat',
+                'required' => true,
+                'choices' => array('0' => 'Off', '1' => 'On'),
+                'expanded' => true,
+                'multiple' => false
+            ))
         ;
     }
 

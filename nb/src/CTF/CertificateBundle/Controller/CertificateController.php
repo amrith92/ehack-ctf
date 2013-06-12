@@ -1,0 +1,47 @@
+<?php
+
+namespace CTF\CertificateBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use \CTF\CertificateBundle\Entity\CertifyData;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
+class CertificateController extends Controller {
+    
+    public function indexAction($mode) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        $generator = $this->get('ctf_certificate.generator');
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $data = new CertifyData();
+        $data->setFullName($user->getFname() . ' ' . $user->getLname());
+        $data->setOrganization(\explode(', ', $user->getOrg()->getName())[0]);
+        $data->setScore(100);
+        $data->setRank(30);
+        $serial = \sprintf("%06d", $user->getId());
+        $data->setSerial('CTFEHACK-' . $serial);
+        $data->setTeam('thegeekmachine');
+        $data->setTimestamp(new \DateTime(date('Y-m-d H:i:s')));
+        
+        if ('png' === $mode) {
+            $response = new Response($generator->generatePngCertificate($data), 200, array(
+                'Content-Type' => 'image/png',
+                'Content-Disposition' => 'attachment; filename=EHACK-certificate.png'
+            ));
+        } else {
+            $response = new Response($generator->generatePdfCertificate($data), 200, array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename=EHACK-certificate.pdf',
+                'Cache-Control' => 'private, max-age=0, must-revalidate',
+                'Pragma' => 'public'
+            ));
+        }
+        
+        return $response;
+    }
+}

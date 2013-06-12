@@ -3,3 +3,16 @@
 {% block title %}
 Dashboard &middot; CTF
 {% endblock %}
+
+{% block content %}
+<div class="clearfix">
+    &nbsp;
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <a href="{{ path('ctf_certificate_test', { mode: 'pdf' }) }}" class="btn btn-primary" target="_blank">Collect Certificate!</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

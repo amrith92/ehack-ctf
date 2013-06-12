@@ -1,0 +1,12 @@
+parameters:
+#    ctf_certificate.example.class: CTF\CertificateBundle\Example
+
+services:
+#    ctf_certificate.example:
+#        class: %ctf_certificate.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+    ctf_certificate.generator:
+        class: "CTF\CertificateBundle\Services\CertificateGenerator"
+        scope: request
+        arguments: [@request]

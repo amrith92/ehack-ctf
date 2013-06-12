@@ -1,3 +1,7 @@
+ctf_certificate:
+    resource: "@CTFCertificateBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ctf_admin:
     resource: "@CTFAdminBundle/Resources/config/routing.yml"
     prefix:   /

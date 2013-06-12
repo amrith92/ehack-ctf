@@ -1,0 +1,4 @@
+# Routing for the certificate module
+ctf_certificate_test:
+    pattern: /certify/me/{mode}
+    defaults: { _controller: "CTFCertificateBundle:Certificate:index", mode: "png" }

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a1d9d02489d6960d7f619f7595f546ab",
+    "hash": "8381e315b4e5abb923f30a2336b78412",
     "packages": [
         {
             "name": "doctrine/common",
@@ -484,6 +484,37 @@
                 "yahoo"
             ],
             "time": "2013-05-29 09:12:32"
+        },
+        {
+            "name": "itbz/fpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iio/fpdf.git",
+                "reference": "84d08f0a37e3d611f34e8254f3932d52f88af132"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iio/fpdf/zipball/84d08f0a37e3d611f34e8254f3932d52f88af132",
+                "reference": "84d08f0a37e3d611f34e8254f3932d52f88af132",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "fpdf": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "no usage restriction"
+            ],
+            "description": "Unofficial PSR-0 compliant version of the FPDF library",
+            "homepage": "http://www.fpdf.org/",
+            "time": "2013-01-31 14:25:04"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -1588,7 +1619,8 @@
         "twig/extensions": 20,
         "kriswallsmith/assetic": 20,
         "friendsofsymfony/user-bundle": 20,
-        "punkave/symfony2-file-uploader-bundle": 20
+        "punkave/symfony2-file-uploader-bundle": 20,
+        "itbz/fpdf": 20
     },
     "platform": {
         "php": ">=5.3.3"

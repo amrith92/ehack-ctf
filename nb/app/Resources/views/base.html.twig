@@ -36,11 +36,17 @@
                 <a class="brand" href="#">ehack CTF</a>
                 <div class="nav-collapse collapse">
                     <p class="navbar-text pull-right">
-                        {% if app.user.username is defined %}
+                        {% if app.user.username is defined and admin_menuitems is not defined %}
                         Logged in as <a href="{{ path('ctf_user_edit_profile') }}" class="navbar-link">{{ app.user.username }}</a> | <a href="{{ path('logout') }}" class="navbar-link">Logout</a>
+                        {% elseif app.user.username is defined %}
+                        Logged in as <a href="#" class="navbar-link">{{ app.user.username }}</a> | <a href="{{ path('admin_logout') }}" class="navbar-link">Logout</a>
                         {% endif %}
                     </p>
+                    {% if admin_menuitems is not defined %}
                     {% include "::menuitems.html.twig" with { 'active': active } only %}
+                    {% else %}
+                    {% include "::menuitems.html.twig" with { 'active': active, 'admin_menuitems': admin_menuitems } only %}
+                    {% endif %}
                 </div><!--/.nav-collapse -->
             </div>
         </div>
