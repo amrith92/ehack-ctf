@@ -6,7 +6,9 @@
     <li {% if active == 'about' %}class="active"{% endif %}><a href="#about">About</a></li>
     <li {% if active == 'quest' %}class="active"{% endif %}><a href="{{ path('ctf_quest_homepage') }}">Quest</a></li>
     {% else %}
-    <li {% if active == 'home' %}class="active"{% endif %}><a href="/">Home</a></li>
+    <li {% if active == 'home' %}class="active"{% endif %}><a href="{{ path('ctf_admin_homepage') }}"><i class="icon-home icon-white"></i>&nbsp;Dashboard</a></li>
+    <li {% if active == 'settings' %}class="active"{% endif %}><a href="{{ path('ctf_admin_settings') }}"><i class="icon-cog icon-white"></i>&nbsp;Settings</a></li>
+    <li {% if active == 'announce' %}class="active"{% endif %}><a href="{{ path('ctf_admin_announce') }}"><i class="icon-bullhorn icon-white"></i>&nbsp;Announce</a></li>
     {% endif %}
 </ul>
 {% endblock %}

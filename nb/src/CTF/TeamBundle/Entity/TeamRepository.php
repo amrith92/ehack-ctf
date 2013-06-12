@@ -3,6 +3,7 @@
 namespace CTF\TeamBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use \Doctrine\ORM\NoResultException;
 
 class TeamRepository extends EntityRepository {
     
@@ -12,6 +13,20 @@ class TeamRepository extends EntityRepository {
         $statement = $connection->prepare("SELECT t.name AS team_name, t.status AS team_status, r.created_timestamp AS created, r.status AS status FROM `team_member_request` r INNER JOIN `team_requests` e ON r.id=e.request_id INNER JOIN `team` t ON t.id=e.team_id WHERE user_id=" . $uid);
         $statement->execute();
         $ret = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        
+        return $ret;
+    }
+    
+    public function countOfTeams() {
+        $q = $this->createQueryBuilder('t')
+            ->select('COUNT(t)')
+            ->getQuery();
+        
+        try {
+            $ret = $q->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $ret = 0;
+        }
         
         return $ret;
     }

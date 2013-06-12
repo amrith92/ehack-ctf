@@ -101,12 +101,6 @@ function showPosition(p) {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 $(document).ready(function() {
-    initialiseMap();
-    var mapval = $('#ctf_userbundle_usertype_location').val();
-    if (null !== mapval) {
-        var latlng = mapval.split(',');
-        showPosition({ coords: { latitude: latlng[0], longitude: latlng[1] } });
-    }
     $('.date').datepicker({
         dateFormat: 'dd-mm-yy',
         changeMonth: true,
@@ -135,6 +129,13 @@ $(document).ready(function() {
             $('#tabs').tabs();
         }, "html");
     });
+    
+    initialiseMap();
+    var mapval = $('#ctf_userbundle_usertype_location').val();
+    if (null !== mapval) {
+        var latlng = mapval.split(',');
+        showPosition({ coords: { latitude: latlng[0], longitude: latlng[1] } });
+    }
 });
 //-->
 </script>

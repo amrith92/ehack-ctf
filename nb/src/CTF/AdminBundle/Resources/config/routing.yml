@@ -1,3 +1,19 @@
 ctf_admin_homepage:
     pattern:  /admin
     defaults: { _controller: CTFAdminBundle:Admin:index }
+    
+ctf_admin_settings:
+    pattern: /admin/settings
+    defaults: { _controller: CTFAdminBundle:Admin:settings }
+
+ctf_admin_announce:
+    pattern: /admin/announce
+    defaults: { _controller: CTFAdminBundle:Admin:announce }
+    options:
+      expose: true
+
+ctf_admin_team_count:
+    pattern: /admin/teams/count
+    defaults: { _controller: CTFAdminBundle:Admin:teamCount }
+    options:
+      expose: true

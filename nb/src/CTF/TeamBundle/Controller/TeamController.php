@@ -101,13 +101,33 @@ class TeamController extends Controller {
                         $team->addRequest($teamRequest);
                         
                         $em->flush();
+                        $this->get('session')->getFlashBag()->add('success', "You've successfully created a team. You are now its ADMIN. Go forth, set out on your journey in this exciting competition.");
+                        
+                        $this->redirect($this->generateUrl('ctf_quest_homepage'));
                     } else {
+                        $this->get('session')->getFlashBag()->add('error', "Something went wrong whilst creating a team for you. Please try again.");
                         return $this->render('CTFTeamBundle:Team:select-team.form.html.twig', array(
                             'form' => $form->createView()
                         ));
                     }
                 } else {
                     // Selected team
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $team = $dto->getTeam();
+                    $em->merge($team);
+                    
+                    $user = $this->get('security.context')->getToken()->getUser();
+                    $teamRequest = new TeamMemberRequest();
+                    $teamRequest->setCreatedTimestamp(new \DateTime(date('Y-m-d H:i:s')));
+                    $teamRequest->setStatus(TeamRequestStatus::$REQUESTED);
+                    $teamRequest->setUser($user);
+                    $team->addRequest($teamRequest);
+                    
+                    $em->flush();
+                    
+                    $this->get('session')->getFlashBag()->add('success', "You've successfully sent a request to the team [" . $team->getName() . "]. Please wait for the team's ADMIN to accept or reject your request. You can always send out requests to more teams ;)");
+
+                    return $this->redirect($this->generateUrl('ctf_team_select'));
                 }
             } else {
                 return $this->render('CTFTeamBundle:Team:select-team.form.html.twig', array(
@@ -115,5 +135,8 @@ class TeamController extends Controller {
                 ));
             }
         }
+        
+        $this->get('session')->getFlashBag()->add('notice', "Whoopsy-Daisy! How'd you get to that page? :P");
+        return $this->redirect($this->generateUrl('ctf_team_select'));
     }
 }

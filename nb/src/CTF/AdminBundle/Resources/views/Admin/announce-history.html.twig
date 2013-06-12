@@ -1,0 +1,19 @@
+{# Announcement History #}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Announcement</th>
+            <th>Published At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ann in history %}
+        <tr>
+            <td>{{ ann.getId() }}</td>
+            <td>{{ ann.getAnnouncement() }}</td>
+            <td>{{ ann.getUpdatedTimestamp() | date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

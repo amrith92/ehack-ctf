@@ -1,0 +1,28 @@
+{# The GlobalSettings form #}
+<form action="{{ path('ctf_admin_settings') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+        <legend>Settings</legend>
+        {{ form_label(form.enableCtf) }}
+        {{ form_errors(form.enableCtf) }}
+        <div class="controls well switch">
+            {{ form_label(form.enableCtf.0, label | default(null), { 'label-attr': { 'onclick': '' } }) }}
+            {{ form_widget(form.enableCtf.0) }}
+            {{ form_label(form.enableCtf.1, label | default(null), { 'label-attr': { 'onclick': '' } }) }}
+            {{ form_widget(form.enableCtf.1) }}
+            <span class="slide-button btn btn-primary"></span>
+        </div>
+
+        {{ form_label(form.enableChat) }}
+        {{ form_errors(form.enableChat) }}
+        <div class="controls well switch">
+            {{ form_label(form.enableChat.0, label | default(null), { 'label-attr': { 'onclick': '' } }) }}
+            {{ form_widget(form.enableChat.0) }}
+            {{ form_label(form.enableChat.1, label | default(null), { 'label-attr': { 'onclick': '' } }) }}
+            {{ form_widget(form.enableChat.1) }}
+            <span class="slide-button btn btn-primary"></span>
+        </div>
+
+        {{ form_rest(form) }}
+        <button class="btn btn-success">Save</button>
+    </fieldset>
+</form>

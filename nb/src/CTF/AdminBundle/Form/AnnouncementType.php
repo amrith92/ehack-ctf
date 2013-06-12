@@ -14,7 +14,8 @@ class AnnouncementType extends AbstractType
             ->add('announcement', 'textarea', array(
                 'label' => 'Announcement',
                 'required' => true,
-                'trim' => true
+                'trim' => true,
+                'attr' => array('cols' => 100)
             ))
         ;
     }

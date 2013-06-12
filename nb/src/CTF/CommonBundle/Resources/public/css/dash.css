@@ -1,0 +1,54 @@
+/* 
+    Document   : dash
+    Created on : 13 Jun, 2013, 2:44:04 AM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    background: url('../images/brushed-metal.jpg') center center no-repeat fixed;
+    background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+.dash-box {
+    position: relative;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    padding: 39px 19px 14px;
+    background: url('../images/brushed-light-metal.jpg');
+    border: solid 1px #000;
+}
+
+.dash-box textarea {
+    width: 80%;
+}
+
+.dash-box:after {
+    background-color: #101010;
+    border: 1px solid #000;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    content: "Title";
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    top: -1px;
+    position: absolute;
+}
+
+.dash-box-announce:after {
+    content: 'Announce';
+}
+
+.dash-box-teamstats:after {
+    content: 'Team Statistics';
+}
+
+.hilite {
+    background-color: #00aa00;
+}

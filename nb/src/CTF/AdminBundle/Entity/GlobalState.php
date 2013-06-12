@@ -3,6 +3,7 @@
 namespace CTF\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * \CTF\AdminBundle\Entity\GlobalState
@@ -25,6 +26,7 @@ class GlobalState {
      * @var boolean
      * 
      * @ORM\Column(name="enable_ctf", type="boolean", nullable=false)
+     * @Assert\NotNull()
      */
     private $enableCtf;
     
@@ -32,6 +34,7 @@ class GlobalState {
      * @var boolean
      * 
      * @ORM\Column(name="enable_chat", type="boolean", nullable=false)
+     * @Assert\NotNull()
      */
     private $enableChat;
     
@@ -75,6 +78,14 @@ class GlobalState {
     
     /**
      * 
+     * @return boolean
+     */
+    public function getEnableCtf() {
+        return $this->enableCtf;
+    }
+    
+    /**
+     * 
      * @param boolean $enable
      * @return \CTF\AdminBundle\Entity\GlobalState
      */
@@ -89,6 +100,14 @@ class GlobalState {
      * @return boolean
      */
     public function isChatEnabled() {
+        return $this->enableChat;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getEnableChat() {
         return $this->enableChat;
     }
 }

@@ -1,0 +1,19 @@
+{# The Announce Form #}
+{% if dash is not defined %}
+<form action="#" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+        <legend>Create a new Broadcast!</legend>
+        {{ form_widget(form) }}
+
+        <button class="btn btn-success"><i class="icon-bullhorn icon-white"></i>&nbsp;Announce</button>
+    </fieldset>
+</form>
+{% else %}
+<form action="#" method="post" {{ form_enctype(form) }} id="announce-form">
+    {{ form_errors(form) }}
+    {{ form_widget(form.announcement) }}
+    {{ form_rest(form) }}
+
+    <button class="btn btn-success inline"><i class="icon-bullhorn icon-white"></i></button>
+</form>
+{% endif %}
