@@ -132,4 +132,54 @@ class AdminController extends Controller
         
         return new Response('', 400);
     }
+    
+    public function gendersCountAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            $repo = $this->getDoctrine()->getEntityManager()->getRepository('CTFUserBundle:User');
+            $counts = $repo->countsInGenders();
+            
+            $p = null;
+            
+            foreach  ($counts as $v) {
+                $p[] = array(
+                    'y' => (float)$v['1'],
+                    'indexLabel' => \ucfirst($v['gender'])
+                );
+            }
+            
+            // Canvasjs JSON
+            $data = array(
+                'backgroundColor' => 'transparent',
+                'creditText' => '',
+                'animationEnabled' => true,
+                'title' => array(
+                    'text' => 'CTF Gender Ratio',
+                    'fontColor' => '#fff'
+                ),
+                'data' => array(
+                    array(
+                        'type' => 'doughnut',
+                        'indexLabelFontColor' => '#e6e6e6',
+                        'dataPoints' => $p
+                    )
+                )
+            );
+            
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('', 400);
+    }
+    
+    public function chatAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        return $this->render('CTFGlobalChatBundle:GChat:index.html.twig');
+    }
 }

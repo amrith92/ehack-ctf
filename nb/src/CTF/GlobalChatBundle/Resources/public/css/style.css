@@ -1,0 +1,23 @@
+/* 
+    Document   : style
+    Created on : 13 Jun, 2013, 2:48:13 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#chat {
+    height: 400px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+#clientList {
+    height: 400px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+textarea {
+    width: 95%;
+}

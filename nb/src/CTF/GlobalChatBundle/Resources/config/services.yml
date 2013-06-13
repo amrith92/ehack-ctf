@@ -1,0 +1,7 @@
+parameters:
+#    ctf_global_chat.example.class: CTF\GlobalChatBundle\Example
+
+services:
+#    ctf_global_chat.example:
+#        class: %ctf_global_chat.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,3 @@
+ctf_global_chat:
+    pattern: /chat/everybody
+    defaults: { _controller: CTFGlobalChatBundle:GChat:index }

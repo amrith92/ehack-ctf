@@ -17,3 +17,13 @@ ctf_admin_team_count:
     defaults: { _controller: CTFAdminBundle:Admin:teamCount }
     options:
       expose: true
+
+ctf_admin_genders_count:
+    pattern: /admin/gender/count
+    defaults: { _controller: CTFAdminBundle:Admin:gendersCount }
+    options:
+      expose: true
+
+ctf_admin_chat:
+    pattern: /admin/chat
+    defaults: { _controller: CTFAdminBundle:Admin:chat }

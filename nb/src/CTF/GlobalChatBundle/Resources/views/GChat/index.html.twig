@@ -1,0 +1,87 @@
+{% set active = 'gchat' %}
+{% if is_granted('ROLE_ADMIN') %}
+{% set admin_menuitems = 'true' %}
+{% endif %}
+{% extends '::base.html.twig' %}
+
+{% block title %}
+Global Chat &middot; CTF
+{% endblock %}
+
+{% block extracss %}
+<link href="{{ asset('bundles/ctfglobalchat/css/style.css') }}" rel="stylesheet" media="screen" />
+{% endblock %}
+
+{% block content %}
+<audio height="0" width="0" id="popcorn">
+    <source src="{{ asset('bundles/ctfglobalchat/sounds/pop2.wav') }}" type="audio/wav">
+    <embed height="0" width="0" src="{{ asset('bundles/ctfglobalchat/sounds/pop2.wav') }}">
+</audio>
+<div class="clearfix">
+    &nbsp;
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span2">
+            <div id="clientList" class="well"></div>
+        </div>
+        <div class="span10">
+            <div id="chat" class="well"></div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span2">
+            <div id="status" class="label label-info">Not Connected!</div>
+        </div>
+        <div class="span10">
+            <div>
+                <textarea id="chat-bar" disabled="disabled" rows="2"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajsend %}
+<script type="text/javascript" src="http://{{ app.request.getHttpHost() }}:5560/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="{{ asset('bundles/ctfglobalchat/js/client.js') }}"></script>
+<script type="text/javascript">
+//<!--
+$(document).ready(function() {
+    GlobalChatClient.init({
+        host: '{{ app.request.getHttpHost() }}',
+        port: 5560,
+        username: '{{ app.user.username }}'
+    });
+    
+    GlobalChatClient.run();
+    
+    $(window).bind('beforeunload', function() {
+        GlobalChatClient.disconnect();
+    });
+});
+//-->
+</script>
+{% endblock %}

@@ -49,6 +49,10 @@ body {
     content: 'Team Statistics';
 }
 
+.dash-box-genderstats:after {
+    content: 'Gender Statistics';
+}
+
 .hilite {
     background-color: #00aa00;
 }

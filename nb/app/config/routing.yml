@@ -1,3 +1,7 @@
+ctf_global_chat:
+    resource: "@CTFGlobalChatBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ctf_certificate:
     resource: "@CTFCertificateBundle/Resources/config/routing.yml"
     prefix:   /

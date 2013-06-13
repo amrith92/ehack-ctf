@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new CTF\SecurityBundle\CTFSecurityBundle(),
             new CTF\AdminBundle\CTFAdminBundle(),
             new CTF\CertificateBundle\CTFCertificateBundle(),
+            new CTF\GlobalChatBundle\CTFGlobalChatBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -37,7 +37,7 @@ Admin Dashboard
     <div class="row-fluid">
         <div class="span3">
             <div class="well dash-box dash-box-teamstats" id="teamstats-box">
-                <h1><span id="teamstats-count" class="well">0</span> teams</h1>
+                <h1><span id="teamstats-count">0</span> teams</h1>
             </div>
         </div>
 
@@ -49,6 +49,14 @@ Admin Dashboard
 
         <div class="span3">
         
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well dash-box dash-box-genderstats">
+                <div id="genderChart" style="height: 200px; width: 100%;">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -77,6 +85,19 @@ $(document).ready(function() {
     setInterval(function() {
         $.post(Routing.generate('ctf_admin_team_count', null), null, function(data) {
             $('#teamstats-count').text(data);
+        });
+    }, 15000);
+    
+    $.post(Routing.generate('ctf_admin_genders_count', null), null, function(data) {
+        $("#genderChart").empty();
+        var chart = new CanvasJS.Chart("genderChart", JSON.parse(data));
+        chart.render();
+    });
+    setInterval(function() {
+        $.post(Routing.generate('ctf_admin_genders_count', null), null, function(data) {
+            $("#genderChart").empty();
+            var chart = new CanvasJS.Chart("genderChart", JSON.parse(data));
+            chart.render();
         });
     }, 15000);
 });

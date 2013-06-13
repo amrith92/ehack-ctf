@@ -143,4 +143,19 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         list($username) = explode('@', $email, 2);
         return $username;
     }
+    
+    public function countsInGenders() {
+        $q = $this->createQueryBuilder('u')
+            ->select('COUNT(u), u.gender')
+            ->groupBy('u.gender')
+            ->getQuery();
+        
+        try {
+            $res = $q->getArrayResult();
+        } catch (NoResultException $e) {
+            $res = null;
+        }
+        
+        return $res;
+    }
 }

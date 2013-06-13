@@ -16,6 +16,7 @@ security:
           memory:
             users:
               admin: { password: PASS_word, roles: 'ROLE_ADMIN' }
+              mani: { password: password, roles: 'ROLE_ADMIN' }
         fos_userbundle:
           id: fos_user.user_provider.username_email
 
@@ -69,6 +70,7 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/quest, role: ROLE_USER }
         - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/chat, role: IS_AUTHENTICATED_FULLY }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #
         # You must uncomment the two following rules to restrict access to paths
