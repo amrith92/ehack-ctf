@@ -178,7 +178,7 @@ class Team {
     }
     
     /**
-     * @return \CTF\TeamBundle\Entity\TeamMemberRequest
+     * @return ArrayCollection
      */
     public function getRequests() {
         return $this->requests;

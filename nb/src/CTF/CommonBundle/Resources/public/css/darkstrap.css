@@ -549,7 +549,7 @@ select:focus:invalid:focus {
 /* line 257, ../darkstrap.scss */
 .nav-tabs .open .dropdown-toggle,
 .nav-pills .open .dropdown-toggle,
-.nav > .open.active > a:hover {
+.nav > .open.active > a:hover, .nav > .open.active > a:focus {
   background-color: rgba(0, 0, 0, 0.25);
   border-color: transparent transparent #666666 transparent;
 }
@@ -571,7 +571,7 @@ select:focus:invalid:focus {
 }
 /* line 272, ../darkstrap.scss */
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover {
-  background-color: #2f2f2f;
+  /*background-color: #2f2f2f;*/
   color: #fff;
   border-color: #666666 #666666 transparent #666666;
 }
@@ -747,4 +747,8 @@ select:focus:invalid:focus {
 /* line 556, ../darkstrap.scss */
 .thumbnail .caption {
   color: #999;
+}
+
+.nav > li > a:focus, .tabs-right .nav-tabs .active > a {
+    background-color: #101010 !important;
 }

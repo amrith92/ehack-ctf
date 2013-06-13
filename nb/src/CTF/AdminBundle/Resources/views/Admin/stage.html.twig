@@ -1,0 +1,194 @@
+{# Stages #}
+{% set active = "stages" %}
+{% extends "CTFAdminBundle::layout.html.twig" %}
+
+{% block title %}
+Stages &amp; Questions &middot; Admin Dashboard
+{% endblock %}
+
+{% block content %}
+<div class="clearfix">&nbsp;</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div id="tabs">
+                <ul>
+                    <li><a href="#stages">Stages</a></li>
+                    <li><a href="#questions">Questions</a></li>
+                </ul>
+                <div id="stages">
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div id="stage-list-container">
+                                <div id="stage-list-dyn">
+                                    {% include "CTFAdminBundle:Admin:stage.list.html.twig" with { 'list': list } only %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span8">
+                            <div id="stage-form-container">
+                                <div id="stage-form-status">
+                                </div>
+                                <div id="stage-form-dyn">
+                                {% if stageform is defined and edit is not defined %}
+                                    {% include "CTFAdminBundle:Admin:stage.form.html.twig" with { 'form': stageform } only %}
+                                {% elseif stageform is defined and edit is defined %}
+                                    {% include "CTFAdminBundle:Admin:stage.form.html.twig" with { 'form': stageform, 'edit': edit } only %}
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="questions">
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div id="qlist-container">
+                                <div id="qlist-dyn">
+                                    {% include "CTFAdminBundle:Admin:question.list.html.twig" with { 'list': list } only %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span8">
+                            <div id="question-form-container">
+                                <div id="question-form-status">
+                                </div>
+                                <div id="question-form-dyn">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajsend %}
+<script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript">
+//<!--
+$(document).ready(function() {
+    $('#tabs').tabs();
+    
+    $('#stage-list-container').on('click', '#add-more-stages', function(e) {
+        e.preventDefault();
+        
+        $.get(Routing.generate('ctf_admin_stage_form', null), null, function(data) {
+            $('#stage-form-dyn').empty();
+            $('#stage-form-dyn').html(data).show();
+        });
+    });
+    
+    $('#stage-list-container').on('click', 'a.list-item', function(e) {
+        e.preventDefault();
+        
+        $.get($(this).attr('href'), null, function(data) {
+            $('#stage-form-dyn').empty();
+            $('#stage-form-dyn').html(data).show().fadeOut().fadeIn();
+        });
+    });
+    
+    $('#stage-form-container').on('submit', '#stage-form', function(e) {
+        e.preventDefault();
+        
+        $.post($('#stage-form').attr('action'), $('#stage-form').serialize(), function(data) {
+            if ('true' == data) {
+                $('#stage-form').fadeOut();
+                $('#stage-form').fadeIn('fast', function() {
+                    $('#ctf_questbundle_stagetype_name').val('');
+                    $('#ctf_questbundle_stagetype_description').val('');
+                });
+                
+                $('#stage-form-status').html('<div class="alert alert-success">Successfully Saved!</div>').show().fadeOut(2200);
+                
+                $.get(Routing.generate('ctf_admin_stage_list', null), null, function(data) {
+                    $('#stage-list-dyn').html(data).show();
+                });
+                $.get(Routing.generate('ctf_admin_stage_list', { 'q': 1 }), null, function(data) {
+                    $('#qlist-dyn').html(data).show();
+                });
+            } else {
+                $('#stage-form-status').html('<div class="alert alert-error">Could not save!</div>').show().fadeOut(1200);
+            }
+        });
+    });
+    
+    $('#qlist-container').on('click', 'a.list-item', function(e) {
+        e.preventDefault();
+        
+        $.get($(this).attr('href'), null, function(data) {
+            $('#question-form-dyn').empty();
+            $('#question-form-dyn').html(data).show().fadeOut().fadeIn();
+            tinyMCE.init({
+                selector: ".rich",
+                mode : "specific_textareas"
+            });
+        });
+    });
+    
+    $('#qlist-container').on('click', '#add-more-questions', function(e) {
+        e.preventDefault();
+        
+        $.get(Routing.generate('ctf_admin_stage_question', null), null, function(data) {
+            $('#question-form-dyn').empty();
+            $('#question-form-dyn').html(data).show();
+            tinyMCE.init({
+                selector: ".rich",
+                mode : "specific_textareas"
+            });
+            $('#qtabs').tab();
+        });
+    });
+    
+    {#$('#question-form-container').on('submit', '#question-form', function(e) {
+        e.preventDefault();
+        
+        $('#ctf_questbundle_questiontype_content').val(tinyMCE.get('ctf_questbundle_questiontype_content').getContent());
+        $('#ctf_questbundle_questiontype_hints').val(tinyMCE.get('ctf_questbundle_questiontype_hints').getContent());
+        
+        $.post($('#question-form').attr('action'), $('#question-form').serializeFiles(), function(data) {
+            var res = JSON.parse(data);
+            
+            if ('success' == res.result) {
+                $('#question-form-dyn').html('').show().fadeOut().fadeIn();
+                $('#question-form-status').html('<div class="alert alert-success">' + res.message + '</div>').show().fadeOut(2200);
+                
+                $.get(Routing.generate('ctf_admin_stage_list', { 'q': 1 }), null, function(data) {
+                    $('#qlist-dyn').html(data).show();
+                });
+            } else {
+                $('#question-form-status').html('<div class="alert alert-error">' + res.message + '</div>').show().fadeOut(2200);
+            }
+        });
+    });#}
+});
+//-->
+</script>
+{% endblock %}

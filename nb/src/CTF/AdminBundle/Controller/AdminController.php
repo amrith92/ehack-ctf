@@ -6,8 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
+use \CTF\QuestBundle\Entity\Stage;
 use \CTF\AdminBundle\Form\GlobalStateType;
 use \CTF\AdminBundle\Form\AnnouncementType;
+use \CTF\QuestBundle\Form\StageType;
+use \CTF\QuestBundle\Form\QuestionType;
 
 class AdminController extends Controller
 {
@@ -181,5 +186,195 @@ class AdminController extends Controller
         }
         
         return $this->render('CTFGlobalChatBundle:GChat:index.html.twig');
+    }
+    
+    public function stageAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $list = $em->getRepository('CTFQuestBundle:Stage')->findAll();
+        
+        return $this->render('CTFAdminBundle:Admin:stage.html.twig', array(
+            'list' => $list
+        ));
+    }
+    
+    public function stageListAction($q, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            $list = $em->getRepository('CTFQuestBundle:Stage')->findAll();
+
+            if ($q == 0) {
+                return $this->render('CTFAdminBundle:Admin:stage.list.html.twig', array(
+                    'list' => $list
+                ));
+            } else {
+                return $this->render('CTFAdminBundle:Admin:question.list.html.twig', array(
+                    'list' => $list
+                ));
+            }
+        }
+        
+        return new Response('Bad Request!', 400);
+    }
+    
+    public function stageFormAction($id, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if (-1 == $id) {
+            if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+                $form = $this->createForm(new StageType());
+                return $this->render('CTFAdminBundle:Admin:stage.form.html.twig', array(
+                    'form' => $form->createView()
+                ));
+            } else if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+                $form = $this->createForm(new StageType());
+                $form->bind($request);
+
+                if ($form->isValid()) {
+                    $data = $form->getData();
+                    
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $em->persist($data);
+                    $em->flush();
+
+                    return new Response('true');
+                } else {
+                    return new Response('false');
+                }
+            }
+        } else {
+            if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+                $repo = $this->getDoctrine()->getEntityManager()->getRepository('CTFQuestBundle:Stage');
+                $form = $this->createForm(new StageType(), $repo->find($id));
+                
+                return $this->render('CTFAdminBundle:Admin:stage.form.html.twig', array(
+                    'form' => $form->createView(),
+                    'edit' => $id
+                ));
+            } else if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $repo = $em->getRepository('CTFQuestBundle:Stage');
+                $form = $this->createForm(new StageType(), $repo->find($id));
+                
+                $form->bind($request);
+                
+                if ($form->isValid()) {
+                    $em->persist($form->getData());
+                    $em->flush();
+                    
+                    return new Response('true');
+                } else {
+                    return new Response('false');
+                }
+            }
+        }
+        
+        return new Response('Bad Request!', 400);
+    }
+    
+    public function questionAction($id, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if (-1 == $id) {
+            if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+                $form = $this->createForm(new QuestionType());
+                
+                return $this->render('CTFAdminBundle:Admin:question.form.html.twig', array(
+                    'form' => $form->createView()
+                ));
+            } else if ($request->isMethod('POST')) {
+                $form = $this->createForm(new QuestionType());
+                
+                $form->bind($request);
+                
+                if ($form->isValid()) {
+                    // Get Question
+                    $question = $form->getData();
+                    
+                    // Get stage
+                    $stage = $form['stage']->getData()->getId();
+                    $level = $question->getLevel();
+                    
+                    // Check for the attachment
+                    if (isset($form['attachment'])) {
+                        $file = $form->get('attachment')->getData();
+                        $dir = __DIR__.'/../../../../web/uploads/questions' . '/s' . $stage . '/l' . $level;
+                        $extension = $file->guessExtension();
+                        if (!$extension) {
+                            // extension cannot be guessed
+                            $extension = 'bin';
+                        }
+                        $newFileName = sha1($file . rand(0, 199992993)) . '.' . $extension;
+                        
+                        if(!\file_exists($dir)) {
+                            $fs = new Filesystem();
+                            
+                            try {
+                                $fs->mkdir($dir);
+                            } catch (Exception $e) {
+                                /*return new Response(\json_encode(array(
+                                    'result' => 'error',
+                                    'message' => 'Stage/Level already exists!'
+                                )));*/
+                            }
+                        }
+                        
+                        $file->move($dir, $newFileName);
+                        
+                        // Unzip the file
+                        $zip = new \ZipArchive();
+                        $res = $zip->open($dir . DIRECTORY_SEPARATOR . $newFileName);
+                        if ($res === TRUE) {
+                            $zip->extractTo($dir);
+                            $zip->close();
+                        } else {
+                            return new Response(\json_encode(array(
+                                'result' => 'error',
+                                'message' => 'Not a zip-file!'
+                            )));
+                        }
+                    }
+                    
+                    $em = $this->getDoctrine()->getEntityManager();
+                    
+                    $stages = $em->getRepository('CTFQuestBundle:Stage')->find($stage);
+                    $stages->addQuestion($question);
+                    
+                    $em->flush();
+                    
+                    $this->get('session')->getFlashBag()->add('success', "Successfully saved question!");
+                    return $this->redirect($this->generateUrl('ctf_admin_stage'));
+                } else {
+                    return new Response(\json_encode(array(
+                        'result' => 'error',
+                        'message' => 'Some fields are invalid. Unable to save!'
+                    )));
+                }
+            }
+        } else {
+            if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+                $repo = $this->getDoctrine()->getEntityManager()->getRepository('CTFQuestBundle:Question');
+                $form = $this->createForm(new QuestionType(), $repo->find($id));
+                
+                return $this->render('CTFAdminBundle:Admin:question.form.html.twig', array(
+                    'form' => $form->createView()
+                ));
+            }
+        }
+        
+        return new Response('Bad Request.', 400);
     }
 }

@@ -1,0 +1,50 @@
+{# Question Form #}
+<form action="{{ path('ctf_admin_stage_question') }}" method="post" {{ form_enctype(form) }} id="question-form" novalidate="novalidate">
+    <fieldset>
+        <legend>Edit Question</legend>
+        <div class="tabbable tabs-right" id="qtabs" data-tabs="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#qgeneral" data-toggle="tab">Stage &amp; Level</a></li>
+                <li><a href="#theq" data-toggle="tab">The Question</a></li>
+                <li><a href="#thea" data-toggle="tab">The Answer</a></li>
+                <li><a href="#attach" data-toggle="tab">Attachment</a></li>
+                <li><a href="#finish" data-toggle="tab">Finish</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="qgeneral">
+                    {{ form_row(form.stage) }}
+                    {{ form_row(form.level) }}
+                </div>
+
+                <div class="tab-pane" id="theq">
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.content) }}
+                </div>
+
+                <div class="tab-pane" id="thea">
+                    {{ form_row(form.answerTemplate) }}
+                    {{ form_row(form.hints) }}
+                </div>
+
+                <div class="tab-pane" id="attach">
+                    <p>
+                        The attachment <strong>must</strong> be in the <i>zip</i> format. CTF will
+                        automagically unzip it and extract it to a secret (firewalled) location on
+                        the server.
+                    </p>
+                    <hr />
+                    {{ form_row(form.attachment) }}
+                </div>
+
+                <div class="tab-pane" id="finish">
+                    <p>
+                        Phew! That&apos;s another question completed! Click on 'Save' to apply changes.
+                    </p>
+                    <hr />
+                    {{ form_rest(form) }}
+                    <button class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>

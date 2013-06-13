@@ -1,0 +1,11 @@
+{# List of questions #}
+<ul class="nav nav-list well">
+    {% for it in list %}
+    <li class="nav-header">{{ it.getName() }}</li>
+    {% for item in it.getQuestions() %}
+    <li><a href="{{ path('ctf_admin_stage_question', { id: item.getId() }) }}" class="list-item"><span class="badge badge-inverse">{{ item.getLevel() }}</span> {{ item.getTitle() }}</a></li>
+    {% endfor %}
+    {% endfor %}
+    <li class="divider"></li>
+    <li><a href="#" id="add-more-questions">Add More &raquo;</a></li>
+</ul>

@@ -1,0 +1,13 @@
+{# Stage form #}
+{% if edit is not defined %}
+<form id="stage-form" method="post" action="{{ path('ctf_admin_stage_form') }}" {{ form_enctype(form) }}>
+{% else %}
+<form id="stage-form" method="post" action="{{ path('ctf_admin_stage_form', { id: edit }) }}" {{ form_enctype(form) }}>
+{% endif %}
+    <fieldset>
+        <legend>Edit Stage</legend>
+        {{ form_widget(form) }}
+        
+        <button class="btn btn-success">Save</button>
+    </fieldset>
+</form>

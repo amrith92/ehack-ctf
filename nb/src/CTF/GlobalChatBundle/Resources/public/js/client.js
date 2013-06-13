@@ -8,7 +8,8 @@ var GlobalChatClient = {
         chat: null,
         input: null,
         list: null,
-        popcorn: null
+        popcorn: null,
+        send: null
     },
     init: function (params) {
         var self = this;
@@ -23,12 +24,23 @@ var GlobalChatClient = {
         self.bindings.input = (params.input) ? params.input : document.getElementById('chat-bar');
         self.bindings.list = (params.list) ? params.list : document.getElementById('clientList');
         self.bindings.popcorn = (params.popcorn) ? params.popcorn : document.getElementById('popcorn');
+        self.bindings.send = (params.send) ? params.send : document.getElementById('chat-send');
             
         // Event bindings
         self.bindings.input.addEventListener('keydown', function(event) {
             if(event.keyCode == 13) {
                 event.preventDefault();
                 var msg = GlobalChatClient.bindings.input.value;
+                if (null !== msg && '' !== msg) {
+                    GlobalChatClient.socket.emit('message', msg);
+                    GlobalChatClient.bindings.input.value = '';
+                }
+            }
+        });
+        
+        self.bindings.send.addEventListener('click', function() {
+            var msg = GlobalChatClient.bindings.input.value;
+            if (null !== msg && '' !== msg) {
                 GlobalChatClient.socket.emit('message', msg);
                 GlobalChatClient.bindings.input.value = '';
             }
@@ -74,9 +86,9 @@ var GlobalChatClient = {
     disconnect: function() {
         var self = this;
         
-        self.socket.emit('close');
         self.bindings.status.innerHTML = '<input type="button" id="connect" value="Connect!" />';
         self.bindings.chat.innerHTML = '';
         self.bindings.input.setAttribute('disabled', 'disabled');
+        self.socket.emit('close');
     }
 };

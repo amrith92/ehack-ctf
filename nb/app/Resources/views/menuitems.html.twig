@@ -11,6 +11,7 @@
     <li {% if active == 'settings' %}class="active"{% endif %}><a href="{{ path('ctf_admin_settings') }}"><i class="icon-cog icon-white"></i>&nbsp;Settings</a></li>
     <li {% if active == 'announce' %}class="active"{% endif %}><a href="{{ path('ctf_admin_announce') }}"><i class="icon-bullhorn icon-white"></i>&nbsp;Announce</a></li>
     <li {% if active == 'gchat' %}class="active"{% endif %}><a href="{{ path('ctf_admin_chat') }}"><i class="icon-comment icon-white"></i>&nbsp;Global Chat</a></li>
+    <li {% if active == 'stages' %}class="active"{% endif %}><a href="{{ path('ctf_admin_stage') }}"><i class="icon-tasks icon-white"></i>&nbsp;Stages</a></li>
     {% endif %}
 </ul>
 {% endblock %}
