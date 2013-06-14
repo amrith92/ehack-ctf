@@ -44,7 +44,6 @@ class AdminController extends Controller
                 $settings->setId(1);
                 
                 $em->merge($settings);
-                $em->persist($settings);
                 $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('success', "Settings Updated!");
@@ -311,7 +310,8 @@ class AdminController extends Controller
                     // Check for the attachment
                     if (null !== $form['attachment']->getData()) {
                         $file = $form->get('attachment')->getData();
-                        $dir = __DIR__.'/../../../../web/uploads/questions' . '/s' . $stage . '/l' . $level;
+                        $salt = $this->container->getParameter('secret');
+                        $dir = __DIR__.'/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage . $salt . '/l' . $level . $salt);
                         $extension = $file->guessExtension();
                         if (!$extension) {
                             // extension cannot be guessed

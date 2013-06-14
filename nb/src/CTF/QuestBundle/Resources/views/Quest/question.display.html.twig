@@ -7,9 +7,14 @@
     <div class="tab-content">
         <div class="tab-pane active" id="thequestion">
             {{ question.getContent() | raw }}
+            {% if attachment is not null %}
+            <center>
+                <a href="#" class="btn btn-warning">Visit</a>
+            </center>
+            {% endif %}
             <hr />
             <h4>Your Answer</h4>
-            <form action="#" method="post" id="answer-form" {{ form_enctype(answer) }}>
+            <form action="{{ path('ctf_quest_answer', { id: question.getId() }) }}" method="post" id="answer-form" {{ form_enctype(answer) }}>
                 {{ form_widget(answer) }}
                 <button class="btn btn-success" id="answer-button">Answer!</button>
             </form>

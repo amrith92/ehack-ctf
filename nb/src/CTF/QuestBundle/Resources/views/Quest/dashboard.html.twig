@@ -55,17 +55,20 @@ Dashboard &middot; CTF
         </div>
         <div class="span7">
             <div class="row-fluid">
-                <div class="span9">
-                    <h1 id="title-display">Level</h1>
+                <div class="span8">
+                    <h2 id="title-display">Level</h2>
                 </div>
-                <div class="span3">
+                <div class="span2">
+                    
+                </div>
+                <div class="span2">
                     <ul class="nav nav-list">
                         <li>
-                            <i class="icon-star icon-white"></i> <span class="badge badge-success">60</span><sup>th</sup> <span class="">Rank</span>
+                            <b>Stage <span id="stage-display">-</span><br />Level <span id="level-display">-</span></b>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <b>Stage <span id="stage-display">-</span>, Level <span id="level-display">-</span></b>
+                            <strong>Score:</strong> <span id="score-display" class="badge badge-warning"></span>
                         </li>
                     </ul>
                 </div>
@@ -86,6 +89,8 @@ Dashboard &middot; CTF
                 </div>
                 <div class="span9">
                     <div id="question-container">
+                        <div id="question-result">
+                        </div>
                         <div id="question-dyn">
                             
                         </div>
@@ -105,12 +110,24 @@ Dashboard &middot; CTF
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
+function updateCurrentStats() {
+    $.get(Routing.generate('ctf_quest_current', null), null, function(data) {
+        var res = JSON.parse(data);
+
+        $('#stage-display').text(res.stage).fadeIn();
+        $('#level-display').text(res.level).fadeIn();
+        $('#title-display').text(res.title).fadeIn();
+        $('#score-display').text(res.score).fadeIn();
+    });
+}
+
 $(document).ready(function() {
     $('#continue-quest-button').click(function(e) {
        e.preventDefault();
        
        $.get(Routing.generate('ctf_quest_continue', null), null, function(data) {
            $('#question-dyn').html(data).show().fadeIn();
+           updateCurrentStats();
        });
     });
     
@@ -127,6 +144,30 @@ $(document).ready(function() {
         });
     });
     
+    $('#question-container').on('submit', '#answer-form', function(e) {
+        e.preventDefault();
+        
+        $.post($('#answer-form').attr('action'), $('#answer-form').serialize(), function(data) {
+            var response = JSON.parse(data);
+            
+            if ('success' == response.result) {
+                $('#question-result').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
+                
+                $.get(Routing.generate('ctf_quest_fetch', { qid: response.next }), null, function(data) {
+                    var rp = JSON.parse(data);
+            
+                    $('#question-dyn').html(rp.message).show().fadeIn();
+
+                    if ('success' == rp.result) {
+                        updateCurrentStats();
+                    }
+                });
+            } else {
+                $('#question-result').html('<div class="alert alert-error">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
+            }
+        });
+    });
+    
     $('.fetch-item').click(function(e) {
         e.preventDefault();
         
@@ -134,18 +175,9 @@ $(document).ready(function() {
             var rp = JSON.parse(data);
             
             $('#question-dyn').html(rp.message).show().fadeIn();
-            $('#stage-display').text('-');
-            $('#level-display').text('-');
-            $('#title-display').text('Level');
             
             if ('success' == rp.result) {
-                $.get(Routing.generate('ctf_quest_current', null), null, function(data) {
-                    var res = JSON.parse(data);
-
-                    $('#stage-display').text(res.stage).fadeIn();
-                    $('#level-display').text(res.level).fadeIn();
-                    $('#title-display').text(res.title).fadeIn();
-                });
+                updateCurrentStats();
             }
         });
     });

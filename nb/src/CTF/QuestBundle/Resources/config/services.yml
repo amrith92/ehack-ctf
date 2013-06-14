@@ -5,3 +5,7 @@ services:
 #    ctf_quest.example:
 #        class: %ctf_quest.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+      ctf_quest.score.subscriber:
+        class: CTF\QuestBundle\Listener\UserQuestSubscriber
+        tags:
+          - { name: doctrine.event_subscriber, connection: default }

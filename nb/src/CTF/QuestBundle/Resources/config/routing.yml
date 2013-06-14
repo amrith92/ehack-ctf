@@ -25,3 +25,9 @@ ctf_quest_hint:
     defaults: { _controller: CTFQuestBundle:Quest:grabHint }
     options:
       expose: true
+
+ctf_quest_answer:
+    pattern: /quest/current/answer/{id}
+    defaults: { _controller: CTFQuestBundle:Quest:answer }
+    options:
+      expose: true
