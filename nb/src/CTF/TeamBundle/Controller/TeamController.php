@@ -3,7 +3,7 @@
 namespace CTF\TeamBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use CTF\SecurityBundle\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use \Symfony\Component\Form\FormError;

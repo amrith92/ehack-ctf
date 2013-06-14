@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * \CTF\QuestBundle\Entity\Stage
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\CTF\QuestBundle\Entity\StageRepository")
  * @ORM\Table(name="stages")
  */
 class Stage {
@@ -133,5 +133,22 @@ class Stage {
         $this->questions[] = $question;
         
         return $this;
+    }
+    
+    /**
+     * 
+     * @param \CTF\QuestBundle\Entity\Question $question
+     * @return \CTF\QuestBundle\Entity\Stage
+     */
+    public function removeQuestion($question) {
+        if (true === $this->hasQuestion($question)) {
+            $this->questions->removeElement($question);
+        }
+        
+        return $this;
+    }
+    
+    public function hasQuestion($question) {
+        return \in_array($question, $this->questions);
     }
 }

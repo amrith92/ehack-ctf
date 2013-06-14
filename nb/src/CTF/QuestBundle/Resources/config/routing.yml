@@ -1,3 +1,27 @@
 ctf_quest_homepage:
     pattern:  /quest
     defaults: { _controller: CTFQuestBundle:Quest:dashboard }
+
+ctf_quest_continue:
+    pattern: /quest/continue
+    defaults: { _controller: CTFQuestBundle:Quest:continueQuest }
+    options:
+      expose: true
+
+ctf_quest_current:
+    pattern: /quest/current/show
+    defaults: { _controller: CTFQuestBundle:Quest:showCurrent }
+    options:
+      expose: true
+
+ctf_quest_fetch:
+    pattern: /quest/fetch/{qid}
+    defaults: { _controller: CTFQuestBundle:Quest:fetchQuestion }
+    options:
+      expose: true
+
+ctf_quest_hint:
+    pattern: /quest/current/hint/{id}
+    defaults: { _controller: CTFQuestBundle:Quest:grabHint }
+    options:
+      expose: true

@@ -1,0 +1,38 @@
+/* 
+    Document   : dash.css
+    Created on : 14 Jun, 2013, 1:21:46 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    background: rgb(47, 47, 47) url('../images/noise.png');
+}
+
+.shaded {
+    background-color: #101010;
+}
+
+.shaded img {
+    margin: 10px;
+}
+
+#qbox {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+    background-color: rgb(10, 10, 10);
+}
+
+.nav-list > li > a.quest-button:hover, .nav-list > li > a.quest-button:focus, .nav-list > li > a.quest-button:active {
+  color: #ffffff !important;
+  background-color: #0044cc !important;
+  *background-color: #003bb3 !important;
+}
+
+.popover-title, .popover-content {
+    color: #000;
+}

@@ -1,0 +1,31 @@
+{# Present question #}
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#thequestion" data-toggle="tab">The Question</a></li>
+        <li><a href="#cluespot" data-toggle="tab">Cluespot</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="thequestion">
+            {{ question.getContent() | raw }}
+            <hr />
+            <h4>Your Answer</h4>
+            <form action="#" method="post" id="answer-form" {{ form_enctype(answer) }}>
+                {{ form_widget(answer) }}
+                <button class="btn btn-success" id="answer-button">Answer!</button>
+            </form>
+        </div>
+        <div class="tab-pane" id="cluespot">
+            <h3>Cluespot</h3>
+            <p>
+                Here&apos;s where you will find the &quot;<em>OFFICIAL</em>&quot; clues and hints
+                for your current question.
+            </p>
+            <p>
+                To enable the hint, simply click on the <span class="label label-info">Help Me!</span> button
+                below.
+            </p>
+            <hr />
+            <button class="btn btn-primary" id="clue-button" data-link="{{ path('ctf_quest_hint', { id: question.getId() }) }}">Help Me!</button>
+        </div>
+    </div>
+</div>

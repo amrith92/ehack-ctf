@@ -98,7 +98,7 @@ function showPosition(p) {
     map.setCenter(pos);
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+{#google.maps.event.addDomListener(window, 'load', initialize);#}
 
 $(document).ready(function() {
     $('.date').datepicker({
@@ -130,6 +130,7 @@ $(document).ready(function() {
         }, "html");
     });
     
+    initialize();
     initialiseMap();
     var mapval = $('#ctf_userbundle_usertype_location').val();
     if (null !== mapval) {

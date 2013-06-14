@@ -283,7 +283,7 @@ class AdminController extends Controller
         return new Response('Bad Request!', 400);
     }
     
-    public function questionAction($id, Request $request) {
+    public function questionAction($id, $stage, Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
@@ -309,7 +309,7 @@ class AdminController extends Controller
                     $level = $question->getLevel();
                     
                     // Check for the attachment
-                    if (isset($form['attachment'])) {
+                    if (null !== $form['attachment']->getData()) {
                         $file = $form->get('attachment')->getData();
                         $dir = __DIR__.'/../../../../web/uploads/questions' . '/s' . $stage . '/l' . $level;
                         $extension = $file->guessExtension();
@@ -366,12 +366,89 @@ class AdminController extends Controller
             }
         } else {
             if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
-                $repo = $this->getDoctrine()->getEntityManager()->getRepository('CTFQuestBundle:Question');
+                $em = $this->getDoctrine()->getEntityManager();
+                $repo = $em->getRepository('CTFQuestBundle:Question');
                 $form = $this->createForm(new QuestionType(), $repo->find($id));
+                $srepo = $em->getRepository('CTFQuestBundle:Stage');
+                $form['stage']->setData($srepo->find($stage));
                 
                 return $this->render('CTFAdminBundle:Admin:question.form.html.twig', array(
                     'form' => $form->createView()
                 ));
+            } else if (-1 != $stage && $request->isMethod('POST')) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $qrepo = $em->getRepository('CTFQuestBundle:Question');
+                $question = $qrepo->find($id);
+                $form = $this->createForm(new QuestionType(), $question);
+                
+                if ($form->isValid()) {
+                    $_question = $form->getData();
+                    $stage = $em->getRepository('CTFQuestBundle:Stage')->find($stage);
+                    
+                    // Attachment
+                    if (null !== $form['attachment']->getData()) {
+                        $file = $form->get('attachment')->getData();
+                        $dir = __DIR__.'/../../../../web/uploads/questions' . '/s' . $stage->getId() . '/l' . $_question->getLevel();
+                        $extension = $file->guessExtension();
+                        if (!$extension) {
+                            // extension cannot be guessed
+                            $extension = 'bin';
+                        }
+                        $newFileName = sha1($file . rand(0, 199992993)) . '.' . $extension;
+                        
+                        if(!\file_exists($dir)) {
+                            $fs = new Filesystem();
+                            
+                            try {
+                                $fs->mkdir($dir);
+                            } catch (Exception $e) {
+                                /*return new Response(\json_encode(array(
+                                    'result' => 'error',
+                                    'message' => 'Stage/Level already exists!'
+                                )));*/
+                            }
+                        }
+                        
+                        $file->move($dir, $newFileName);
+                        
+                        // Unzip the file
+                        $zip = new \ZipArchive();
+                        $res = $zip->open($dir . DIRECTORY_SEPARATOR . $newFileName);
+                        if ($res === TRUE) {
+                            $zip->extractTo($dir);
+                            $zip->close();
+                        } else {
+                            return new Response(\json_encode(array(
+                                'result' => 'error',
+                                'message' => 'Not a zip-file!'
+                            )));
+                        }
+                    }
+
+                    if (true === $stage->hasQuestion($_question)) {
+                        if ($form['stage']->getData()->getId() == $stage->getId()) {
+                            
+                        } else {
+                            // Remove question from stage collection
+                            $stage->getQuestions()->removeElement($question);
+                            $question->setId(null);
+                            $em->flush();
+                            
+                            $newstage = $em->getRepository('CTFQuestBundle:Stage')->find($form['stage']->getData()->getId());
+                            $newstage->addQuestion($_question);
+                        }
+                    } else {
+                        $stage->addQuestion($_question);
+                    }
+                    
+                    $em->flush();
+                    
+                    $this->get('session')->getFlashBag()->add('success', "Saved Question!");
+                    return $this->redirect($this->generateUrl('ctf_admin_stage'));
+                } else {
+                    $this->get('session')->getFlashBag()->add('error', "Could not save question!");
+                    return $this->redirect($this->generateUrl('ctf_admin_stage'));
+                }
             }
         }
         

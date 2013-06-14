@@ -45,7 +45,7 @@ ctf_admin_stage_list:
       expose: true
 
 ctf_admin_stage_question:
-    pattern: /admin/stage/question/{id}
-    defaults: { _controller: CTFAdminBundle:Admin:question, id: -1 }
+    pattern: /admin/stage/question/{id}/{stage}
+    defaults: { _controller: CTFAdminBundle:Admin:question, id: -1, stage: -1 }
     options:
       expose: true

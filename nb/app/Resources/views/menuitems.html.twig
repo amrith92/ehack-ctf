@@ -2,10 +2,10 @@
 {% block menuitems %}
 <ul class="nav">
     {% if admin_menuitems is not defined %}
-    <li {% if active == 'home' %}class="active"{% endif %}><a href="/"><i class="icon-home icon-white"></i>&nbsp;Home</a></li>
-    <li {% if active == 'about' %}class="active"{% endif %}><a href="#about">About</a></li>
     <li {% if active == 'quest' %}class="active"{% endif %}><a href="{{ path('ctf_quest_homepage') }}"><i class="icon-eye-open icon-white"></i>&nbsp;Quest</a></li>
     <li {% if active == 'gchat' %}class="active"{% endif %}><a href="{{ path('ctf_global_chat') }}"><i class="icon-comment icon-white"></i>&nbsp;Global Chat</a></li>
+    <li class="divider-vertical"></li>
+    <li {% if active == 'about' %}class="active"{% endif %}><a href="#about">About</a></li>
     {% else %}
     <li {% if active == 'home' %}class="active"{% endif %}><a href="{{ path('ctf_admin_homepage') }}"><i class="icon-home icon-white"></i>&nbsp;Dashboard</a></li>
     <li {% if active == 'settings' %}class="active"{% endif %}><a href="{{ path('ctf_admin_settings') }}"><i class="icon-cog icon-white"></i>&nbsp;Settings</a></li>

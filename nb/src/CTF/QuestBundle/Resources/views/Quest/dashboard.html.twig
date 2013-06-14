@@ -1,7 +1,12 @@
 {% set active = 'quest' %}
 {% extends '::base.html.twig' %}
+
 {% block title %}
 Dashboard &middot; CTF
+{% endblock %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{{ asset('bundles/ctfquest/css/dash.css') }}" type="text/css" media="screen" />
 {% endblock %}
 
 {% block content %}
@@ -31,10 +36,120 @@ Dashboard &middot; CTF
             {% endfor %}
         </div>
     </div>
+</div>
+<div class="container-fluid">
     <div class="row-fluid">
-        <div class="span12">
-            <a href="{{ path('ctf_certificate_test', { mode: 'pdf' }) }}" class="btn btn-primary" target="_blank">Collect Certificate!</a>
+        <div class="span3 shaded">
+            <img src="{{ user.getImageUrl() }}" width="80" class="img-polaroid" />
+            <hr />
+            <ul class="nav nav-list">
+                <li class="nav-header">Basic Information</li>
+                <li><a href="#"><span class="label label-inverse">Gender</span> {{ user.getGender() | lower }}</a></li>
+                <li><a href="#"><span class="label label-inverse">Birthday</span> {{ user.getDob() | date('F jS, Y') }}</a></li>
+                <li><a href="#"><span class="label label-inverse">About Me</span> {{ user.getAboutMe() }}</a></li>
+                <li class="nav-header">Contact Information</li>
+                <li><a href="#"><span class="label label-inverse">Mobile</span> {{ user.getPhone() }}</a></li>
+                <li><a href="#"><span class="label label-inverse">From</span> {{ user.getCity() }}, {{ user.getState().getName() }}, {{ user.getCountry().getName() }}</a></li>
+                <li><a href="#"><span class="label label-inverse">Website</span> {{ user.getWebsite() }}</a></li>
+            </ul>
+        </div>
+        <div class="span7">
+            <div class="row-fluid">
+                <div class="span9">
+                    <h1 id="title-display">Level</h1>
+                </div>
+                <div class="span3">
+                    <ul class="nav nav-list">
+                        <li>
+                            <i class="icon-star icon-white"></i> <span class="badge badge-success">60</span><sup>th</sup> <span class="">Rank</span>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <b>Stage <span id="stage-display">-</span>, Level <span id="level-display">-</span></b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr />
+            <div class="row-fluid">
+                <div class="span3 well well-small" id="qbox">
+                    <ul class="nav nav-list">
+                        <li><a href="#" class="btn btn-primary quest-button" id="continue-quest-button">Quest</a></li>
+                        <li class="divider"></li>
+                        {% for it in stages %}
+                        <li class="nav-header">{{ it.getName() }}</li>
+                        {% for item in it.getQuestions() %}
+                        <li><a href="{{ path('ctf_quest_fetch', { qid: item.getId() }) }}" class="list-item fetch-item"><span class="badge badge-inverse">{{ item.getLevel() }}</span> {{ item.getTitle() }}</a></li>
+                        {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="span9">
+                    <div id="question-container">
+                        <div id="question-dyn">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extrajsend %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript">
+//<!--
+$(document).ready(function() {
+    $('#continue-quest-button').click(function(e) {
+       e.preventDefault();
+       
+       $.get(Routing.generate('ctf_quest_continue', null), null, function(data) {
+           $('#question-dyn').html(data).show().fadeIn();
+       });
+    });
+    
+    $('#question-container').on('click', '#clue-button', function(e) {
+        e.preventDefault();
+        
+        $.get($(this).attr('data-link'), null, function(data) {
+            $('#clue-button').popover({
+                title: 'Your Hint',
+                content: data,
+                html: true
+            });
+            $('#clue-button').popover('show');
+        });
+    });
+    
+    $('.fetch-item').click(function(e) {
+        e.preventDefault();
+        
+        $.get(this, null, function(data) {
+            var rp = JSON.parse(data);
+            
+            $('#question-dyn').html(rp.message).show().fadeIn();
+            $('#stage-display').text('-');
+            $('#level-display').text('-');
+            $('#title-display').text('Level');
+            
+            if ('success' == rp.result) {
+                $.get(Routing.generate('ctf_quest_current', null), null, function(data) {
+                    var res = JSON.parse(data);
+
+                    $('#stage-display').text(res.stage).fadeIn();
+                    $('#level-display').text(res.level).fadeIn();
+                    $('#title-display').text(res.title).fadeIn();
+                });
+            }
+        });
+    });
+});
+//-->
+</script>
 {% endblock %}
