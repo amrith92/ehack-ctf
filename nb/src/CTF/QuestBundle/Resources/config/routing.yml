@@ -31,3 +31,9 @@ ctf_quest_answer:
     defaults: { _controller: CTFQuestBundle:Quest:answer }
     options:
       expose: true
+      
+ctf_quest_rank:
+    pattern: /quest/current/rank
+    defaults: { _controller: CTFQuestBundle:Quest:rank }
+    options:
+      expose: true

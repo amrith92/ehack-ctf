@@ -28,10 +28,12 @@ class QuestController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         
         $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
+        $team = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
         
         return $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
             'user' => $user,
-            'stages' => $stages
+            'stages' => $stages,
+            'team' => $team
         ));
     }
     
@@ -94,7 +96,7 @@ class QuestController extends Controller
             ///////////
             $salt = $this->container->getParameter('secret');
             $attachment = null;
-            $dir = __DIR__.'/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage->getId() . $salt . '/l' . $question->getLevel() . $salt);
+            $dir = __DIR__.'/../../../../web/uploads/questions/' . md5($salt . '/s' . $quest->getCurrentStage()->getId() . $salt . '/l' . $question->getLevel() . $salt);
             if(\file_exists($dir)) {
                 $attachment = true;
             }
@@ -378,6 +380,26 @@ class QuestController extends Controller
 
                 return new Response(\json_encode($data));
             }
+        }
+        
+        return new Response('Bad Request!', 400);
+    }
+    
+    public function rankAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $user = $this->get('security.context')->getToken()->getUser();
+            $rank = $em->getRepository('CTFQuestBundle:UserQuest')->getRankByUser($user->getId());
+            
+            $data = array(
+                'rank' => $rank
+            );
+            
+            return new Response(\json_encode($data));
         }
         
         return new Response('Bad Request!', 400);

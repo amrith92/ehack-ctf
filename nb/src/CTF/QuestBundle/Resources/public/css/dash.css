@@ -36,3 +36,66 @@ body {
 .popover-title, .popover-content {
     color: #000;
 }
+
+#user-rank {
+    text-align: center;
+}
+
+#user-rank h4 {
+    text-transform: uppercase!important;
+}
+
+#rank-display {
+    font-size: 4em;
+    color: #ffdb1f;
+}
+
+#qbox ul li a, #qbox ul li span.badge {
+    font-size: 0.688em;
+}
+
+.nav-list > li > a.quest-button {
+    font-size: 1em!important;
+}
+
+#chat {
+    height: 160px;
+    max-height: 160px;
+    overflow: auto;
+    font-size: 0.75em;
+}
+
+#chat .message-text {
+    padding: 3px!important;
+    color: #C09853;
+    background-color: #FCF8E3;
+    border: 1px solid #FBEED5;
+    border-radius: 4px 4px 4px 4px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+#chat .message-text-success {
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+    color: #468847;
+}
+
+#chat .message-text-info {
+    background-color: #D9EDF7;
+    border-color: #BCE8F1;
+    color: #3A87AD;
+}
+
+#chat div.message {
+    margin: 6px 2px;
+    clear: both;
+}
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}

@@ -10,6 +10,10 @@ Dashboard &middot; CTF
 {% endblock %}
 
 {% block content %}
+<audio height="0" width="0" id="popcorn">
+    <source src="{{ asset('bundles/ctfglobalchat/sounds/pop2.wav') }}" type="audio/wav">
+    <embed height="0" width="0" src="{{ asset('bundles/ctfglobalchat/sounds/pop2.wav') }}">
+</audio>
 <div class="clearfix">
     &nbsp;
 </div>
@@ -59,7 +63,12 @@ Dashboard &middot; CTF
                     <h2 id="title-display">Level</h2>
                 </div>
                 <div class="span2">
-                    
+                    <div id="user-rank">
+                        <h4>Rank</h4>
+                        <div id="rank-display">
+                            
+                        </div>
+                    </div>
                 </div>
                 <div class="span2">
                     <ul class="nav nav-list">
@@ -99,13 +108,15 @@ Dashboard &middot; CTF
             </div>
         </div>
         <div class="span2">
-            
+            {% include "CTFQuestBundle:Quest:teamchat.html.twig" %}
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extrajsend %}
+<script type="text/javascript" src="http://{{ app.request.getHttpHost() }}:5561/socket.io/socket.io.js"></script>
+<script src="{{ asset('bundles/ctfteam/js/teamchatclient.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
@@ -120,8 +131,37 @@ function updateCurrentStats() {
         $('#score-display').text(res.score).fadeIn();
     });
 }
-
+var cli_on = false;
 $(document).ready(function() {
+    TeamChatClient.init({
+        host: '{{ app.request.getHttpHost() }}',
+        port: 5561,
+        username: '{{ app.user.username }}',
+        team: '{{ team }}'
+    });
+    
+    TeamChatClient.run();
+    
+    $(window).bind('beforeunload', function() {
+        TeamChatClient.disconnect();
+    });
+    
+    $('#client-list-button').click(function(e) {
+        e.preventDefault();
+        
+        if (false == cli_on) {
+            $('#client-list-button').attr('data-title', 'Member List');
+            $('#client-list-button').attr('data-html', 'true');
+            $('#client-list-button').attr('data-placement', 'left');
+            $('#client-list-button').attr('data-content', $('#clientList').html());
+            $('#client-list-button').popover('show');
+            cli_on = true;
+        } else {
+            $('#client-list-button').popover('destroy');
+            cli_on = false;
+        }
+    });
+    
     $('#continue-quest-button').click(function(e) {
        e.preventDefault();
        
@@ -181,6 +221,21 @@ $(document).ready(function() {
             }
         });
     });
+    
+    $.get(Routing.generate('ctf_quest_rank', null), null, function(data) {
+        var response = JSON.parse(data);
+        if (null != response.rank) {
+            $('#rank-display').text(response.rank).fadeOut().fadeIn('slow');
+        }
+    });
+    setInterval(function() {
+        $.get(Routing.generate('ctf_quest_rank', null), null, function(data) {
+            var response = JSON.parse(data);
+            if (null != response.rank) {
+                $('#rank-display').text(response.rank).fadeOut().fadeIn('slow');
+            }
+        });
+    }, 20000);
 });
 //-->
 </script>
