@@ -1,0 +1,94 @@
+{# Team Admin Panel #}
+
+{% set active = 'teamadmin' %}
+{% extends "::base.html.twig" %}
+
+{% block title %}
+Team Admin Panel &middot; ehack CTF
+{% endblock %}
+
+{% block content %}
+<div class="clearfix">&nbsp;</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span8">
+            <h2>{{ team.getName() }}&apos;s Panel</h2>
+            <p>
+                Here, you&apos;ll find common team-administration tasks, with the most important function
+                being requests.
+            </p>
+        </div>
+        <div class="span4">
+            <h3>Status</h3>
+            <div id="update-result"></div>
+            <div class="well well-small">
+                <span class="label label-info">Current Status</span>&nbsp;<span id="current-status">{{ team.getStatus() }}</span>
+            </div>
+            <div class="well well-small">
+                <div class="input-append">
+                    <input type="text" name="_status" id="team-new-status" placeholder="Update Status" />
+                    <button class="btn btn-primary" id="team-update-status-button">Update!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row-fluid">
+        <div class="span12">
+            <div id="requests-container">
+                {% include "CTFTeamBundle:Team:requests.html.twig" with { 'team': team } only %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajsend %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript">
+//<!--
+$(document).ready(function() {
+    $('#team-update-status-button').click(function(e) {
+        e.preventDefault();
+        
+        var _status = $('#team-new-status').val();
+        if (null != _status && '' != _status) {
+            $.post(Routing.generate('ctf_team_status_update', { 'status': _status }), null, function(data) {
+                var response = JSON.parse(data);
+
+                if ('success' == response.result) {
+                    $('#update-result').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
+                    $('#current-status').html(response.status).fadeOut('fast').fadeIn('slow');
+                } else {
+                    $('#update-result').html('<div class="alert alert-error">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
+                }
+            });
+        }
+    });
+});
+//-->
+</script>
+{% endblock %}

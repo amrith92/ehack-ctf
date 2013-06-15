@@ -67,6 +67,11 @@ class TeamSelectListener implements EventSubscriberInterface {
             'label' => 'Select a Team',
             'attr' => array('class' => 'chzn-select')
         )));
+        
+        $form->add($this->factory->createNamed('message', 'textarea', "Hi! I'd like to join your team. Thanks :)", array(
+            'label' => 'Message',
+            'required' => true
+        )));
     }
     
     /**

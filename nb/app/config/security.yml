@@ -53,7 +53,7 @@ security:
               google: "/login/google"
               twitter: "/login/twitter"
             login_path: /login
-            check_path: /connect
+            check_path: /login
             oauth_user_provider:
               service: ctf_user_provider
           logout:

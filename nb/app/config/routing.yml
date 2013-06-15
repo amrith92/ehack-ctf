@@ -1,3 +1,15 @@
+hwi_oauth_redirect:
+  resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+  prefix: /connect
+
+hwi_oauth_security:
+  resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+  prefix: /connect
+ 
+hwi_oauth_connect:
+  resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+  prefix: /connect
+
 ctf_global_chat:
     resource: "@CTFGlobalChatBundle/Resources/config/routing.yml"
     prefix:   /
@@ -13,18 +25,6 @@ ctf_admin:
 ctf_team:
     resource: "@CTFTeamBundle/Resources/config/routing.yml"
     prefix:   /
-
-hwi_oauth_redirect:
-  resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-  prefix: /connect
-
-hwi_oauth_security:
-  resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-  prefix: /connect
- 
-hwi_oauth_connect:
-  resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
-  prefix: /connect
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

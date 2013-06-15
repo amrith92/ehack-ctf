@@ -1,12 +1,19 @@
 {# represents the MENU-items #}
 {% block menuitems %}
+{% if app.user.roles is defined %}
+{% for role in app.user.roles %}
+{% if role == 'ROLE_TEAM_ADMIN' %}
+{%  set isteamadmin = 1 %}
+{% endif %}
+{% endfor %}
+{% endif %}
 <ul class="nav">
     {% if admin_menuitems is not defined %}
     <li {% if active == 'quest' %}class="active"{% endif %}><a href="{{ path('ctf_quest_homepage') }}"><i class="icon-eye-open icon-white"></i>&nbsp;Quest</a></li>
     <li {% if active == 'gchat' %}class="active"{% endif %}><a href="{{ path('ctf_global_chat') }}"><i class="icon-comment icon-white"></i>&nbsp;Global Chat</a></li>
-    {% if is_granted('ROLE_TEAM_ADMIN') %}
+    {% if is_granted('ROLE_TEAM_ADMIN') or isteamdmin is defined %}
     <li class="divider-vertical"></li>
-    <li {% if active == 'teamadmin' %}class="active"{% endif %}><a href="#"><i class="icon-edit icon-white"></i>&nbsp;Team Admin Panel</a></li>
+    <li {% if active == 'teamadmin' %}class="active"{% endif %}><a href="{{ path('ctf_team_admin') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Admin Panel</a></li>
     {% endif %}
     <li class="divider-vertical"></li>
     <li {% if active == 'about' %}class="active"{% endif %}><a href="#about">About</a></li>

@@ -23,10 +23,9 @@ class UserController extends Controller {
             $form->bind($request);
             
             if ($form->isValid()) {
-                //$em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getEntityManager();
                 $data = $form->getData();
                 $userManager = $this->get('fos_user.user_manager');
-                $user = $userManager->findUserByUsername($this->get('security.context')->getToken()->getUser()->getUsername());
                 $user->setFname($data->getFname());
                 $user->setLname($data->getLname());
                 $user->setPhone($data->getPhone());
@@ -40,7 +39,9 @@ class UserController extends Controller {
                 $user->setGender($data->getGender());
                 $user->setCity($data->getCity());
                 $user->setWebsite($data->getWebsite());
-                $userManager->updateUser($user);
+                $userManager->updateUser($user, false);
+                
+                $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('success', "All changes saved!");
                 return $this->redirect($this->generateUrl('ctf_user_edit_profile'));

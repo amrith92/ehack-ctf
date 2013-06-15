@@ -28,6 +28,16 @@ class TeamRepository extends EntityRepository {
         return $ret;
     }
     
+    public function findAdminedByUserId($uid) {
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("SELECT t.id FROM `team_member_request` r INNER JOIN `team_requests` e ON r.id=e.request_id INNER JOIN `team` t ON t.id=e.team_id WHERE user_id=" . $uid . " AND r.status='" . TeamRequestStatus::$ACCEPTEDANDADMIN . "'");
+        $statement->execute();
+        $ret = $statement->fetchColumn(0);
+        
+        return $ret;
+    }
+    
     public function countOfTeams() {
         $q = $this->createQueryBuilder('t')
             ->select('COUNT(t)')

@@ -1,0 +1,23 @@
+{# Requests #}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User&apos;s Name</th>
+            <th>Message</th>
+            <th>Request Sent At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in team.getRequests() %}
+            {% if request.getUser().getUsername() != app.user.username %}
+        <tr>
+            <td>{{ request.getUser().getFname() }} {{ request.getUser().getLname() }}</td>
+            <td>{{ request.getMessage() }}</td>
+            <td>{{ request.getCreatedTimestamp() | date }}</td>
+            <td><a href="{{ path('ctf_team_request_accept', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-success">Accept</a>&nbsp;<a href="{{ path('ctf_team_request_reject', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-danger">Reject</a> | <a href="{{ path('ctf_team_request_accept_admin', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-primary">Accept as Admin</a></td>
+        </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>

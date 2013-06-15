@@ -15,6 +15,11 @@ class TeamSelectDTO {
     private $team;
     
     /**
+     * @var string
+     */
+    private $message;
+    
+    /**
      * 
      * @param string $selecting
      * @return \CTF\TeamBundle\Entity\TeamSelectDTO
@@ -50,5 +55,24 @@ class TeamSelectDTO {
      */
     public function getTeam() {
         return $this->team;
+    }
+    
+    /**
+     * 
+     * @param string $message
+     * @return \CTF\TeamBundle\Entity\TeamSelectDTO
+     */
+    public function setMessage($message) {
+        $this->message = $message;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getMessage() {
+        return $this->message;
     }
 }
