@@ -94,11 +94,13 @@ class TeamController extends Controller {
                         $em->persist($team);
                         
                         $user = $this->get('security.context')->getToken()->getUser();
+                        $user->addRole('ROLE_TEAM_ADMIN');
                         $teamRequest = new TeamMemberRequest();
                         $teamRequest->setCreatedTimestamp(new \DateTime(date('Y-m-d H:i:s')));
                         $teamRequest->setStatus(TeamRequestStatus::$ACCEPTEDANDADMIN);
                         $teamRequest->setUser($user);
                         $team->addRequest($teamRequest);
+                        $this->get('fos_user.user_manager')->updateUser($user, false);
                         
                         $em->flush();
                         $this->get('session')->getFlashBag()->add('success', "You've successfully created a team. You are now its ADMIN. Go forth, set out on your journey in this exciting competition.");

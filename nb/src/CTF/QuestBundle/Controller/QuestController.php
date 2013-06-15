@@ -30,10 +30,12 @@ class QuestController extends Controller
         $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
         $team = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
         
+        $salt = $this->container->getParameter('secret');
+        
         return $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
             'user' => $user,
             'stages' => $stages,
-            'team' => $team
+            'team' => \md5($team . $salt)
         ));
     }
     
