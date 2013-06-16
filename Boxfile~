@@ -66,3 +66,4 @@ web1:
   ###############################################
   before_deploy:
    - "php app/console doctrine:schema:update --force"
+

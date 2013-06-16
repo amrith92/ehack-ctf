@@ -65,5 +65,6 @@ web1:
   ## BEFORE-DEPLOY STEPS
   ###############################################
   before_deploy:
-   - "php app/console doctrine:schema:update --force"
+   - "php nb/app/console --env=prod cache:clear"
+   - "php nb/app/console doctrine:schema:update --force"
 
