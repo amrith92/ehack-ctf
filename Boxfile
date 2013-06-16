@@ -1,7 +1,34 @@
 web1:
   name: ehack-ctf
+  ################################################
+  ## GENERAL SETTINGS
+  ################################################
+  shared_writable_dirs:
+      - app/cache
+      - app/logs
+ 
+  ################################################
+  ## WEB SPECIFIC SETTINGS
+  ################################################
+  document_root: web
+  default_gateway: app.php
+  index_list: [app.php]
+ 
+  ################################################
+  ## PHP SPECIFIC SETTINGS
+  ################################################
+  php_version: 5.3.5
   php_extensions:
-    - curl
-    - accel
-    - mcrypt
+    - intl
+    - mbstring
+    - xsl
     - apc
+    - mysql
+    - posix
+    - iconv
+    - tokenizer
+    - xml
+    - pdo_mysql
+  php_session_autostart: Off
+  php_short_open_tag: Off
+  magic_quotes_gpc: Off
