@@ -11,6 +11,7 @@ Procedure
 1. Simply run composer to install all dependencies
 2. Copy the following `parameters.yml` and replace appropriately
 
+```yaml
 	parameters:
 	    database_driver: pdo_mysql
 	    database_host: 127.0.0.1
@@ -34,6 +35,7 @@ Procedure
 	    google_client_secret: 
 	    twitter_client_id: 	
 	    twitter_client_secret: 
+```
 
 3. Enjoy the show.
 
