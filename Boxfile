@@ -59,7 +59,8 @@ web1:
    - "echo ' google_client_secret: %google.client.secret%' >> nb/app/config/parameters.yml"
    - "echo ' twitter_client_id: %twitter.client.id%' >> nb/app/config/parameters.yml"
    - "echo ' twitter_client_secret: %twitter.client.secret%' >> nb/app/config/parameters.yml"
-   - "if [ ! -f composer.phar ]; then curl -s http://getcomposer.org/installer | php; fi; cd nb; php composer.phar install"
+   - "cd nb && php composer.phar install"
+  #- "if [ ! -f composer.phar ]; then curl -s http://getcomposer.org/installer | php; fi; cd nb; php composer.phar install"
 
   ###############################################
   ## BEFORE-DEPLOY STEPS
