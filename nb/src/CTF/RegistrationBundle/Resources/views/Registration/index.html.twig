@@ -1,0 +1,155 @@
+{% set active = 'home' %}
+{% set light = 'true' %}
+{% extends "::base.html.twig" %}
+
+{% block title %}
+Registration &middot; ehack CTF
+{% endblock %}
+
+{% block extracss %}
+<link href="{{ asset('bundles/ctfregistration/css/style.css') }}" rel="stylesheet" media="screen" />
+{% endblock %}
+
+{% block content %}
+<div id="overlay">
+    <div class="modal" id="loginModal">
+        <div class="modal-header">
+            <h3>Registration &raquo; <span id="reg-step">Basic Information</span></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="form-container">
+                        <div id="form-error"></div>
+                        <div id="form-dyn-container">
+                            {% include "CTFRegistrationBundle:Registration:essentialuser.form.html.twig" with { 'form': essential } only %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" id="next-button">Next</button>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-error clearfix">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row-fluid">
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajsend %}
+<script src="{{ asset('bundles/ctfcommon/js/cookiemanager.js') }}"></script>
+<script src="{{ asset('bundles/ctfcommon/js/geoPosition.js') }}"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD10aDs0eCuaeaaZMFzLu5yrPnN4_TgqU&sensor=false"></script>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places" type="text/javascript"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript">
+//<!--
+function initialiseMap() {
+    var myOptions = {
+        zoom: 4,
+        mapTypeControl: false,
+        mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+        navigationControl: false,
+        navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+}
+
+function initialize() {
+    var mapOptions = {
+        center: new google.maps.LatLng(-33.8688, 151.2195),
+    };
+    var input = document.getElementById('ctf_userbundle_essentialusertype_org');
+    var options = {
+        types: ['establishment']
+    };
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+}
+
+function onLocateClick() {
+    if(geoPosition.init()) {
+        geoPosition.getCurrentPosition(showPosition,function(){ alert('Could not find you! :('); },{enableHighAccuracy:true});
+    }
+}
+
+function showPosition(p) {
+    var latitude = parseFloat( p.coords.latitude );
+    var longitude = parseFloat( p.coords.longitude );
+    $('#ctf_userbundle_essentialusertype_location').val(latitude + "," + longitude);
+    var pos=new google.maps.LatLng( latitude , longitude);
+    map.setCenter(pos);
+    map.setZoom(14);
+
+    var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title:"You are here"
+    });
+    map.setCenter(pos);
+}
+var finish = false;
+$(document).ready(function() {
+    initialize();
+    initialiseMap();
+    
+    $('#form-container').on('click', '#locate-me', function(e) {
+        e.preventDefault();
+        
+        onLocateClick();
+    });
+    
+    $('#next-button').click(function() {
+        if (true == finish) {
+            window.location.href = Routing.generate('ctf_registration_wrapup', null);
+        }
+        $.post($('#reg-form').attr('action'), $('#reg-form').serialize(), function(data) {
+            var response = JSON.parse(data);
+            
+            if ('success' == response.result) {
+                if (null != response.sms) {
+                    $('#form-error').html('<div class="alert alert-success">' + response.message + "<br />Your OTP is: <strong>" + CookieManager.getItem('sms') + "</strong></div>").fadeIn("slow").fadeOut(15000);
+                    $('#form-dyn-container').html(response.smsform);
+                } else if (null != response.share) {
+                    $('#form-error').html('<div class="alert alert-success">' + response.message + "</div>").fadeIn("slow").fadeOut(15000);
+                    $('#form-dyn-container').html(response.sharepage);
+                    finish = true;
+                }
+            } else {
+                $('#form-error').html('<div class="alert alert-error">' + response.message + "</div>").fadeIn("slow").fadeOut(5000);
+            }
+        });
+    });
+});
+//-->
+</script>
+{% endblock %}

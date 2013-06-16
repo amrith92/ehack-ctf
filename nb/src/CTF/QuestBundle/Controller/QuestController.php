@@ -13,8 +13,11 @@ use \CTF\QuestBundle\Form\AnswerType;
 
 class QuestController extends Controller
 {
-    public function dashboardAction(Request $request)
+    public function dashboardAction($ref, Request $request)
     {
+        if (-1 != $ref) {
+            $this->get('session')->set('registration_ref', $ref);
+        }
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }

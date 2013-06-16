@@ -1,0 +1,11 @@
+parameters:
+#    ctf_referral.example.class: CTF\ReferralBundle\Example
+
+services:
+#    ctf_referral.example:
+#        class: %ctf_referral.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    ctf_referral.cryptor:
+        class: CTF\ReferralBundle\Util\RefCryptor
+        scope: request
+        arguments: [@service_container]

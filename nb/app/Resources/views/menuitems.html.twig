@@ -14,6 +14,8 @@
     {% if is_granted('ROLE_TEAM_ADMIN') or isteamdmin is defined %}
     <li class="divider-vertical"></li>
     <li {% if active == 'teamadmin' %}class="active"{% endif %}><a href="{{ path('ctf_team_admin') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Admin Panel</a></li>
+    {% else %}
+    <li {% if active == 'teamselect' %}class="active"{% endif %}><a href="{{ path('ctf_team_select') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Selection</a></li>
     {% endif %}
     <li class="divider-vertical"></li>
     <li {% if active == 'about' %}class="active"{% endif %}><a href="#about">About</a></li>

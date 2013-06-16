@@ -31,6 +31,8 @@ class AppKernel extends Kernel
             new CTF\AdminBundle\CTFAdminBundle(),
             new CTF\CertificateBundle\CTFCertificateBundle(),
             new CTF\GlobalChatBundle\CTFGlobalChatBundle(),
+            new CTF\RegistrationBundle\CTFRegistrationBundle(),
+            new CTF\ReferralBundle\CTFReferralBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

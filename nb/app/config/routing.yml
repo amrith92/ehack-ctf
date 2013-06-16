@@ -10,6 +10,14 @@ hwi_oauth_connect:
   resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
   prefix: /connect
 
+ctf_referral:
+    resource: "@CTFReferralBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ctf_registration:
+    resource: "@CTFRegistrationBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ctf_global_chat:
     resource: "@CTFGlobalChatBundle/Resources/config/routing.yml"
     prefix:   /

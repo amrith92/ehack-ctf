@@ -1,0 +1,13 @@
+{# Share page #}
+<div class="well well-small">
+    <h1>Help us spread the word!</h1>
+    <p>
+        Help us bring in <strong>even more</strong> fantastic people such as you!
+        Do your part to make this truly brilliant.
+    </p>
+    <hr />
+    <p>
+        Share the links below:
+    </p>
+    <a href="{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_quest_homepage', { ref: app.session.get('__MYREF') }) }}">{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_quest_homepage', { ref: app.session.get('__MYREF') }) }}</a>
+</div>

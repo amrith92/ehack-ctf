@@ -1,0 +1,49 @@
+{# Essential User Form #}
+<form action="{{ path('ctf_registration_essential') }}" method="post" {{ form_enctype(form) }} id="reg-form">
+    <div class="tabbable tabs-below">
+        <div class="tab-content">
+            <div class="tab-pane active" id="general">
+                <div class="row-fluid">
+                    <div class="span5">
+                        {{ form_row(form.username) }}
+                    </div>
+                    <div class="span7">
+                        <img class="img-circle pull-right" src="{{ app.user.getImageUrl() }}" title="{{ app.user.username }}" alt="{{ app.user.username }}" />
+                    </div>
+                </div>
+                {{ form_row(form.email) }}
+                {{ form_label(form.fname) }}
+                <div class="controls controls-row">
+                    {{ form_widget(form.fname) }}
+                    {{ form_widget(form.lname) }}
+                </div>
+            </div>
+            <div class="tab-pane" id="location">
+                <div class="row-fluid">
+                    <div class="span12">
+                        {{ form_row(form.phone) }}
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        {{ form_row(form.location) }}
+                        <div class="clearfix"><a href="#" class="btn btn-success" id="locate-me">Locate Me!</a></div>
+                    </div>
+                    <div class="span7">
+                        <div id="map_canvas" style="width:100px; height:100px" class="img-polaroid pull-right"></div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        {{ form_row(form.org) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#general" data-toggle="tab">Basic Info</a></li>
+            <li><a href="#location" data-toggle="tab">Location &amp; Organization</a></li>
+        </ul>
+    </div>
+    {{ form_rest(form) }}
+</form>

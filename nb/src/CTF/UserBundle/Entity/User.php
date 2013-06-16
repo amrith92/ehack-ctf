@@ -5,6 +5,7 @@ namespace CTF\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * \CTF\UserBundle\User\Entity
@@ -170,6 +171,18 @@ class User extends BaseUser
      * })
      */
     private $org;
+    
+    /**
+     *
+     * @var Doctrine\Common\Collections\ArrayCollection
+     * 
+     * @ORM\ManyToMany(targetEntity="\CTF\UserBundle\Entity\User", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="ref_invites",
+     *      joinColumns={@ORM\JoinColumn(name="referrer_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="invitee_id", referencedColumnName="id")}
+     * )
+     */
+    private $invitations;
     
     public function __construct()
     {
@@ -635,5 +648,35 @@ class User extends BaseUser
     public function getOrg()
     {
         return $this->org;
+    }
+    
+    /**
+     * 
+     * @param Doctrine\Common\Collections\ArrayCollection $invites
+     * @return \CTF\UserBundle\Entity\User
+     */
+    public function setInvitations($invites) {
+        $this->invitations = $invites;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getInvitations() {
+        return $this->invitations;
+    }
+    
+    /**
+     * 
+     * @param \CTF\UserBundle\Entity\User $invite
+     * @return \CTF\UserBundle\Entity\User
+     */
+    public function addInvite($invite) {
+        $this->invitations[] = $invite;
+        
+        return $this;
     }
 }

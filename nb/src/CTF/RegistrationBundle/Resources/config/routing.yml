@@ -1,0 +1,21 @@
+ctf_registration_homepage:
+    pattern:  /register/me
+    defaults: { _controller: CTFRegistrationBundle:Registration:index }
+
+ctf_registration_essential:
+    pattern: /register/me/basic
+    defaults: { _controller: CTFRegistrationBundle:Registration:basic }
+    options:
+      expose: true
+
+ctf_registration_sms:
+    pattern: /register/me/otp
+    defaults: { _controller: CTFRegistrationBundle:Registration:sms }
+    options:
+      expose: true
+
+ctf_registration_wrapup:
+    pattern: /register/me/wrapup
+    defaults: { _controller: CTFRegistrationBundle:Registration:wrapUp }
+    options:
+      expose: true

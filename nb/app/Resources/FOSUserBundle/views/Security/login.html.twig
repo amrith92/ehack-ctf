@@ -23,7 +23,7 @@
         <div class="row-fluid">
             <div class="span6 right-separator">
                 {% if error %}
-                    <div>{{ error|trans }}</div>
+                    <div class="alert alert-error">{{ error|trans }}</div>
                 {% endif %}
                 <form class="login-form" action="{{ path("fos_user_security_check") }}" method="post">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
