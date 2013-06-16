@@ -436,9 +436,11 @@ class AdminController extends Controller
                             
                             $newstage = $em->getRepository('CTFQuestBundle:Stage')->find($form['stage']->getData()->getId());
                             $newstage->addQuestion($_question);
+                            $em->merge($newstage);
                         }
                     } else {
                         $stage->addQuestion($_question);
+                        $em->merge($stage);
                     }
                     
                     $em->flush();
