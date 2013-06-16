@@ -1,6 +1,6 @@
 ctf_quest_homepage:
-    pattern:  /quest/{ref}
-    defaults: { _controller: CTFQuestBundle:Quest:dashboard, ref: -1 }
+    pattern:  /quest
+    defaults: { _controller: CTFQuestBundle:Quest:dashboard }
 
 ctf_quest_continue:
     pattern: /quest/continue

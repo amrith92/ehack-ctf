@@ -16,7 +16,9 @@ var TeamChatClient = {
         
         self.host = params.host;
         self.port = params.port;
-        self.socket = io.connect('http://' + self.host + ':' + self.port);
+        if (typeof io != undefined) {
+            self.socket = io.connect('http://' + self.host + ':' + self.port);
+        }
             
         self.username = params.username;
         self.team = params.team;

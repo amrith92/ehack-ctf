@@ -1,3 +1,8 @@
 ctf_referral_register:
     pattern:  /refer/me/{ref}
     defaults: { _controller: CTFReferralBundle:Referral:register }
+
+ctf_referral_refer:
+    pattern: /referree/{ref}
+    defaults: { _controller: CTFReferralBundle:Referral:ref }
+    

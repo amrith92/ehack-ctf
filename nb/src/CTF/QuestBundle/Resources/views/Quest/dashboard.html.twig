@@ -133,18 +133,20 @@ function updateCurrentStats() {
 }
 var cli_on = false;
 $(document).ready(function() {
-    TeamChatClient.init({
-        host: '{{ app.request.getHttpHost() }}',
-        port: 5561,
-        username: '{{ app.user.username }}',
-        team: '{{ team }}'
-    });
-    
-    TeamChatClient.run();
-    
-    $(window).bind('beforeunload', function() {
-        TeamChatClient.disconnect();
-    });
+    if (typeof io != undefined) {
+        TeamChatClient.init({
+            host: '{{ app.request.getHttpHost() }}',
+            port: 5561,
+            username: '{{ app.user.username }}',
+            team: '{{ team }}'
+        });
+
+        TeamChatClient.run();
+
+        $(window).bind('beforeunload', function() {
+            TeamChatClient.disconnect();
+        });
+    }
     
     $('#client-list-button').click(function(e) {
         e.preventDefault();

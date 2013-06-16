@@ -7,6 +7,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ReferralController extends Controller {
+    
+    public function refAction($ref, Request $request) {
+        if (-1 != $ref) {
+            $this->get('session')->set('registration_ref', $ref);
+        }
+        
+        return $this->redirect($this->generateUrl('ctf_quest_homepage'));
+    }
 
     public function registerAction($ref, Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
@@ -22,6 +30,7 @@ class ReferralController extends Controller {
             $user = $this->get('security.context')->getToken()->getUser();
 
             $refUser->addInvite($user);
+            $em->merge($refUser);
             $em->flush();
         }
 

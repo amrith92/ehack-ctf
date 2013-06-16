@@ -11,54 +11,63 @@ use \CTF\QuestBundle\Entity\QuestHistoryItem;
 use \CTF\QuestBundle\Util\QuestUtil;
 use \CTF\QuestBundle\Form\AnswerType;
 
-class QuestController extends Controller
-{
-    public function dashboardAction($ref, Request $request)
-    {
-        if (-1 != $ref) {
-            $this->get('session')->set('registration_ref', $ref);
-        }
+class QuestController extends Controller {
+
+    public function dashboardAction(Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
         
         $user = $this->get('security.context')->getToken()->getUser();
+        
+        // User is not fully enabled
+        if (false == $user->isEnabled()) {
+            return $this->redirect($this->generateUrl('ctf_registration_homepage'));
+        }
+        
+        // User hasn't given us all the details
         if (false == $this->get('ctf_user_util')->hasFullyRegistered($user)) {
             $this->get('session')->getFlashBag()->add('notice', "You've logged in successfully, but your profile isn't quite complete yet! Take a moment to fill in necessary details.");
             return $this->redirect($this->generateUrl('ctf_user_edit_profile'));
         }
-        
+
         $em = $this->getDoctrine()->getEntityManager();
         
-        $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
         $team = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
         
+        if (null == $team) {
+            $this->get('session')->getFlashBag()->add('notice', "Looks like you aren't a part of a team yet! You cannot join the CTF Event without creating or selecting a team.");
+            return $this->redirect($this->generateUrl('ctf_team_select'));
+        }
+
+        $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
+
         $salt = $this->container->getParameter('secret');
-        
+
         return $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
-            'user' => $user,
-            'stages' => $stages,
-            'team' => \md5($team . $salt)
-        ));
+                    'user' => $user,
+                    'stages' => $stages,
+                    'team' => \md5($team . $salt)
+                ));
     }
-    
+
     public function continueQuestAction(Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
-        
+
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $user = $this->get('security.context')->getToken()->getUser();
             $em = $this->getDoctrine()->getEntityManager();
-            
+
             $quest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
-            
+
             if (null === $quest) {
                 // User hasn't endeavoured on the quest yet
                 $quest = new UserQuest();
                 $stage = $em->getRepository('CTFQuestBundle:Stage')->findFirst();
                 $questions = $stage->getQuestions();
-                
+
                 foreach ($questions as $v) {
                     if ($v->getLevel() == 1) {
                         $level = $v;
@@ -67,14 +76,14 @@ class QuestController extends Controller
                         $level = null;
                     }
                 }
-                
+
                 $quest->setQuestStage($stage);
                 $quest->setCurrentStage($stage);
                 $quest->setCurrentLevel($level);
                 $quest->setQuestLevel($level);
                 $quest->setScore(0);
                 $quest->setUser($user);
-                
+
                 $item = new QuestHistoryItem();
                 $item->setAttemptedTimestamp(new \DateTime(date('Y-m-d H:i:s')));
                 $item->setFirstAttemptTimestamp(new \DateTime(date('Y-m-d H:i:s')));
@@ -82,47 +91,47 @@ class QuestController extends Controller
                 $item->setHintUsed(false);
                 $item->setStatus(QuestUtil::$ATTEMPTING);
                 $quest->addHistoryItem($item);
-                
+
                 $em->persist($quest);
                 $em->flush();
-                
+
                 $question = $level;
             } else {
                 $quest->setCurrentStage($quest->getQuestStage());
                 $quest->setCurrentLevel($quest->getQuestLevel());
                 $em->merge($quest);
                 $em->flush();
-                
+
                 $question = $quest->getQuestLevel();
             }
-            
+
             // TODO ///
             // Check to see whether any attachments are associated with this question
             ///////////
             $salt = $this->container->getParameter('secret');
             $attachment = null;
-            $dir = __DIR__.'/../../../../web/uploads/questions/' . md5($salt . '/s' . $quest->getCurrentStage()->getId() . $salt . '/l' . $question->getLevel() . $salt);
-            if(\file_exists($dir)) {
+            $dir = __DIR__ . '/../../../../web/uploads/questions/' . md5($salt . '/s' . $quest->getCurrentStage()->getId() . $salt . '/l' . $question->getLevel() . $salt);
+            if (\file_exists($dir)) {
                 $attachment = true;
             }
-            
+
             $answer = $this->createForm(new AnswerType());
 
             return $this->render('CTFQuestBundle:Quest:question.display.html.twig', array(
-                'answer' => $answer->createView(),
-                'question' => $question,
-                'attachment' => ($attachment) ? $dir : null
-            ));
+                        'answer' => $answer->createView(),
+                        'question' => $question,
+                        'attachment' => ($attachment) ? $dir : null
+                    ));
         }
-        
+
         return new Response("Bad Request!", 400);
     }
-    
+
     public function fetchQuestionAction($qid, Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
-        
+
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $em = $this->getDoctrine()->getEntityManager();
             $user = $this->get('security.context')->getToken()->getUser();
@@ -142,7 +151,7 @@ class QuestController extends Controller
                             break;
                         }
                     }
-                    
+
                     if (false === $ffound) {
                         $item = new QuestHistoryItem();
                         $item->setAttemptedTimestamp(new \DateTime(date('Y-m-d H:i:s')));
@@ -152,41 +161,41 @@ class QuestController extends Controller
                         $item->setStatus(QuestUtil::$ATTEMPTING);
                         $userquest->addHistoryItem($item);
                     }
-                    
+
                     // Set current stage & level
                     $userquest->setCurrentStage($stage);
                     $userquest->setCurrentLevel($question);
                     $em->merge($userquest);
                     $em->flush();
-                    
+
                     // TODO ///
                     // Check to see whether any attachments are associated with this question
                     ///////////
                     $salt = $this->container->getParameter('secret');
                     $attachment = null;
-                    $dir = __DIR__.'/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage->getId() . $salt . '/l' . $question->getLevel() . $salt);
-                    if(\file_exists($dir)) {
+                    $dir = __DIR__ . '/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage->getId() . $salt . '/l' . $question->getLevel() . $salt);
+                    if (\file_exists($dir)) {
                         $attachment = true;
                     }
-                    
+
                     // Return question
                     $answer = $this->createForm(new AnswerType());
                     $message = $this->render('CTFQuestBundle:Quest:question.display.html.twig', array(
-                        'question' => $question,
-                        'answer' => $answer->createView(),
-                        'attachment' => ($attachment) ? $dir : null
-                    ))->getContent();
-                    
+                                'question' => $question,
+                                'answer' => $answer->createView(),
+                                'attachment' => ($attachment) ? $dir : null
+                            ))->getContent();
+
                     $data = array(
                         'result' => 'success',
                         'message' => $message
                     );
-                    
+
                     return new Response(\json_encode($data));
                 } else {
                     // Not allowed to view the question
                     $message = $this->render('CTFQuestBundle:Quest:question.invalid.html.twig')->getContent();
-                    
+
                     $data = array(
                         'result' => 'error',
                         'message' => $message
@@ -195,7 +204,7 @@ class QuestController extends Controller
                 }
             } else {
                 $message = $this->render('CTFQuestBundle:Quest:question.invalid.html.twig')->getContent();
-                    
+
                 $data = array(
                     'result' => 'error',
                     'message' => $message
@@ -203,45 +212,45 @@ class QuestController extends Controller
                 return new Response(\json_encode($data));
             }
         }
-        
+
         return new Response('Bad Request!', 400);
     }
-    
+
     public function showCurrentAction(Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
-        
+
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $user = $this->get('security.context')->getToken()->getUser();
             $em = $this->getDoctrine()->getEntityManager();
             $userquest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
-            
+
             $data = array(
                 'stage' => $userquest->getCurrentStage()->getId(),
                 'level' => $userquest->getCurrentLevel()->getLevel(),
                 'title' => $userquest->getCurrentLevel()->getTitle(),
                 'score' => $userquest->getScore()
             );
-            
+
             return new Response(\json_encode($data));
         }
-        
+
         return new Response('Bad Request!', 400);
     }
-    
+
     public function grabHintAction($id, Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
-        
+
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $user = $this->get('security.context')->getToken()->getUser();
             $em = $this->getDoctrine()->getEntityManager();
             $userquest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
-            
+
             $history = $userquest->getHistory();
-            
+
             foreach ($history as $item) {
                 if ($item->getQuestion()->getId() == $id) {
                     $it = $item;
@@ -250,33 +259,33 @@ class QuestController extends Controller
                     $it = null;
                 }
             }
-            
+
             if (true !== $it->getHintUsed()) {
                 $it->setHintUsed(true);
                 $em->merge($it);
 
                 $em->flush();
             }
-            
+
             $hint = $it->getQuestion()->getHints();
-            
+
             return new Response($hint);
         }
-        
+
         return new Response('Bad Request!', 400);
     }
-    
+
     public function answerAction($id, Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
-        
+
         if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
             $form = $this->createForm(new AnswerType());
             $form->bind($request);
             $_data = $form->getData();
             $answer = $_data['answer'];
-            
+
             if (null !== $answer) {
                 $em = $this->getDoctrine()->getEntityManager();
 
@@ -332,7 +341,7 @@ class QuestController extends Controller
                         // Stage exhausted, move to the next one
                         $newStage = $em->getRepository('CTFQuestBundle:Stage')->find($stage->getId() + 1);
                         $nextLevel = $newStage->getQuestions()[0];
-                        
+
                         //////
                         // THIS is where we check for the END of the CTF
                         //////
@@ -386,27 +395,28 @@ class QuestController extends Controller
                 return new Response(\json_encode($data));
             }
         }
-        
+
         return new Response('Bad Request!', 400);
     }
-    
+
     public function rankAction(Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
-        
+
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $em = $this->getDoctrine()->getEntityManager();
             $user = $this->get('security.context')->getToken()->getUser();
             $rank = $em->getRepository('CTFQuestBundle:UserQuest')->getRankByUser($user->getId());
-            
+
             $data = array(
                 'rank' => $rank
             );
-            
+
             return new Response(\json_encode($data));
         }
-        
+
         return new Response('Bad Request!', 400);
     }
+
 }

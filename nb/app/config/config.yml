@@ -104,17 +104,17 @@ hwi_oauth:
   resource_owners:
     facebook:
       type: facebook
-      client_id: "447681865324434"
-      client_secret: "60becc1be2a92474fbea8f23a45a64cf"
+      client_id: "%facebook_client_id%"
+      client_secret: "%facebook_client_secret%"
       scope: "email,user_birthday,user_location,user_about_me,user_website,user_status"
     
     google:
       type: google
-      client_id: "1002924713144.apps.googleusercontent.com"
-      client_secret: "wHvy_CTW2XYU_uXhc-o3dfVH"
+      client_id: "%google_client_id%"
+      client_secret: "%google_client_secret%"
       scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me"
 
     twitter:
       type: twitter
-      client_id: "WICWx8GsklibQ7jyC7W2eQ"
-      client_secret: "jaQTdPi9AgeZ3eJiUStrKMFL4kpL1cP0YgMWJsq7Z8"
+      client_id: "%twitter_client_id%"
+      client_secret: "%twitter_client_secret%"
