@@ -4,3 +4,36 @@ ehack-ctf
 EHack CTF Event
 
 This is the official repo for the ehack-ctf event.
+
+Procedure
+=========
+
+1. Simply run composer to install all dependencies
+2. Copy the following `parameters.yml` and replace appropriately
+
+	parameters:
+	    database_driver: pdo_mysql
+	    database_host: 127.0.0.1
+	    database_port: '3306'
+	    database_name: 
+	    database_user: 
+	    database_password: 
+	    mailer_transport: smtp
+	    mailer_host: 127.0.0.1
+	    mailer_user: null
+	    mailer_password: null
+	    locale: en
+	    secret: dab4148f21d1070312ebddd97ba4339a5
+	    database_path: null
+	    max_per_team: 5
+	    key: ehacencrykeandecrypdo33659198501
+	    iv: thfirske48130729
+	    facebook_client_secret: 
+	    facebook_client_id: 
+	    google_client_id: 
+	    google_client_secret: 
+	    twitter_client_id: 	
+	    twitter_client_secret: 
+
+3. Enjoy the show.
+
