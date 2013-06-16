@@ -39,3 +39,21 @@ Procedure
 
 3. Enjoy the show.
 
+Admin
+=====
+
+There are quite a few TODOs. To access the admin panel, look in the
+`config.yml` file. There's a (temporary) in-memory DB of admin-users.
+
+The official admin is:
+
+```yml
+	username: admin
+	password: PASS_word
+```
+
+User Panel & Interface
+======================
+
+Currently on a provisional basis.
+
