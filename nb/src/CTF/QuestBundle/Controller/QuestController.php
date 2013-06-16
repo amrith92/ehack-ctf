@@ -66,6 +66,7 @@ class QuestController extends Controller {
                 // User hasn't endeavoured on the quest yet
                 $quest = new UserQuest();
                 $stage = $em->getRepository('CTFQuestBundle:Stage')->findFirst();
+                
                 $questions = $stage->getQuestions();
 
                 foreach ($questions as $v) {
@@ -417,6 +418,86 @@ class QuestController extends Controller {
         }
 
         return new Response('Bad Request!', 400);
+    }
+    
+    public function visitAction($filename, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userquest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
+        
+        $stage = $userquest->getCurrentStage();
+        $question = $userquest->getCurrentLevel();
+        $salt = $this->container->getParameter('secret');
+        
+        $hash = \md5($salt . '/s' . $stage->getId() . $salt . '/l' . $question->getLevel() . $salt);
+        $dir = __DIR__ . '/../../../../web/uploads/questions/' . $hash;
+
+        if (null == $filename) {
+            $file = $dir . '/index.html';
+        } else {
+            $file = $dir . '/' . $filename;
+        }
+        
+        if (!\file_exists($file)) {
+            $file = $dir . '/index.php';
+        } else {
+            $file = $dir . '/' . $filename;
+        }
+        
+        $content = file_get_contents($file);
+        $mime_types = array(
+            "pdf"=>"application/pdf"
+            ,"exe"=>"application/octet-stream"
+            ,"zip"=>"application/zip"
+            ,"docx"=>"application/msword"
+            ,"doc"=>"application/msword"
+            ,"xls"=>"application/vnd.ms-excel"
+            ,"ppt"=>"application/vnd.ms-powerpoint"
+            ,"gif"=>"image/gif"
+            ,"png"=>"image/png"
+            ,"jpeg"=>"image/jpg"
+            ,"jpg"=>"image/jpg"
+            ,"mp3"=>"audio/mpeg"
+            ,"wav"=>"audio/x-wav"
+            ,"mpeg"=>"video/mpeg"
+            ,"mpg"=>"video/mpeg"
+            ,"mpe"=>"video/mpeg"
+            ,"mov"=>"video/quicktime"
+            ,"avi"=>"video/x-msvideo"
+            ,"3gp"=>"video/3gpp"
+            ,"css"=>"text/css"
+            ,"jsc"=>"application/javascript"
+            ,"js"=>"application/javascript"
+            ,"php"=>"text/html"
+            ,"htm"=>"text/html"
+            ,"html"=>"text/html"
+            ,"json"=>"application/json"
+        );
+        
+        $ctype=pathinfo($file  )['extension'];
+        if(isset($mime_types[$ctype])) {
+            $ctype=$mime_types[$ctype];
+        }
+        
+        $response = new Response();
+        
+        if(isset($ctype)) {
+            $response->headers->set('Content-Type',$ctype);
+        }
+        else {
+            $response->headers->set('Content-Type','application/octet-stream');
+        }
+        $response->headers->set('Content-Transfer-Encoding','binary');
+        $response->headers->set('Expires','0');
+        $response->headers->set('Pragma','public');
+        $response->headers->set('Content-Length','' . filesize($file));
+        $response->setContent($content);
+        
+        return $response;
     }
 
 }

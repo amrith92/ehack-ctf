@@ -9,7 +9,7 @@
             {{ question.getContent() | raw }}
             {% if attachment is not null %}
             <center>
-                <a href="#" class="btn btn-warning">Visit</a>
+                <a href="{{ path('ctf_quest_visit', { filename: 'index.html' }) }}" class="btn btn-warning" target="_blank">Visit</a>
             </center>
             {% endif %}
             <hr />

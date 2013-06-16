@@ -37,3 +37,9 @@ ctf_quest_rank:
     defaults: { _controller: CTFQuestBundle:Quest:rank }
     options:
       expose: true
+
+ctf_quest_visit:
+    pattern: /quest/visit/{filename}
+    defaults: { _controller: CTFQuestBundle:Quest:visit }
+    requirements:
+      filename: ".+"

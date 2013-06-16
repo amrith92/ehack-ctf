@@ -66,7 +66,7 @@ Dashboard &middot; CTF
                     <div id="user-rank">
                         <h4>Rank</h4>
                         <div id="rank-display">
-                            
+                            0
                         </div>
                     </div>
                 </div>
@@ -226,14 +226,14 @@ $(document).ready(function() {
     
     $.get(Routing.generate('ctf_quest_rank', null), null, function(data) {
         var response = JSON.parse(data);
-        if (null != response.rank) {
+        if (null != response.rank && false != response.rank) {
             $('#rank-display').text(response.rank).fadeOut().fadeIn('slow');
         }
     });
     setInterval(function() {
         $.get(Routing.generate('ctf_quest_rank', null), null, function(data) {
             var response = JSON.parse(data);
-            if (null != response.rank) {
+            if (null != response.rank && false != response.rank) {
                 $('#rank-display').text(response.rank).fadeOut().fadeIn('slow');
             }
         });
