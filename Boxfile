@@ -1,7 +1,7 @@
 web1:
-	name: ehack-ctf
-	php_extensions:
-		- curl
-		- accel
-		- mcrypt
-		- apc
+  name: ehack-ctf
+  php_extensions:
+    - curl
+    - accel
+    - mcrypt
+    - apc
