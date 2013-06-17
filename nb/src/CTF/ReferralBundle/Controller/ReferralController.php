@@ -20,18 +20,20 @@ class ReferralController extends Controller {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
+        
+        if (-1 != $ref) {
+            $refid = $this->get('ctf_referral.cryptor')->decrypt($ref);
 
-        $refid = $this->get('ctf_referral.cryptor')->decrypt($ref);
+            $em = $this->getDoctrine()->getEntityManager();
+            $refUser = $em->getRepository('CTFUserBundle:User')->find($refid);
 
-        $em = $this->getDoctrine()->getEntityManager();
-        $refUser = $em->getRepository('CTFUserBundle:User')->find($refid);
+            if (null !== $refUser) {
+                $user = $this->get('security.context')->getToken()->getUser();
 
-        if (null !== $refUser) {
-            $user = $this->get('security.context')->getToken()->getUser();
-
-            $refUser->addInvite($user);
-            $em->merge($refUser);
-            $em->flush();
+                $refUser->addInvite($user);
+                $em->merge($refUser);
+                $em->flush();
+            }
         }
 
         return $this->redirect($this->generateUrl('ctf_quest_homepage'));

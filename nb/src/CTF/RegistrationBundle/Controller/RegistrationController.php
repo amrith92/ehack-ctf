@@ -152,8 +152,10 @@ class RegistrationController extends Controller {
             throw new AccessDeniedException();
         }
         
+        $ref = (null != $this->get('session')->get('registration_ref')) ? $this->get('session')->get('registration_ref') : -1;
+        
         return $this->redirect($this->generateUrl('ctf_referral_register', array(
-            'ref' => $this->get('session')->get('registration_ref')
+            'ref' => $ref
         )));
     }
 
