@@ -76,6 +76,8 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="fname", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\MaxLength(limit=50, groups={"registration"})
      */
     protected $fname;
 
@@ -83,6 +85,8 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="lname", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\MaxLength(limit=50, groups={"registration"})
      */
     protected $lname;
     
@@ -118,6 +122,8 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\MaxLength(limit=30, groups={"registration"})
      */
     private $phone;
     
@@ -160,6 +166,7 @@ class User extends BaseUser
      * @var point
      *
      * @ORM\Column(name="location", type="point", nullable=true)
+     * @Assert\NotBlank(groups={"registration"})
      */
     private $location;
     
@@ -177,6 +184,7 @@ class User extends BaseUser
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="org_id", referencedColumnName="id")
      * })
+     * @Assert\NotBlank(groups={"registration"})
      */
     private $org;
     

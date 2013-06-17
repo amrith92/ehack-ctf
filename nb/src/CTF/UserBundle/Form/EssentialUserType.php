@@ -71,7 +71,8 @@ class EssentialUserType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CTF\UserBundle\Entity\User'
+            'data_class' => 'CTF\UserBundle\Entity\User',
+            'validation_groups' => array('registration'),
         ));
         
         $resolver->setRequired(array(

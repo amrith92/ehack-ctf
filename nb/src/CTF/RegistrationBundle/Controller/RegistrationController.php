@@ -19,6 +19,30 @@ class RegistrationController extends Controller {
 
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getEntityManager();
+        
+        if ('google' === $user->getLoginMode()) {
+            if (true === $this->get('ctf_user_util')->populateWithGooglePlus($user)) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->merge($user);
+                $em->persist($user);
+                $em->flush();
+            }
+        } else if ('facebook' === $user->getLoginMode()) {
+            if (true === $this->get('ctf_user_util')->populateWithFacebook($user)) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->merge($user);
+                $em->persist($user);
+                $em->flush();
+            }
+        } else if ('twitter' == $user->getLoginMode()) {
+            if (true === $this->get('ctf_user_util')->populateWithTwitter($user)) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->merge($user);
+                $em->persist($user);
+                $em->flush();
+            }
+        }
+        
         $essential = $this->createForm(new EssentialUserType(), $user, array(
             'em' => $em
                 ));

@@ -67,6 +67,13 @@ class UserController extends Controller {
                         $em->persist($user);
                         $em->flush();
                     }
+                } else if ('twitter' == $user->getLoginMode()) {
+                    if (true === $this->get('ctf_user_util')->populateWithTwitter($user)) {
+                        $em = $this->getDoctrine()->getEntityManager();
+                        $em->merge($user);
+                        $em->persist($user);
+                        $em->flush();
+                    }
                 }
             }
 

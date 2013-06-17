@@ -39,7 +39,11 @@ class UserUtils {
             'Authorization' => 'OAuth ' . $user->getGoogleAccessToken()
         );
         
-        $response = $browser->get($request, $headers);
+        try {
+            $response = $browser->get($request, $headers);
+        } catch (\Exception $e) {
+            return false;
+        }
         $modified = false;
         
         if (null !== $response) {
@@ -104,7 +108,11 @@ class UserUtils {
                 '?access_token=' . $user->getFacebookAccessToken() .
                 '&fields=bio,birthday,email,gender,first_name,last_name,location,website,picture';
         
-        $response = $browser->get($request);
+        try {
+            $response = $browser->get($request);
+        } catch (\Exception $e) {
+            return false;
+        }
         $modified = false;
         
         if (null !== $response) {
@@ -182,7 +190,11 @@ class UserUtils {
             'Authorization' => 'OAuth ' . $user->getTwitterAccessToken()
         );
         
-        $response = $browser->get($request, $headers);
+        try {
+            $response = $browser->get($request, $headers);
+        } catch (\Exception $e) {
+            return false;
+        }
         $modified = false;
         if (null !== $response) {
             $response = \json_decode($response->getContent());
