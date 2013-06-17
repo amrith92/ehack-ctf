@@ -218,6 +218,14 @@ class User extends BaseUser
     }
     
     /**
+     * 
+     * @return boolean
+     */
+    public function isVerified() {
+        return $this->verified;
+    }
+    
+    /**
      * Set googleId
      * 
      * @param string $id
