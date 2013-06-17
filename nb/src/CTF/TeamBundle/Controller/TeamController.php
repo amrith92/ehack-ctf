@@ -20,8 +20,6 @@ class TeamController extends Controller {
 
         $user = $this->get('security.context')->getToken()->getUser();
         $form = $this->createForm($this->get('ctf.form.select_team'));
-        $this->get('session')->getFlashBag()->add('notice', "Looks like you aren't a part of a team yet! If you've already sent a request, wait for confirmation or try another team ;)");
-
         $requests = $this->getDoctrine()->getEntityManager()->getRepository('CTFTeamBundle:Team')->findRequestsByUserId($user->getId());
 
         return $this->render('CTFTeamBundle:Team:select-team.html.twig', array(
