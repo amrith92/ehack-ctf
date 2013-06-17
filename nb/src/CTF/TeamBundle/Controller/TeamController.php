@@ -17,6 +17,10 @@ class TeamController extends Controller {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
+        
+        if (true === $this->get('security.context')->isGranted('ROLE_TEAM_ADMIN')) {
+            return $this->redirect($this->generateUrl('ctf_team_admin'));
+        }
 
         $user = $this->get('security.context')->getToken()->getUser();
         $form = $this->createForm($this->get('ctf.form.select_team'));
@@ -308,10 +312,14 @@ class TeamController extends Controller {
             foreach ($requests as $r) {
                 if ($r->getId() == $rid) {
                     $r->setStatus(TeamRequestStatus::$ACCEPTEDANDADMIN);
+                    $user = $r->getUser();
+                    $user->addRole('ROLE_TEAM_ADMIN');
+
+                    $this->get('fos_user.user_manager')->updateUser($user, false);
                     break;
                 }
             }
-
+            
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', "Successfully accepted user!");
         } else {

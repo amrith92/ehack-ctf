@@ -166,7 +166,7 @@ class User extends BaseUser
      * @var point
      *
      * @ORM\Column(name="location", type="point", nullable=true)
-     * @Assert\NotBlank(groups={"registration"})
+     * Assert\NotBlank(groups={"registration"})
      */
     private $location;
     

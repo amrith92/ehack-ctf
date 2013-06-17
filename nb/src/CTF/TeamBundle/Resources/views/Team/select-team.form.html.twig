@@ -53,6 +53,16 @@
             <div>
             
             {% endif %}
+            {% if form.message is defined %}
+            <div class="control-group">
+                {{ form_label(form.message) }}
+                    <span class="help-block">Use this as a way for you to &quot;talk&quot; to the team-admin. Remember - there are <em>lots</em> of people sending requests.</span>
+                <div class="controls">
+                    {{ form_errors(form.message) }}
+                    {{ form_widget(form.message) }}
+                </div>
+            </div>
+            {% endif %}
             
             {{ form_rest(form) }}
 
