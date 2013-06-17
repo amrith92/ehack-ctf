@@ -23,6 +23,14 @@ class User extends BaseUser
     protected $id;
     
     /**
+     *
+     * @var boolean
+     * 
+     * @ORM\Column(name="verified", type="boolean", nullable=false)
+     */
+    protected $verified;
+    
+    /**
      * @var string
      * 
      * @ORM\Column(name="google_id", type="string", length=50, nullable=false, unique=true)
@@ -188,6 +196,25 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+    }
+    
+    /**
+     * 
+     * @param boolean $verified
+     * @return \CTF\UserBundle\Entity\User
+     */
+    public function setVerified($verified) {
+        $this->verified = $verified;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getVerified() {
+        return $this->verified;
     }
     
     /**

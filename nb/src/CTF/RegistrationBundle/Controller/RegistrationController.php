@@ -97,7 +97,7 @@ class RegistrationController extends Controller {
                 
                 if ($sms == $request->cookies->get('sms')) {
                     $user = $this->get('security.context')->getToken()->getUser();
-                    $user->setEnabled(true);
+                    $user->setVerified(true);
                     $this->get('fos_user.user_manager')->updateUser($user);
                     $this->get('session')->set('__MYREF', $this->get('ctf_referral.cryptor')->encrypt($user->getId()));
                     

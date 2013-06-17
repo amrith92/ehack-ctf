@@ -20,8 +20,8 @@ class QuestController extends Controller {
         
         $user = $this->get('security.context')->getToken()->getUser();
         
-        // User is not fully enabled
-        if (false == $user->isEnabled()) {
+        // User is not verified
+        if (false == $user->isVerified()) {
             return $this->redirect($this->generateUrl('ctf_registration_homepage'));
         }
         

@@ -84,7 +84,8 @@ class UserProvider extends FOSUBUserProvider {
                         $user->setFname($attr['given_name']);
                         $user->setLname($attr['family_name']);
                         $user->setPassword('');
-                        $user->setEnabled(false);
+                        $user->setEnabled(true);
+                        $user->setVerified(false);
                         $user->setGoogleId($attr['id']);
                         $user->setGoogleAccessToken($response->getAccessToken());
                         if (isset($attr['gender'])) {
@@ -148,7 +149,8 @@ class UserProvider extends FOSUBUserProvider {
                         }
                         $user->setGender(ucfirst($attr['gender']));
                         $user->setPassword('');
-                        $user->setEnabled(false);
+                        $user->setEnabled(true);
+                        $user->setVerified(false);
                         $user->setFacebookId($attr['id']);
                         $user->setFacebookAccessToken($response->getAccessToken());
                         $user->setLoginMode('facebook');
@@ -174,7 +176,8 @@ class UserProvider extends FOSUBUserProvider {
                         $user->setTwitterId($attr['id']);
                         $user->setTwitterAccessToken($response->getAccessToken()['oauth_token']);
                         $user->setPassword('');
-                        $user->setEnabled(false);
+                        $user->setEnabled(true);
+                        $user->setVerified(false);
                         $user->setAboutMe($attr['description']);
                         $user->setImageURL(str_replace('_normal', '_bigger', $attr['profile_image_url_https']));
                         $user->setCity(preg_split("/\s+(?=\S*+$)/", $attr['location'])[0]);
