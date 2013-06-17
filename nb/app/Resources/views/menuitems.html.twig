@@ -1,10 +1,15 @@
 {# represents the MENU-items #}
 {% block menuitems %}
+{% if app.user.username is defined %}
+{% set hasrole = app.user.hasRole('ROLE_TEAM_ADMIN') %}
+{% else %}
+{% set hasrole = 0 %}
+{% endif %}
 <ul class="nav">
     {% if admin_menuitems is not defined %}
     <li {% if active == 'quest' %}class="active"{% endif %}><a href="{{ path('ctf_quest_homepage') }}"><i class="icon-eye-open icon-white"></i>&nbsp;Quest</a></li>
     <li {% if active == 'gchat' %}class="active"{% endif %}><a href="{{ path('ctf_global_chat') }}"><i class="icon-comment icon-white"></i>&nbsp;Global Chat</a></li>
-    {% if is_granted('ROLE_TEAM_ADMIN') or app.user.hasRole('ROLE_TEAM_ADMIN') == 1 %}
+    {% if is_granted('ROLE_TEAM_ADMIN') or hasrole == 1 %}
     <li class="divider-vertical"></li>
     <li {% if active == 'teamadmin' %}class="active"{% endif %}><a href="{{ path('ctf_team_admin') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Admin Panel</a></li>
     {% else %}
