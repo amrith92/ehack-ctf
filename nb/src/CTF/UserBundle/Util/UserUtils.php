@@ -16,7 +16,7 @@ class UserUtils {
     public static function hasFullyRegistered(User $user) {
         if ($user->getCity() !== null && $user->getDob() !== null &&
             $user->getFname() !== null && $user->getLname() !== null &&
-            $user->getGender() !== null && $user->getLocation() !== null &&
+            $user->getGender() !== null &&
             $user->getEmail() !== null  && $user->getOrg() !== null &&
             $user->getPassword() !== null && $user->getPhone() !== null &&
             $user->getState() !== null) {
@@ -69,6 +69,7 @@ class UserUtils {
             
             if (property_exists($response, 'image') && !$user->getImageURL()) {
                 $user->setImageURL(preg_replace('/\?sz=([0-9]+)/', '?sz=160', $response->image->url));
+                $user->setThumbnail(preg_replace('/\?sz=([0-9]+)/', '?sz=80', $response->image->url));
             }
             
             if (property_exists($response, 'urls') && !$user->getWebsite()) {
@@ -168,6 +169,33 @@ class UserUtils {
             
             if (property_exists($response, 'picture') && !$user->getImageURL()) {
                 $user->setImageUrl($response->picture->data->url);
+                $thumbbrowser = new Browser(new Curl());
+                $imgdata = $thumbbrowser->get($response->picture->data->url);
+                $dir = __DIR__ . '/../../../../web/uploads/thumb';
+                
+                if(!\file_exists($dir)) {
+                    $fs = new Filesystem();
+
+                    try {
+                        $fs->mkdir($dir);
+                    } catch (Exception $e) {
+                    }
+                }
+                
+                $img = \imagecreatefromstring($imgdata);
+                $thumb = \imagecreatetruecolor(80, 80);
+                $imsize = \getimagesize($img);
+                
+                \imagecopyresampled($thumb, $img, 0, 0, 0, 0, 80, 80, $imsize[0], $imsize[1]);
+                
+                \ob_start();
+                \imagejpeg($thumb);
+                $image = \ob_get_contents();
+                \ob_end_clean();
+                
+                $fp = \fopen($dir . '/' . md5($user->getId() . $user->getEmailCanonical()) . '.jpg', 'w');
+                \fwrite($fp, $image);
+                \fclose($fp);
                 
                 $modified = true;
             }
@@ -209,6 +237,8 @@ class UserUtils {
             
             if (property_exists($response, 'profile_image_url') && !$user->getImageURL()) {
                 $user->setImageUrl(str_replace('_normal', '_bigger', $response->profile_image_url));
+                $user->setThumbnail(str_replace('_normal', '_bigger', $response->profile_image_url));
+                
                 $modified = true;
             }
             

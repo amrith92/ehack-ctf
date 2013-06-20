@@ -98,6 +98,14 @@ class User extends BaseUser
     protected $imageUrl;
     
     /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(name="thumbnail", type="string")
+     */
+    protected $thumbnail;
+    
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dob", type="date", nullable=false)
@@ -438,6 +446,29 @@ class User extends BaseUser
     public function getImageURL()
     {
         return $this->imageUrl;
+    }
+    
+    /**
+     * Sets thumbnail
+     * 
+     * @param string $url
+     * @return \CTF\UserBundle\Entity\User
+     */
+    public function setThumbnail($url)
+    {
+        $this->thumbnail = $url;
+        
+        return $this;
+    }
+    
+    /**
+     * Get thumbnail
+     * 
+     * @return string
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
     }
 
     /**

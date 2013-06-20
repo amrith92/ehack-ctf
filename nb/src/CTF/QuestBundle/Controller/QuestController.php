@@ -33,12 +33,16 @@ class QuestController extends Controller {
 
         $em = $this->getDoctrine()->getEntityManager();
         
-        $team = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
+        $teamname = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
         
-        if (null == $team) {
+        if (null == $teamname) {
             $this->get('session')->getFlashBag()->add('notice', "Looks like you aren't a part of a team yet! You cannot join the CTF Event without creating or selecting a team.");
             return $this->redirect($this->generateUrl('ctf_team_select'));
         }
+        
+        $team = $em->getRepository('CTFTeamBundle:Team')->findOneBy(array(
+            'name' => $teamname
+        ));
 
         $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
 
@@ -47,7 +51,8 @@ class QuestController extends Controller {
         return $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
                     'user' => $user,
                     'stages' => $stages,
-                    'team' => \md5($team . $salt)
+                    'teamname' => \md5($teamname . $salt),
+                    'team' => $team
                 ));
     }
 

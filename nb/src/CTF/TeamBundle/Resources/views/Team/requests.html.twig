@@ -2,6 +2,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th></th>
             <th>User&apos;s Name</th>
             <th>Message</th>
             <th>Request Sent At</th>
@@ -12,10 +13,11 @@
         {% for request in team.getRequests() %}
             {% if request.getUser().getUsername() != app.user.username %}
         <tr>
+            <td><img src="{{ request.getUser().getThumbnail() }}" title="{{ request.getUser().getUsernameCanonical() }}" width="50" class="img-polaroid" /></td>
             <td>{{ request.getUser().getFname() }} {{ request.getUser().getLname() }}</td>
             <td>{{ request.getMessage() }}</td>
             <td>{{ request.getCreatedTimestamp() | date }}</td>
-            <td><a href="{{ path('ctf_team_request_accept', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-success">Accept</a>&nbsp;<a href="{{ path('ctf_team_request_reject', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-danger">Reject</a> | <a href="{{ path('ctf_team_request_accept_admin', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-primary">Accept as Admin</a></td>
+            <td>{% if request.getStatus() != 'accepted' and request.getStatus() != 'acceptedAndAdmin' %}<a href="{{ path('ctf_team_request_accept', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-success">Accept</a>{% endif %}&nbsp;{% if request.getStatus() != 'rejected' %}<a href="{{ path('ctf_team_request_reject', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-danger">Reject</a>{% endif %} | {% if request.getStatus() != 'accepted' and request.getStatus() != 'acceptedAndAdmin' %}<a href="{{ path('ctf_team_request_accept_admin', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-primary">Accept as Admin</a>{% elseif request.getStatus() == 'accepted' and request.getStatus() != 'acceptedAndAdmin' %}<a href="{{ path('ctf_team_request_make_admin', { tid: team.getId(), rid: request.getId() }) }}" class="btn btn-primary">Make Admin</a>{% endif %}</td>
         </tr>
             {% endif %}
         {% endfor %}

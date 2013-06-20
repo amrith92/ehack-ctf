@@ -199,7 +199,7 @@ class TeamController extends Controller {
     private function isTeamAdminTokenValid() {
         $user = $this->get('security.context')->getToken()->getUser();
         $salt = $this->container->getParameter('secret');
-        return ($this->get('session')->get('team_admin_auth') !== md5($salt . $user->getId() . $salt));
+        return ($this->get('session')->get('team_admin_auth') === md5($salt . $user->getId() . $salt));
     }
     
     public function acceptAction($tid, $rid, Request $request) {
@@ -211,6 +211,7 @@ class TeamController extends Controller {
             return new Response('Bad Request!', 400);
         }
         
+        $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getEntityManager();
         $teamrepo = $em->getRepository('CTFTeamBundle:Team');
         $teamid = $teamrepo->findAdminedByUserId($user->getId());
@@ -256,6 +257,7 @@ class TeamController extends Controller {
             return new Response('Bad Request!', 400);
         }
         
+        $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getEntityManager();
         $teamrepo = $em->getRepository('CTFTeamBundle:Team');
         $teamid = $teamrepo->findAdminedByUserId($user->getId());
@@ -289,6 +291,7 @@ class TeamController extends Controller {
             return new Response('Bad Request!', 400);
         }
         
+        $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getEntityManager();
         $teamrepo = $em->getRepository('CTFTeamBundle:Team');
         $teamid = $teamrepo->findAdminedByUserId($user->getId());
@@ -313,7 +316,7 @@ class TeamController extends Controller {
                 if ($r->getId() == $rid) {
                     $r->setStatus(TeamRequestStatus::$ACCEPTEDANDADMIN);
                     $user = $r->getUser();
-                    $user->addRole('ROLE_TEAM_ADMIN');
+                    $user->setRoles(array('ROLE_TEAM_ADMIN'));
 
                     $this->get('fos_user.user_manager')->updateUser($user, false);
                     break;
@@ -325,6 +328,45 @@ class TeamController extends Controller {
         } else {
             $this->get('session')->getFlashBag()->add('error', "You have reached the maximum number of members for teams [" . $max . "]");
         }
+        
+        return $this->redirect($this->generateUrl('ctf_team_admin'));
+    }
+    
+    public function makeAdminAction($tid, $rid, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        if (!$this->isTeamAdminTokenValid()) {
+            return new Response('Bad Request!', 400);
+        }
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getEntityManager();
+        $teamrepo = $em->getRepository('CTFTeamBundle:Team');
+        $teamid = $teamrepo->findAdminedByUserId($user->getId());
+        
+        if ($teamid === null || $teamid != $tid) {
+            return new Response('Bad Request!', 400);
+        }
+        
+        $team = $teamrepo->find($tid);
+        
+        $requests = $team->getRequests();
+        
+        foreach ($requests as $r) {
+            if ($r->getId() == $rid) {
+                $r->setStatus(TeamRequestStatus::$ACCEPTEDANDADMIN);
+                $user = $r->getUser();
+                $user->setRoles(array('ROLE_TEAM_ADMIN'));
+
+                $this->get('fos_user.user_manager')->updateUser($user, false);
+                break;
+            }
+        }
+
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('success', "Successfully made admin!");
         
         return $this->redirect($this->generateUrl('ctf_team_admin'));
     }

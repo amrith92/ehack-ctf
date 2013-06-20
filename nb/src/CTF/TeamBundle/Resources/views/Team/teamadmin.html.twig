@@ -33,7 +33,7 @@ Team Admin Panel &middot; ehack CTF
         </div>
     </div>
     <div class="row-fluid">
-        <div class="span8">
+        <div class="span5">
             <h2>{{ team.getName() }}&apos;s Panel</h2>
             <p>
                 Here, you&apos;ll find common team-administration tasks, with the most important function
@@ -41,6 +41,9 @@ Team Admin Panel &middot; ehack CTF
             </p>
         </div>
         <div class="span4">
+            {% include "CTFQuestBundle:Quest:teamview.html.twig" with { 'team': team } only %}
+        </div>
+        <div class="span3">
             <h3>Status</h3>
             <div id="update-result"></div>
             <div class="well well-small">
@@ -68,9 +71,11 @@ Team Admin Panel &middot; ehack CTF
 {% block extrajsend %}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script src="{{ asset('bundles/ctfquest/js/raphael.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
 //<!--
 $(document).ready(function() {
+    renderTeamView();
     $('#team-update-status-button').click(function(e) {
         e.preventDefault();
         

@@ -30,6 +30,10 @@ ctf_team_request_accept_admin:
     pattern: /team/requests/accept/adminify/{tid}/{rid}
     defaults: { _controller: CTFTeamBundle:Team:acceptAsAdmin }
 
+ctf_team_request_make_admin:
+    pattern: /team/requests/make/adminify/{tid}/{rid}
+    defaults: { _controller: CTFTeamBundle:Team:makeAdmin }
+
 ctf_team_status_update:
     pattern: /team/status/update/{status}
     defaults: { _controller: CTFTeamBundle:Team:updateStatus }

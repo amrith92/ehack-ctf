@@ -1,0 +1,86 @@
+{# Linkedin-style Team View #}
+{% set teamcount = team.getAcceptedRequests().count() %}
+<div id="teamview">
+</div>
+
+<script type="text/javascript">
+//<!--
+function renderTeamView() {
+    var paper = Raphael(document.getElementById("teamview"), 420, 300),
+        ellipse = paper.ellipse(150, 150, 125, 100),
+        txt = paper.text(150, 150, "{{ team.getName() }}\n{{ team.getStatus() }}");
+    ellipse.attr("stroke-dasharray", '--');
+    ellipse.attr("stroke-width", 2);
+    ellipse.attr("stroke", "#C0C0C0");
+    txt.attr("font-size", 12);
+    txt.attr("fill", "#fcfcfc");
+    
+{% if teamcount == 1 %}
+    var my = paper.circle(150, 50, 40);
+    my.attr("stroke-width", 3);
+    my.attr("stroke", "#222");
+    my.attr("fill", "url({{ app.user.getThumbnail() }})");
+{% elseif teamcount == 2 %}
+    var my = paper.circle(150, 50, 40),
+        other = paper.circle(150, 250, 30);
+    my.attr("stroke-width", 3);
+    my.attr("stroke", "#222");
+    my.attr("fill", "url({{ app.user.getThumbnail() }})");
+    other.attr("stroke-width", 3);
+    other.attr("stroke", "#222");
+    other.attr("fill", "url({{ team.getAcceptedRequests()[1].getUser().getThumbnail() }})");
+{% elseif teamcount == 3 %}
+    var my = paper.circle(150, 50, 40),
+        second = paper.circle(30, 150, 27),
+        third = paper.circle(270, 150, 27);
+    my.attr("stroke-width", 3);
+    my.attr("stroke", "#222");
+    my.attr("fill", "url({{ app.user.getThumbnail() }})");
+    second.attr("stroke-width", 3);
+    second.attr("stroke", "#222");
+    second.attr("fill", "url({{ team.getAcceptedRequests()[1].getUser().getThumbnail() }})");
+    third.attr("stroke-width", 3);
+    third.attr("stroke", "#222");
+    third.attr("fill", "url({{ team.getAcceptedRequests()[2].getUser().getThumbnail() }})");
+{% elseif teamcount == 4 %}
+    var my = paper.circle(150, 50, 40),
+        second = paper.circle(30, 150, 27),
+        third = paper.circle(270, 150, 27),
+        four = paper.circle(150, 250, 27);
+    my.attr("stroke-width", 3);
+    my.attr("stroke", "#222");
+    my.attr("fill", "url({{ app.user.getThumbnail() }})");
+    second.attr("stroke-width", 3);
+    second.attr("stroke", "#222");
+    second.attr("fill", "url({{ team.getAcceptedRequests()[1].getUser().getThumbnail() }})");
+    third.attr("stroke-width", 3);
+    third.attr("stroke", "#222");
+    third.attr("fill", "url({{ team.getAcceptedRequests()[2].getUser().getThumbnail() }})");
+    four.attr("stroke-width", 3);
+    four.attr("stroke", "#222");
+    four.attr("fill", "url({{ team.getAcceptedRequests()[3].getUser().getThumbnail() }})");
+{% elseif teamcount == 5 %}
+    var my = paper.circle(150, 50, 40),
+        second = paper.circle(30, 150, 27),
+        third = paper.circle(270, 150, 27),
+        four = paper.circle(90, 235, 27),
+        five = paper.circle(220, 235, 27);
+    my.attr("stroke-width", 3);
+    my.attr("stroke", "#222");
+    my.attr("fill", "url({{ app.user.getThumbnail() }})");
+    second.attr("stroke-width", 3);
+    second.attr("stroke", "#222");
+    second.attr("fill", "url({{ team.getAcceptedRequests()[1].getUser().getThumbnail() }})");
+    third.attr("stroke-width", 3);
+    third.attr("stroke", "#222");
+    third.attr("fill", "url({{ team.getAcceptedRequests()[2].getUser().getThumbnail() }})");
+    four.attr("stroke-width", 3);
+    four.attr("stroke", "#222");
+    four.attr("fill", "url({{ team.getAcceptedRequests()[3].getUser().getThumbnail() }})");
+    five.attr("stroke-width", 3);
+    five.attr("stroke", "#222");
+    five.attr("fill", "url({{ team.getAcceptedRequests()[4].getUser().getThumbnail() }})");
+{% endif %}
+}
+//-->
+</script>

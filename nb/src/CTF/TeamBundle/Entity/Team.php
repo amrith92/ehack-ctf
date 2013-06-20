@@ -5,6 +5,8 @@ namespace CTF\TeamBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use CTF\TeamBundle\Util\TeamRequestStatus;
 
 /**
  * \CTF\TeamBundle\Entity\Team
@@ -182,6 +184,22 @@ class Team {
      */
     public function getRequests() {
         return $this->requests;
+    }
+    
+    /**
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getAcceptedRequests() {
+        $collection = new ArrayCollection();
+        
+        foreach ($this->requests as $r) {
+            if ($r->getStatus() == TeamRequestStatus::$ACCEPTEDANDADMIN || $r->getStatus() == TeamRequestStatus::$ACCEPTED) {
+                $collection->add($r);
+            }
+        }
+        
+        return $collection;
     }
     
     /**
