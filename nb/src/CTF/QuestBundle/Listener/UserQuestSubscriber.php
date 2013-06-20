@@ -5,7 +5,9 @@ namespace CTF\QuestBundle\Listener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use CTF\QuestBundle\Entity\UserQuest;
+use CTF\TeamBundle\Entity\Team;
 use CTF\QuestBundle\Util\QuestUtil;
+use CTF\TeamBundle\Util\TeamRequestStatus;
 
 class UserQuestSubscriber implements EventSubscriber {
     
@@ -43,6 +45,32 @@ class UserQuestSubscriber implements EventSubscriber {
             }
             
             $entity->setScore($score);
+            
+            {
+                $teamrepo = $em->getRepository('CTFTeamBundle:Team');
+                $team = $teamrepo->find($teamrepo->findTeamIdByUserId($entity->getUser()->getId()));
+                $requests = $team->getRequests();
+                $questrepo = $em->getRepository('CTFQuestBundle:UserQuest');
+            
+                $sum = 0;
+                $count = 0;
+                foreach ($requests as $r) {
+                    if ($r->getStatus() == TeamRequestStatus::$ACCEPTED || $r->getStatus() == TeamRequestStatus::$ACCEPTEDANDADMIN) {
+                        $quest = $questrepo->findByUser($r->getUser());
+                        if (null != $quest) {
+                            $sum = $sum + $quest->getScore();
+                            ++$count;
+                        }
+                    }
+                }
+
+                if ($sum != 0 && $count != 0) {
+                    $teamscore = \floor($sum / $count);
+                    $team->setScore($teamscore);
+
+                    $em->merge($team);
+                }
+            }
             
             $em->merge($entity);
             $em->flush();
