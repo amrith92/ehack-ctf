@@ -77,12 +77,15 @@ logout:
 
 facebook_login:
   pattern: /login/facebook
+  defaults: { _remember_me: on }
 
 google_login:
   pattern: /login/google
+  defaults: { _remember_me: on }
 
 twitter_login:
   pattern: /login/twitter
+  defaults: { _remember_me: on }
   
 admin_logout:
     pattern: /admin/logout
