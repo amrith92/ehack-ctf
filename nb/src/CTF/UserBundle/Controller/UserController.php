@@ -22,6 +22,14 @@ class UserController extends Controller {
         if ($request->isMethod('POST')) {
             $form->bind($request);
             
+            if (!isset($form['state'])) {
+                $this->get('session')->getFlashBag()->add('error', "Please select a country AND state!");
+                return $this->render('CTFUserBundle:User:editprofile.html.twig', array(
+                    'form' => $form->createView(),
+                    'profilePic' => $user->getImageURL()
+                ));
+            }
+            
             if ($form->isValid()) {
                 //$em = $this->getDoctrine()->getEntityManager();
                 $data = $form->getData();
