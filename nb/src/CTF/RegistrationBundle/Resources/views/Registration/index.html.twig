@@ -117,7 +117,7 @@ function showPosition(p) {
         draggable: true
     });
     google.maps.event.addListener(marker, 'dragend', function(evt) {
-        document.getElementById("ctf_userbundle_essentialusertype_location").innerHTML = evt.latLng.lat() + "," + evt.latLng.lng();
+        $("#ctf_userbundle_essentialusertype_location").val(evt.latLng.lat() + "," + evt.latLng.lng());
         geocodePosition(marker.getPosition());
     });
     map.setCenter(pos);
