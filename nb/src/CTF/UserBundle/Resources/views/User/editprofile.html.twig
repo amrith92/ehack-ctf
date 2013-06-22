@@ -98,16 +98,12 @@ function showPosition(p) {
     map.setCenter(pos);
 }
 
-{#google.maps.event.addDomListener(window, 'load', initialize);#}
-
 $(document).ready(function() {
     $('.date').datepicker({
         dateFormat: 'dd-mm-yy',
         changeMonth: true,
         changeYear: true
     });
-    
-    $('#tabs').tabs();
     
     $( "[title]" ).tooltip();
     

@@ -31,31 +31,33 @@
             </div>
         </div>
         <div class="row-fluid">
-            <div id="tabs">
-                <ul>
-                    <li><a href="#tab1">New Request</a></li>
-                    <li><a href="#tab2">Your Requests</a></li>
+            <div id="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">New Request</a></li>
+                    <li><a href="#tab2" data-toggle="tab">Your Requests</a></li>
                 </ul>
-                <div id="tab1" class="clearfix">
-                        <div class="span5">
-                            <div id="teamcloud">
-                                <canvas width="500" height="300" id="teamCanvas">
+                <div class="tab-content">
+                    <div id="tab1" class="tab-pane active">
+                            <div class="span5">
+                                <div id="teamcloud">
+                                    <canvas width="500" height="300" id="teamCanvas">
 
-                                </canvas>
+                                    </canvas>
+                                </div>
                             </div>
+                            <div class="span7">
+                                {% include "CTFTeamBundle:Team:select-team.form.html.twig" with { 'form': form } only %}
+                            </div>
+                    </div>
+                    <div id="tab2" class="tab-pane">
+                        <div class="span12">
+                            <p>
+                                Below, you will find requests you have made previously (if any) to join
+                                a team, along with their response (if the team's ADMINs have changed it)
+                            </p>
+                            <hr />
+                            {% include "CTFTeamBundle:Team:team-requests.html.twig" with { 'requests': requests } only %}
                         </div>
-                        <div class="span7">
-                            {% include "CTFTeamBundle:Team:select-team.form.html.twig" with { 'form': form } only %}
-                        </div>
-                </div>
-                <div id="tab2" class="clearfix">
-                    <div class="span12">
-                        <p>
-                            Below, you will find requests you have made previously (if any) to join
-                            a team, along with their response (if the team's ADMINs have changed it)
-                        </p>
-                        <hr />
-                        {% include "CTFTeamBundle:Team:team-requests.html.twig" with { 'requests': requests } only %}
                     </div>
                 </div>
             </div>
@@ -69,9 +71,6 @@
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
-$(document).ready(function() {
-    $( "#tabs" ).tabs();
-});
 $("#teamFormContainer").on('change', '#select_team input:radio', function(event) {
     var dataSend = $('#select_team').serialize();
     $.post(Routing.generate('ctf_team_select_ajax', null), dataSend, function(data) {
