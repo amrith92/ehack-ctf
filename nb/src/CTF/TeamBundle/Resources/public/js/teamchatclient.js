@@ -50,36 +50,38 @@ var TeamChatClient = {
     },
     run: function() {
         var self = this;
-            
-        self.socket.on('connect', function() {
-            TeamChatClient.socket.emit('adduser', TeamChatClient.username, TeamChatClient.team);
-        });
-            
-        self.socket.on('updateusers', function(data) {
-            TeamChatClient.bindings.list.innerHTML = '';
-            var html = '<ul>';
-            for(var i = 0; i < data.length; ++i) {
-                html += '<li><a href="#">' + data[i] + '</a></li>';
-            }
-            html += "</ul>";
-            TeamChatClient.bindings.list.innerHTML = html;
-        });
-            
-        self.socket.on('updatechat', function (username, data) {
-            TeamChatClient.bindings.popcorn.play();
-            if ('SERVER' == username) {
-                TeamChatClient.bindings.chat.innerHTML += ('<div class="message message-text message-text-success">' + '<b>'+ username + ':</b> ' + data + '</div>');
-                TeamChatClient.bindings.chat.scrollTop = TeamChatClient.bindings.chat.scrollHeight;
-            } else {
-                if (TeamChatClient.username == username) {
-                    TeamChatClient.bindings.chat.innerHTML += ('<div class="message right message-text message-text-info"><b>me:</b> ' + data + '</div><br />');
-                } else {
-                    TeamChatClient.bindings.chat.innerHTML += ('<div class="message message-text left"><b>'+ username + ':</b> ' + data + '</div><br />');
+        
+        if (typeof io != undefined) {
+            self.socket.on('connect', function() {
+                TeamChatClient.socket.emit('adduser', TeamChatClient.username, TeamChatClient.team);
+            });
+
+            self.socket.on('updateusers', function(data) {
+                TeamChatClient.bindings.list.innerHTML = '';
+                var html = '<ul>';
+                for(var i = 0; i < data.length; ++i) {
+                    html += '<li><a href="#">' + data[i] + '</a></li>';
                 }
-                
-                TeamChatClient.bindings.chat.scrollTop = TeamChatClient.bindings.chat.scrollHeight;
-            }
-        });
+                html += "</ul>";
+                TeamChatClient.bindings.list.innerHTML = html;
+            });
+
+            self.socket.on('updatechat', function (username, data) {
+                TeamChatClient.bindings.popcorn.play();
+                if ('SERVER' == username) {
+                    TeamChatClient.bindings.chat.innerHTML += ('<div class="message message-text message-text-success">' + '<b>'+ username + ':</b> ' + data + '</div>');
+                    TeamChatClient.bindings.chat.scrollTop = TeamChatClient.bindings.chat.scrollHeight;
+                } else {
+                    if (TeamChatClient.username == username) {
+                        TeamChatClient.bindings.chat.innerHTML += ('<div class="message right message-text message-text-info"><b>me:</b> ' + data + '</div><br />');
+                    } else {
+                        TeamChatClient.bindings.chat.innerHTML += ('<div class="message message-text left"><b>'+ username + ':</b> ' + data + '</div><br />');
+                    }
+
+                    TeamChatClient.bindings.chat.scrollTop = TeamChatClient.bindings.chat.scrollHeight;
+                }
+            });
+        }
     },
     disconnect: function() {
         var self = this;

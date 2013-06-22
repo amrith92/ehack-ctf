@@ -41,6 +41,12 @@ Dashboard &middot; CTF
             {% endfor %}
         </div>
     </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div id="audience">
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container-fluid">
     <div class="row-fluid">
@@ -121,6 +127,7 @@ Dashboard &middot; CTF
 {% block extrajsend %}
 <script type="text/javascript" src="http://{{ app.request.getHttpHost() }}:5561/socket.io/socket.io.js"></script>
 <script src="{{ asset('bundles/ctfteam/js/teamchatclient.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/ctfannouncer/js/announce.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/ctfquest/js/raphael.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
@@ -152,6 +159,13 @@ $(document).ready(function() {
         $(window).bind('beforeunload', function() {
             TeamChatClient.disconnect();
         });
+        
+        Announcer.init({
+            host: '{{ app.request.getHttpHost() }}',
+            port: 5656
+        });
+        
+        Announcer.tuneIn();
     }
     
     $('#client-list-button').click(function(e) {

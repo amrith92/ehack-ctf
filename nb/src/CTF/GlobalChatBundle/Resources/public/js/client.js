@@ -3,6 +3,7 @@ var GlobalChatClient = {
     username: null,
     host: null,
     port: null,
+    ready: false,
     bindings: {
         status: null,
         chat: null,
@@ -16,7 +17,10 @@ var GlobalChatClient = {
         
         self.host = params.host;
         self.port = params.port;
-        self.socket = io.connect('http://' + self.host + ':' + self.port);
+        if (typeof io != undefined) {
+            self.socket = io.connect('http://' + self.host + ':' + self.port);
+            self.ready = true;
+        }
             
         self.username = params.username;
         self.bindings.status = (params.status) ? params.status : document.getElementById('status');
@@ -48,40 +52,42 @@ var GlobalChatClient = {
     },
     run: function() {
         var self = this;
-            
-        self.socket.on('connect', function() {
-            GlobalChatClient.socket.emit('adduser', GlobalChatClient.username);
-        });
-            
-        self.socket.on('updateusers', function(data) {
-            GlobalChatClient.bindings.list.innerHTML = '';
-            for(var i = 0; i < data.length; ++i) {
-                GlobalChatClient.bindings.list.innerHTML += '<div>' + data[i] + '</div>';
-            }
-        });
-            
-        self.socket.on('updateStatus', function(str) {
-            if(str == 'Connected!') {
-                GlobalChatClient.bindings.status.innerHTML = '<span id="disconnect">Disconnect</span>';
-                document.getElementById('disconnect').addEventListener('click', function() {
-                    GlobalChatClient.socket.emit('close');
-                    GlobalChatClient.bindings.status.innerHTML = '<span id="connect">Connect &raquo;</span>';
-                    GlobalChatClient.bindings.chat.innerHTML = '';
-                    GlobalChatClient.bindings.input.setAttribute('disabled', 'disabled');
+        
+        if (self.ready) {
+            self.socket.on('connect', function() {
+                GlobalChatClient.socket.emit('adduser', GlobalChatClient.username);
+            });
 
-                    document.getElementById('connect').addEventListener('click', function() {
-                        GlobalChatClient.socket.emit('adduser', GlobalChatClient.username);
+            self.socket.on('updateusers', function(data) {
+                GlobalChatClient.bindings.list.innerHTML = '';
+                for(var i = 0; i < data.length; ++i) {
+                    GlobalChatClient.bindings.list.innerHTML += '<div>' + data[i] + '</div>';
+                }
+            });
+
+            self.socket.on('updateStatus', function(str) {
+                if(str == 'Connected!') {
+                    GlobalChatClient.bindings.status.innerHTML = '<span id="disconnect">Disconnect</span>';
+                    document.getElementById('disconnect').addEventListener('click', function() {
+                        GlobalChatClient.socket.emit('close');
+                        GlobalChatClient.bindings.status.innerHTML = '<span id="connect">Connect &raquo;</span>';
+                        GlobalChatClient.bindings.chat.innerHTML = '';
+                        GlobalChatClient.bindings.input.setAttribute('disabled', 'disabled');
+
+                        document.getElementById('connect').addEventListener('click', function() {
+                            GlobalChatClient.socket.emit('adduser', GlobalChatClient.username);
+                        });
                     });
-                });
-                GlobalChatClient.bindings.input.removeAttribute('disabled');
-            }
-        });
-            
-        self.socket.on('updatechat', function (username, data) {
-            GlobalChatClient.bindings.popcorn.play();
-            GlobalChatClient.bindings.chat.innerHTML += ('<b>'+ username + ':</b> ' + data + '<br>');
-            GlobalChatClient.bindings.chat.scrollTop = GlobalChatClient.bindings.chat.scrollHeight;
-        });
+                    GlobalChatClient.bindings.input.removeAttribute('disabled');
+                }
+            });
+
+            self.socket.on('updatechat', function (username, data) {
+                GlobalChatClient.bindings.popcorn.play();
+                GlobalChatClient.bindings.chat.innerHTML += ('<b>'+ username + ':</b> ' + data + '<br>');
+                GlobalChatClient.bindings.chat.scrollTop = GlobalChatClient.bindings.chat.scrollHeight;
+            });
+        }
     },
     disconnect: function() {
         var self = this;
