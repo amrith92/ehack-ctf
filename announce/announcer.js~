@@ -44,19 +44,14 @@ var pollingLoop = function () {
 		}
 	})
 	.on('end',function() {
-		if(hasClients) {
-				pollingTimer = setTimeout( pollingLoop, pollingInterval );
-				updateSockets( { 'notifications': notifications } );
-		}
+		updateSockets( { 'notifications': notifications } );
 	});
 	connection.query('UPDATE announce SET delivered = ' + 1);
 };
 
-io.sockets.on( 'connection', function ( socket ) {
-	if (!hasClients) {
-		pollingLoop();
-	}
+pollingTimer = setTimeout( pollingLoop, pollingInterval );
 
+io.sockets.on( 'connection', function ( socket ) {
 	socket.on('disconnect', function () {
 		
 	});
