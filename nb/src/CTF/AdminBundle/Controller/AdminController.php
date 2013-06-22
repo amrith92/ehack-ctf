@@ -82,6 +82,7 @@ class AdminController extends Controller
             
             if ($form->isValid()) {
                 $announcement = $form->getData();
+                $announcement->setDelivered(false);
                 $em = $this->getDoctrine()->getEntityManager();
                 
                 $em->persist($announcement);
@@ -100,6 +101,7 @@ class AdminController extends Controller
             
             if ($form->isValid()) {
                 $announcement = $form->getData();
+                $announcement->setDelivered(false);
                 $em = $this->getDoctrine()->getEntityManager();
                 
                 $em->merge($announcement);
