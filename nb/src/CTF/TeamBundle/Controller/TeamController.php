@@ -103,6 +103,27 @@ class TeamController extends Controller {
                                 // extension cannot be guessed
                                 $extension = 'bin';
                             }
+                            
+                            $mime_types = array(
+                                "gif" => "image/gif"
+                                ,"png" => "image/png"
+                                ,"jpeg" => "image/jpg"
+                                ,"jpg" => "image/jpg"
+                                ,"bmp" => "images/bmp"
+                            );
+                            
+                            if (!\in_array($extension, $mime_types)) {
+                                $form->addError(new FormError("Invalid file-type! Please upload ONLY image files."));
+                                $this->get('session')->getFlashBag()->add('error', "Please upload image-files ONLY.");
+                                return $this->redirect($this->generateUrl('ctf_team_select'));
+                            }
+                            
+                            if (512000 < $file->getClientSize()) {
+                                $form->addError(new FormError("Maximum upload size is 500KB."));
+                                $this->get('session')->getFlashBag()->add('error', "Maximum upload size is 500KB.");
+                                return $this->redirect($this->generateUrl('ctf_team_select'));
+                            }
+                            
                             $newFileName = sha1($file . rand(0, 199992993)) . '.' . $extension;
                             $file->move($dir, $newFileName);
                             $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
