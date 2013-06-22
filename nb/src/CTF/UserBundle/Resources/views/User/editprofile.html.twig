@@ -82,6 +82,9 @@ function onLocateClick() {
     }
 }
 
+// Map Marker
+var marker;
+
 function showPosition(p) {
     var latitude = parseFloat( p.coords.latitude );
     var longitude = parseFloat( p.coords.longitude );
@@ -90,12 +93,35 @@ function showPosition(p) {
     map.setCenter(pos);
     map.setZoom(14);
 
-    var marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         position: pos,
         map: map,
-        title:"You are here"
+        title:"You are here",
+        draggable: true
     });
     map.setCenter(pos);
+}
+
+google.maps.event.addListener(marker, 'dragend', function() {
+    geocodePosition(marker.getPosition());
+});
+
+function geocodePosition(pos) 
+{
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode(
+        {
+            latLng: pos
+        }, 
+       function(results, status) {
+           if (status == google.maps.GeocoderStatus.OK) {
+               $("#ctf_userbundle_usertype_location").val(results[0].formatted_address);
+           } 
+           else {
+               alert('Cannot determine address at this location.' + status);
+           }
+       }
+    );
 }
 
 $(document).ready(function() {
