@@ -121,6 +121,7 @@ function showPosition(p) {
             draggable: true
         });
         
+        geocodePosition(marker.getPosition());
         google.maps.event.addListener(marker, 'dragend', function(evt) {
             $("#ctf_userbundle_essentialusertype_location").val(evt.latLng.lat() + "," + evt.latLng.lng());
             geocodePosition(marker.getPosition());
