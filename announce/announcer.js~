@@ -39,7 +39,7 @@ var pollingLoop = function () {
 		updateSockets( err );
 	})
 	.on('result', function( notification ) {
-		if (notification.delivered == false) {
+		if (notification.delivered == 0) {
 				notifications.push( notification );
 		}
 	})
