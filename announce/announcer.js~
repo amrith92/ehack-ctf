@@ -49,7 +49,7 @@ var pollingLoop = function () {
 	connection.query('UPDATE announce SET delivered = ' + 1);
 };
 
-pollingTimer = setTimeout( pollingLoop, pollingInterval );
+pollingTimer = setInterval( function() { pollingLoop(); }, pollingInterval );
 
 io.sockets.on( 'connection', function ( socket ) {
 	socket.on('disconnect', function () {
