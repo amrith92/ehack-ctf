@@ -1,18 +1,18 @@
-ctf_announcer:
-    resource: "@CTFAnnouncerBundle/Resources/config/routing.yml"
-    prefix:   /
-
 hwi_oauth_redirect:
   resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
   prefix: /connect
 
-hwi_oauth_security:
-  resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-  prefix: /connect
- 
-hwi_oauth_connect:
-  resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
-  prefix: /connect
+#hwi_oauth_connect:
+#  resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+#  prefix: /login
+
+#hwi_oauth_security:
+#  resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+#  prefix: /login
+
+ctf_announcer:
+    resource: "@CTFAnnouncerBundle/Resources/config/routing.yml"
+    prefix:   /
 
 ctf_referral:
     resource: "@CTFReferralBundle/Resources/config/routing.yml"
@@ -70,8 +70,7 @@ ctf_login:
 #    prefix:   /_internal
 
 login:
-  pattern: /login
-  defaults: { _controller: CTFSecurityBundle:Security:login }
+  pattern: ^/login/?$
   
 login_check:
   pattern: /login_check

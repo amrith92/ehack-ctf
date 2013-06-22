@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8381e315b4e5abb923f30a2336b78412",
+    "hash": "bcea2a6b9591684935a150487d4bf060",
     "packages": [
         {
             "name": "doctrine/common",
@@ -337,12 +337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "ab580c138577b0d4abae04547a17a01c85cd09f9"
+                "reference": "5214fbdfbe46bf4833aa6675382b113cbd4ff557"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/ab580c138577b0d4abae04547a17a01c85cd09f9",
-                "reference": "ab580c138577b0d4abae04547a17a01c85cd09f9",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/5214fbdfbe46bf4833aa6675382b113cbd4ff557",
+                "reference": "5214fbdfbe46bf4833aa6675382b113cbd4ff557",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "*",
-                "swiftmailer/swiftmailer": ">=4.3,<5.0",
+                "swiftmailer/swiftmailer": ">=4.3, <6.0",
                 "symfony/validator": ">=2.1,<3.0",
                 "symfony/yaml": ">=2.1,<3.0",
                 "twig/twig": ">=1.5,<2.0",
@@ -397,34 +397,33 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-06-10 13:18:52"
+            "time": "2013-06-19 15:23:01"
         },
         {
             "name": "hwi/oauth-bundle",
-            "version": "0.2.5",
+            "version": "dev-master",
             "target-dir": "HWI/Bundle/OAuthBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "0.2.5"
+                "reference": "9f055c1c8f8975a111964c1cd693546d51981456"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/0.2.5",
-                "reference": "0.2.5",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/9f055c1c8f8975a111964c1cd693546d51981456",
+                "reference": "9f055c1c8f8975a111964c1cd693546d51981456",
                 "shasum": ""
             },
             "require": {
                 "kriswallsmith/buzz": ">=0.7,<1.0",
-                "php": ">=5.3.2",
-                "symfony/framework-bundle": ">=2.0,<2.3-dev",
-                "symfony/security-bundle": ">=2.0,<2.3-dev"
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": ">=2.1,<3.0",
+                "symfony/security-bundle": ">=2.1,<3.0"
             },
             "require-dev": {
-                "doctrine/orm": ">=2.1,<2.4-dev",
-                "friendsofsymfony/user-bundle": ">=1.2,<2.0",
-                "symfony/twig-bundle": ">=2.0,<2.3-dev",
-                "symfony/validator": ">=2.0,<2.3-dev"
+                "doctrine/orm": ">=2.2,<3.0",
+                "symfony/twig-bundle": ">=2.1,<3.0",
+                "symfony/validator": ">=2.1,<3.0"
             },
             "suggest": {
                 "doctrine/doctrine-bundle": "to use Doctrine user provider",
@@ -434,7 +433,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2-dev"
+                    "dev-master": "0.3-dev"
                 }
             },
             "autoload": {
@@ -465,25 +464,38 @@
                     "email": "stloyd@gmail.com"
                 }
             ],
-            "description": "Support for authenticating users via oauth in Symfony2.",
+            "description": "Support for authenticating users using both OAuth1.0a and OAuth2 in Symfony2.",
             "homepage": "http://github.com/hwi/HWIOAuthBundle",
             "keywords": [
+                "37signals",
+                "Authentication",
+                "amazon",
+                "bitbucket",
+                "disqus",
+                "dropbox",
                 "facebook",
                 "firewall",
+                "flickr",
+                "foursquare",
                 "github",
                 "google",
+                "instagram",
+                "jira",
                 "linkedin",
                 "oauth",
                 "oauth1",
                 "oauth2",
+                "odnoklassniki",
                 "security",
                 "sensio connect",
+                "stack exchange",
                 "twitter",
                 "vkontakte",
                 "windows live",
-                "yahoo"
+                "yahoo",
+                "yandex"
             ],
-            "time": "2013-05-29 09:12:32"
+            "time": "2013-06-20 22:11:41"
         },
         {
             "name": "itbz/fpdf",
@@ -827,12 +839,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "dfcbf3d19bafa0f00549bc10dba0ca19c8b3185b"
+                "reference": "0e18168c45df6500617ad8739f122fdf917a9293"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/dfcbf3d19bafa0f00549bc10dba0ca19c8b3185b",
-                "reference": "dfcbf3d19bafa0f00549bc10dba0ca19c8b3185b",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/0e18168c45df6500617ad8739f122fdf917a9293",
+                "reference": "0e18168c45df6500617ad8739f122fdf917a9293",
                 "shasum": ""
             },
             "require": {
@@ -890,7 +902,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-06-06 22:11:45"
+            "time": "2013-06-13 16:56:43"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -1619,6 +1631,7 @@
         "twig/extensions": 20,
         "kriswallsmith/assetic": 20,
         "friendsofsymfony/user-bundle": 20,
+        "hwi/oauth-bundle": 20,
         "punkave/symfony2-file-uploader-bundle": 20,
         "itbz/fpdf": 20
     },

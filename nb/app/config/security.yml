@@ -46,14 +46,14 @@ security:
             provider: fos_userbundle
             csrf_provider: form.csrf_provider
             login_path: /login
-            check_path: /login_check
+            check_path: /login/login_check
           oauth:
             resource_owners:
               facebook: "/login/facebook"
               google: "/login/google"
               twitter: "/login/twitter"
             login_path: /login
-            check_path: /login
+            failure_path: /login
             oauth_user_provider:
               service: ctf_user_provider
           logout:
