@@ -33,50 +33,52 @@ Stages &amp; Questions &middot; Admin Dashboard
     </div>
     <div class="row-fluid">
         <div class="span12">
-            <div id="tabs">
-                <ul>
-                    <li><a href="#stages">Stages</a></li>
-                    <li><a href="#questions">Questions</a></li>
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#stages" data-toggle="tab">Stages</a></li>
+                    <li><a href="#questions" data-toggle="tab">Questions</a></li>
                 </ul>
-                <div id="stages">
-                    <div class="row-fluid">
-                        <div class="span4">
-                            <div id="stage-list-container">
-                                <div id="stage-list-dyn">
-                                    {% include "CTFAdminBundle:Admin:stage.list.html.twig" with { 'list': list } only %}
+                <div class="tab-content">
+                    <div id="stages" class="tab-pane active">
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div id="stage-list-container">
+                                    <div id="stage-list-dyn">
+                                        {% include "CTFAdminBundle:Admin:stage.list.html.twig" with { 'list': list } only %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="span8">
-                            <div id="stage-form-container">
-                                <div id="stage-form-status">
-                                </div>
-                                <div id="stage-form-dyn">
-                                {% if stageform is defined and edit is not defined %}
-                                    {% include "CTFAdminBundle:Admin:stage.form.html.twig" with { 'form': stageform } only %}
-                                {% elseif stageform is defined and edit is defined %}
-                                    {% include "CTFAdminBundle:Admin:stage.form.html.twig" with { 'form': stageform, 'edit': edit } only %}
-                                {% endif %}
+                            <div class="span8">
+                                <div id="stage-form-container">
+                                    <div id="stage-form-status">
+                                    </div>
+                                    <div id="stage-form-dyn">
+                                    {% if stageform is defined and edit is not defined %}
+                                        {% include "CTFAdminBundle:Admin:stage.form.html.twig" with { 'form': stageform } only %}
+                                    {% elseif stageform is defined and edit is defined %}
+                                        {% include "CTFAdminBundle:Admin:stage.form.html.twig" with { 'form': stageform, 'edit': edit } only %}
+                                    {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="questions">
-                    <div class="row-fluid">
-                        <div class="span4">
-                            <div id="qlist-container">
-                                <div id="qlist-dyn">
-                                    {% include "CTFAdminBundle:Admin:question.list.html.twig" with { 'list': list } only %}
+                    <div id="questions" class="tab-pane">
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div id="qlist-container">
+                                    <div id="qlist-dyn">
+                                        {% include "CTFAdminBundle:Admin:question.list.html.twig" with { 'list': list } only %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="span8">
-                            <div id="question-form-container">
-                                <div id="question-form-status">
-                                </div>
-                                <div id="question-form-dyn">
-                                    
+                            <div class="span8">
+                                <div id="question-form-container">
+                                    <div id="question-form-status">
+                                    </div>
+                                    <div id="question-form-dyn">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -95,8 +97,6 @@ Stages &amp; Questions &middot; Admin Dashboard
 <script type="text/javascript">
 //<!--
 $(document).ready(function() {
-    $('#tabs').tabs();
-    
     $('#stage-list-container').on('click', '#add-more-stages', function(e) {
         e.preventDefault();
         
