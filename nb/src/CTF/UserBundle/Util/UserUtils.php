@@ -5,6 +5,7 @@ namespace CTF\UserBundle\Util;
 use CTF\UserBundle\Entity\User;
 use Buzz\Browser;
 use Buzz\Client\Curl;
+use Symfony\Component\Filesystem\Filesystem;
 
 class UserUtils {
     /**
