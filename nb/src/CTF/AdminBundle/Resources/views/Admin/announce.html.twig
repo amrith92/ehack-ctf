@@ -35,18 +35,20 @@ Announce &middot; Admin Dashboard
     </div>
     <div class="row-fluid">
         <div class="span12">
-            <div id="tabs">
-                <ul>
-                    <li><a href="#new_announcement">New Announcement</a></li>
-                    <li><a href="#announcement_history">Announcement History</a></li>
+            <div id="tabbable">
+                <ul class="nav nav-list">
+                    <li class="active"><a href="#new_announcement" data-toggle="tab">New Announcement</a></li>
+                    <li><a href="#announcement_history" data-toggle="tab">Announcement History</a></li>
                 </ul>
-                <div id="new_announcement">
-                    {% include "CTFAdminBundle:Admin:announce.form.html.twig" with { 'form': form } only %}
-                </div>
-                <div id="announcement_history">
-                    <button class="btn btn-primary" id="refresh-history"><i class="icon-repeat icon-white"></i>&nbsp;Refresh</button>
-                    <hr />
-                    <div id="announce-history">
+                <div class="tab-content">
+                    <div id="new_announcement" class="tab-pane active">
+                        {% include "CTFAdminBundle:Admin:announce.form.html.twig" with { 'form': form } only %}
+                    </div>
+                    <div id="announcement_history" class="tab-pane">
+                        <button class="btn btn-primary" id="refresh-history"><i class="icon-repeat icon-white"></i>&nbsp;Refresh</button>
+                        <hr />
+                        <div id="announce-history">
+                        </div>
                     </div>
                 </div>
             </div>
