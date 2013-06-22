@@ -16,7 +16,7 @@
             <h4>Your Answer</h4>
             <form action="{{ path('ctf_quest_answer', { id: question.getId() }) }}" method="post" id="answer-form" {{ form_enctype(answer) }}>
                 {{ form_widget(answer) }}
-                <button class="btn btn-success" id="answer-button">Answer!</button>
+                <button class="btn btn-success" id="answer-button">Answer!</button>&nbsp;&nbsp;<span class="loader" id="answer-button-loader"></span>
             </form>
         </div>
         <div class="tab-pane" id="cluespot">
@@ -30,7 +30,7 @@
                 below.
             </p>
             <hr />
-            <button class="btn btn-primary" id="clue-button" data-link="{{ path('ctf_quest_hint', { id: question.getId() }) }}">Help Me!</button>
+            <span class="loader" id="clue-button-loader"></span>&nbsp;&nbsp;<button class="btn btn-primary" id="clue-button" data-link="{{ path('ctf_quest_hint', { id: question.getId() }) }}">Help Me!</button>
         </div>
     </div>
 </div>

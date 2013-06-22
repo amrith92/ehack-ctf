@@ -14,6 +14,7 @@ Dashboard &middot; CTF
     <source src="{{ asset('bundles/ctfglobalchat/sounds/pop2.wav') }}" type="audio/wav">
     <embed height="0" width="0" src="{{ asset('bundles/ctfglobalchat/sounds/pop2.wav') }}">
 </audio>
+<div id="loader" class="hidden"><img src="{{ asset('bundles/ctfcommon/images/loader.gif') }}" title="Loading..." /></div>
 <div class="clearfix">
     &nbsp;
 </div>
@@ -181,6 +182,7 @@ $(document).ready(function() {
     $('#question-container').on('click', '#clue-button', function(e) {
         e.preventDefault();
         
+        document.getElementById('clue-button-loader').innerHTML = document.getElementById('loader').innerHTML;
         $.get($(this).attr('data-link'), null, function(data) {
             $('#clue-button').popover({
                 title: 'Your Hint',
@@ -188,14 +190,19 @@ $(document).ready(function() {
                 html: true
             });
             $('#clue-button').popover('show');
+            document.getElementById('clue-button-loader').innerHTML = null;
         });
     });
     
     $('#question-container').on('submit', '#answer-form', function(e) {
         e.preventDefault();
         
+        document.getElementById('answer-button-loader').innerHTML = document.getElementById('loader').innerHTML;
+        
         $.post($('#answer-form').attr('action'), $('#answer-form').serialize(), function(data) {
             var response = JSON.parse(data);
+            
+            document.getElementById('answer-button-loader').innerHTML = null;
             
             if ('success' == response.result) {
                 $('#question-result').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
@@ -217,6 +224,8 @@ $(document).ready(function() {
     
     $('.fetch-item').click(function(e) {
         e.preventDefault();
+        
+        document.getElementById('question-dyn').innerHTML = '<div id="question-dyn-loader">' + document.getElementById('loader').innerHTML + '</div>';
         
         $.get(this, null, function(data) {
             var rp = JSON.parse(data);

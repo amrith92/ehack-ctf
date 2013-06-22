@@ -1,0 +1,3 @@
+ctf_announcer_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: CTFAnnouncerBundle:Default:index }

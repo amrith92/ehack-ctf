@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new CTF\GlobalChatBundle\CTFGlobalChatBundle(),
             new CTF\RegistrationBundle\CTFRegistrationBundle(),
             new CTF\ReferralBundle\CTFReferralBundle(),
+            new CTF\AnnouncerBundle\CTFAnnouncerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

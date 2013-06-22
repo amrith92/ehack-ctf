@@ -32,6 +32,14 @@ class Announcement {
     private $announcement;
     
     /**
+     *
+     * @var boolean
+     * 
+     * @ORM\Column(name="delivered", type="boolean")
+     */
+    private $delivered;
+    
+    /**
      * @var \DateTime
      * 
      * @ORM\Column(name="updated_tstamp", type="datetimetz")
@@ -74,6 +82,25 @@ class Announcement {
      */
     public function getAnnouncement() {
         return $this->announcement;
+    }
+    
+    /**
+     * 
+     * @param boolean $delivered
+     * @return \CTF\AdminBundle\Entity\Announcement
+     */
+    public function setDelivered($delivered) {
+        $this->delivered = $delivered;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getDelivered() {
+        return $this->delivered;
     }
     
     /**

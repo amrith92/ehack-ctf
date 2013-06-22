@@ -89,3 +89,16 @@ body {
 .left {
     float: left;
 }
+
+.hidden {
+    display: none;
+}
+
+.loader {
+    text-align: center;
+}
+
+#question-dyn-loader {
+    text-align: center;
+    padding: 30px;
+}
