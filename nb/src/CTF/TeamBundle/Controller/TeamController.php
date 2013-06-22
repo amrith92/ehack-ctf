@@ -115,13 +115,17 @@ class TeamController extends Controller {
                             if (!\in_array($extension, $mime_types)) {
                                 $form->addError(new FormError("Invalid file-type! Please upload ONLY image files."));
                                 $this->get('session')->getFlashBag()->add('error', "Please upload image-files ONLY.");
-                                return $this->redirect($this->generateUrl('ctf_team_select'));
+                                return $this->render('CTFTeamBundle:Team:select-team.form.html.twig', array(
+                                    'form' => $form->createView()
+                                ));
                             }
                             
                             if (512000 < $file->getClientSize()) {
                                 $form->addError(new FormError("Maximum upload size is 500KB."));
                                 $this->get('session')->getFlashBag()->add('error', "Maximum upload size is 500KB.");
-                                return $this->redirect($this->generateUrl('ctf_team_select'));
+                                return $this->render('CTFTeamBundle:Team:select-team.form.html.twig', array(
+                                    'form' => $form->createView()
+                                ));
                             }
                             
                             $newFileName = sha1($file . rand(0, 199992993)) . '.' . $extension;
