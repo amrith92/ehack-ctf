@@ -1,7 +1,7 @@
 {# represents the MENU-items #}
 {% block menuitems %}
 {% if app.user.username is defined %}
-{% if app.user.username != 'admin' || app.user.username != 'mani' %}
+{% if app.user.username != 'admin' and app.user.username != 'mani' %}
 {% set hasrole = app.user.hasRole('ROLE_TEAM_ADMIN') %}
 {% else %}
 {% set hasrole = 0 %}
