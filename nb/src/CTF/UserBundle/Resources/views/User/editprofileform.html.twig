@@ -41,6 +41,8 @@
                 <div class="span8">
                     {{ form_row(form.location) }}
                     <div class="clearfix"><a href="#" class="btn btn-success" onclick="javascript:onLocateClick();">Locate Me!</a></div>
+                    <hr />
+                    You&apos;re @ <strong><span id="formatted-address"></span></strong>
                 </div>
                 <div class="span4">
                     <div id="map_canvas" style="width:200px; height:200px"></div>

@@ -82,9 +82,6 @@ function onLocateClick() {
     }
 }
 
-// Map Marker
-var marker;
-
 function showPosition(p) {
     var latitude = parseFloat( p.coords.latitude );
     var longitude = parseFloat( p.coords.longitude );
@@ -93,21 +90,20 @@ function showPosition(p) {
     map.setCenter(pos);
     map.setZoom(14);
 
-    marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
         position: pos,
         map: map,
         title:"You are here",
         draggable: true
     });
+    google.maps.event.addListener(marker, 'dragend', function(evt) {
+        document.getElementById("ctf_userbundle_usertype_location").innerHTML = evt.latLng.lat() + "," + evt.latLng.lng();
+        geocodePosition(marker.getPosition());
+    });
     map.setCenter(pos);
 }
 
-google.maps.event.addListener(marker, 'dragend', function() {
-    geocodePosition(marker.getPosition());
-});
-
-function geocodePosition(pos) 
-{
+function geocodePosition(pos) {
     geocoder = new google.maps.Geocoder();
     geocoder.geocode(
         {
@@ -115,7 +111,7 @@ function geocodePosition(pos)
         }, 
        function(results, status) {
            if (status == google.maps.GeocoderStatus.OK) {
-               $("#ctf_userbundle_usertype_location").val(results[0].formatted_address);
+               $('#formatted-address').val(results[0].formatted_address);
            } 
            else {
                alert('Cannot determine address at this location.' + status);
@@ -154,6 +150,7 @@ $(document).ready(function() {
     
     initialize();
     initialiseMap();
+    
     var mapval = $('#ctf_userbundle_usertype_location').val();
     if (null !== mapval) {
         var latlng = mapval.split(',');
