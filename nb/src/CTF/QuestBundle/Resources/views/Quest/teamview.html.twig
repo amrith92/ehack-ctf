@@ -8,8 +8,8 @@
 function renderTeamView() {
     var paper = Raphael(document.getElementById("teamview"), 420, 300),
         ellipse = paper.ellipse(150, 150, 125, 100),
-        txt = paper.text(150, 150, "{{ team.getName() }}\n{{ team.getStatus() }}"),
-        im = paper.image("{{ team.getTeamPic() }}", 135, 110, 30, 30);
+        im = paper.image("{{ team.getTeamPic() }}", 135, 110, 30, 30),
+        txt = paper.text(150, 150, "{{ team.getName() }}\n{{ team.getStatus() }}");
     ellipse.attr("stroke-dasharray", '--');
     ellipse.attr("stroke-width", 2);
     ellipse.attr("stroke", "#C0C0C0");
