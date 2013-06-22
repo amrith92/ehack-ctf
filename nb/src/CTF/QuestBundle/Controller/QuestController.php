@@ -47,6 +47,7 @@ class QuestController extends Controller {
         $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
 
         $salt = $this->container->getParameter('secret');
+        $this->get('session')->set('__MYREF', $this->get('ctf_referral.cryptor')->encrypt($user->getId()));
 
         return $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
                     'user' => $user,
@@ -88,6 +89,7 @@ class QuestController extends Controller {
                 $quest->setCurrentLevel($level);
                 $quest->setQuestLevel($level);
                 $quest->setScore(0);
+                $quest->setCompleted(false);
                 $quest->setUser($user);
 
                 $item = new QuestHistoryItem();
@@ -103,6 +105,10 @@ class QuestController extends Controller {
 
                 $question = $level;
             } else {
+                if ($quest->getCompleted() == true) {
+                    return $this->redirect($this->generateUrl('ctf_quest_finish'));
+                }
+                
                 $quest->setCurrentStage($quest->getQuestStage());
                 $quest->setCurrentLevel($quest->getQuestLevel());
                 $em->merge($quest);
@@ -342,17 +348,45 @@ class QuestController extends Controller {
                             break;
                         }
                     }
-
-                    if (null === $nextLevel) {
+                    
+                    if (null == $nextLevel) {
                         // Stage exhausted, move to the next one
                         $newStage = $em->getRepository('CTFQuestBundle:Stage')->find($stage->getId() + 1);
-                        $nextLevel = $newStage->getQuestions()[0];
-
-                        //////
-                        // THIS is where we check for the END of the CTF
-                        //////
-                        if (null === $nextLevel) {
+                        
+                        if (null != $newStage) {
+                            $questions = $newStage->getQuestions();
+                            if (null != $questions[0]) {
+                                $nextLevel = $questions[0];
+                            } else {
+                                //////
+                                // No more levels in this stage - END of CTF
+                                //////
+                                $userquest->setQuestStage($newStage);
+                                $userquest->setCurrentStage($newStage);
+                                $userquest->setCompleted(true);
+                                
+                                $em->merge($userquest);
+                                $em->flush();
+                                
+                                $data = array(
+                                    'result' => 'finish',
+                                    'message' => "Congrats! You've reached the end of your journey!"
+                                );
+                                return new Response(\json_encode($data));
+                            }
+                        } else {
+                            //////
+                            // THIS is where we check for the END of the CTF
+                            //////
+                            $userquest->setCompleted(true);
+                            $em->merge($userquest);
+                            $em->flush();
                             
+                            $data = array(
+                                'result' => 'finish',
+                                'message' => "Congrats! You've reached the end of your journey!"
+                            );
+                            return new Response(\json_encode($data));
                         }
                     } else {
                         $newStage = $stage;
@@ -422,6 +456,18 @@ class QuestController extends Controller {
             return new Response(\json_encode($data));
         }
 
+        return new Response('Bad Request!', 400);
+    }
+    
+    public function finishAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('CTFQuestBundle:Quest:finish.html.twig');
+        }
+        
         return new Response('Bad Request!', 400);
     }
     

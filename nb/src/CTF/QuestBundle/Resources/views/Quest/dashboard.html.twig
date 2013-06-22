@@ -225,6 +225,8 @@ $(document).ready(function() {
             if ('success' == response.result) {
                 $('#question-result').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
                 
+                document.getElementById('question-dyn').innerHTML = '<div id="question-dyn-loader">' + document.getElementById('loader').innerHTML + '</div>';
+                
                 $.get(Routing.generate('ctf_quest_fetch', { qid: response.next }), null, function(data) {
                     var rp = JSON.parse(data);
             
@@ -233,6 +235,14 @@ $(document).ready(function() {
                     if ('success' == rp.result) {
                         updateCurrentStats();
                     }
+                });
+            } else if ('finish' == response.result) {
+                $('#question-result').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
+                
+                document.getElementById('question-dyn').innerHTML = '<div id="question-dyn-loader">' + document.getElementById('loader').innerHTML + '</div>';
+                
+                $.get(Routing.generate('ctf_quest_finish'), null, function(data) {
+                    $('#question-dyn').html(data).show().fadeIn();
                 });
             } else {
                 $('#question-result').html('<div class="alert alert-error">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);

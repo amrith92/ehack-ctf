@@ -81,6 +81,14 @@ class UserQuest {
     
     /**
      *
+     * @var boolean
+     * 
+     * @ORM\Column(name="completed", type="boolean", nullable=false)
+     */
+    private $completed;
+    
+    /**
+     *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
      * @ORM\ManyToMany(targetEntity="\CTF\QuestBundle\Entity\QuestHistoryItem", cascade={"persist", "remove"})
@@ -226,6 +234,25 @@ class UserQuest {
      */
     public function getScore() {
         return $this->score;
+    }
+    
+    /**
+     * 
+     * @param boolean $completed
+     * @return \CTF\QuestBundle\Entity\UserQuest
+     */
+    public function setCompleted($completed) {
+        $this->completed = $completed;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getCompleted() {
+        return $this->completed;
     }
     
     /**

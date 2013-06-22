@@ -259,7 +259,15 @@ class TeamController extends Controller {
         if ($ctr < $max) {
             foreach ($requests as $r) {
                 if ($r->getId() == $rid) {
-                    $r->setStatus(TeamRequestStatus::$ACCEPTED);
+                    // Check if the user is already a part of the team
+                    // BEFORE accepting
+                    $existing = $teamrepo->findAcceptedRequestByUserId($r->getUser()->getId());
+                    if ($existing == null || false == $existing) {
+                        $r->setStatus(TeamRequestStatus::$ACCEPTED);
+                    } else {
+                        $this->get('session')->getFlashBag()->add('error', "User is already part of another team!");
+                        return $this->redirect($this->generateUrl('ctf_team_admin'));
+                    }
                     break;
                 }
             }
@@ -339,11 +347,17 @@ class TeamController extends Controller {
         if ($ctr < $max) {
             foreach ($requests as $r) {
                 if ($r->getId() == $rid) {
-                    $r->setStatus(TeamRequestStatus::$ACCEPTEDANDADMIN);
-                    $user = $r->getUser();
-                    $user->setRoles(array('ROLE_TEAM_ADMIN'));
+                    $existing = $teamrepo->findAcceptedRequestByUserId($r->getUser()->getId());
+                    if ($existing == null || false == $existing) {
+                        $r->setStatus(TeamRequestStatus::$ACCEPTEDANDADMIN);
+                        $user = $r->getUser();
+                        $user->setRoles(array('ROLE_TEAM_ADMIN'));
 
-                    $this->get('fos_user.user_manager')->updateUser($user, false);
+                        $this->get('fos_user.user_manager')->updateUser($user, false);
+                    } else {
+                        $this->get('session')->getFlashBag()->add('error', "User is already part of another team!");
+                        return $this->redirect($this->generateUrl('ctf_team_admin'));
+                    }
                     break;
                 }
             }

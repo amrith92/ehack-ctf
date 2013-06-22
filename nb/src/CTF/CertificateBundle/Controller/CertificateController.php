@@ -17,15 +17,20 @@ class CertificateController extends Controller {
         
         $generator = $this->get('ctf_certificate.generator');
         $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository('CTFQuestBundle:UserQuest');
+        $userquest = $repo->findByUser($user);
+        $rank = $repo->getRankByUser($user->getId());
+        $team = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
         
         $data = new CertifyData();
         $data->setFullName($user->getFname() . ' ' . $user->getLname());
         $data->setOrganization(\explode(', ', $user->getOrg()->getName())[0]);
-        $data->setScore(100);
-        $data->setRank(30);
+        $data->setScore($userquest->getScore());
+        $data->setRank($rank);
         $serial = \sprintf("%06d", $user->getId());
         $data->setSerial('CTFEHACK-' . $serial);
-        $data->setTeam('thegeekmachine');
+        $data->setTeam($team);
         $data->setTimestamp(new \DateTime(date('Y-m-d H:i:s')));
         
         if ('png' === $mode) {

@@ -1,0 +1,26 @@
+{# The finish (end-game) template #}
+<div class="well well-small">
+    <h1>Well Done!</h1>
+    <p>
+        <strong>Congratulations!</strong> You have made it all the way to the end.
+        We hope you've enjoyed yourself immensely. Don't forget to collect your certificate,
+        and share your achievements.
+    </p>
+    <hr />
+    <h3>Certificates</h3>
+    <p>Select either a PDF or a PNG version of your certificate (or both ;-) )</p>
+    <center>
+        <a href="{{ path('ctf_certificate_test') }}" target="_blank" class="btn btn-primary">Your Certificate (PNG)</a>
+        <a href="{{ path('ctf_certificate_test', { mode: 'pdf' }) }}" target="_blank" class="btn btn-warning">Your Certificate (PDF)</a>
+    </center>
+    <hr />
+    <p>
+        Help us bring in <strong>even more</strong> fantastic people such as you!
+        Do your part to make this truly brilliant.
+    </p>
+    <hr />
+    <p>
+        Share the links below: (Referrals <strong>DO</strong> earn more points ;-) )
+    </p>
+    <a href="{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}">{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}</a>
+</div>

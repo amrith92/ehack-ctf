@@ -43,3 +43,10 @@ ctf_quest_visit:
     defaults: { _controller: CTFQuestBundle:Quest:visit }
     requirements:
       filename: ".+"
+
+ctf_quest_finish:
+    pattern: /quest/finish
+    defaults: { _controller: CTFQuestBundle:Quest:finish }
+    options:
+      expose: true
+      
