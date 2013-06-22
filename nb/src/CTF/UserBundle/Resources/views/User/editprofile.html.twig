@@ -53,6 +53,7 @@
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
+var map;
 function initialiseMap() {
     var myOptions = {
         zoom: 4,
@@ -61,7 +62,7 @@ function initialiseMap() {
         navigationControl: false,
         navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
         mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+    };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 }
 
