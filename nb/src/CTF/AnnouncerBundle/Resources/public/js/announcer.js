@@ -24,7 +24,7 @@ var Announcer = {
                 self.audience.innerHTML = null;
                 for(var i = 0; i < data.notifications.length ; i++) {
                     var d = new Date();
-                    d = d.setTime(data.notifications[i].updated_tstamp * 1000 + d.getTimezoneOffset() * 60000);
+                    d.setTime(data.notifications[i].updated_tstamp * 1000 + d.getTimezoneOffset() * 60000);
                     self.audience.innerHTML += '<div class="alert alert-notice fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><h4 class="alert-heading">Hoooold Up! This is an announcement!</h4><div class="row-fluid"><div class="span10">' + data.notifications[i].announce + '</div><div class="span2">' + d.toUTCString() + '</div></div></div>';
                 }
             });
