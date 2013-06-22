@@ -170,7 +170,8 @@ class UserUtils {
             
             if (property_exists($response, 'picture') && !$user->getImageURL()) {
                 $user->setImageUrl($response->picture->data->url);
-                $thumbbrowser = new Browser(new Curl());
+                $user->setThumbnail($response->picture->data->url);
+                /*$thumbbrowser = new Browser(new Curl());
                 $imgdata = $thumbbrowser->get($response->picture->data->url);
                 $dir = __DIR__ . '/../../../../web/uploads/thumb';
                 
@@ -197,6 +198,7 @@ class UserUtils {
                 $fp = \fopen($dir . '/' . md5($user->getId() . $user->getEmailCanonical()) . '.jpg', 'w');
                 \fwrite($fp, $image);
                 \fclose($fp);
+                */
                 
                 $modified = true;
             }
