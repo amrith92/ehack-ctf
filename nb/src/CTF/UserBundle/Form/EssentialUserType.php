@@ -52,7 +52,8 @@ class EssentialUserType extends AbstractType {
             ->add(
                 $builder->create('location', 'text', array(
                     'label' => 'Location',
-                    'read_only' => true
+                    'read_only' => true,
+                    'required' => false
                 ))->addModelTransformer($pointTransformer)
             )
             ->add(
