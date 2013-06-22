@@ -104,7 +104,7 @@ class TeamController extends Controller {
                                 $extension = 'bin';
                             }
                             
-                            $mime_types = array(
+                            /*$mime_types = array(
                                 "gif" => "image/gif"
                                 ,"png" => "image/png"
                                 ,"jpeg" => "image/jpg"
@@ -112,13 +112,13 @@ class TeamController extends Controller {
                                 ,"bmp" => "images/bmp"
                             );
                             
-                            if (!\in_array($extension, $mime_types)) {
+                            if (!\in_array(\strtolower($extension), $mime_types)) {
                                 $form->addError(new FormError("Invalid file-type! Please upload ONLY image files."));
                                 $this->get('session')->getFlashBag()->add('error', "Please upload image-files ONLY.");
                                 return $this->render('CTFTeamBundle:Team:select-team.form.html.twig', array(
                                     'form' => $form->createView()
                                 ));
-                            }
+                            }*/
                             
                             if (512000 < $file->getClientSize()) {
                                 $form->addError(new FormError("Maximum upload size is 500KB."));
