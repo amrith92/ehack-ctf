@@ -80,7 +80,7 @@ class TeamController extends Controller {
                         
                         $requests = $repo->findRequestsByUserId($user->getId());
                         foreach ($requests as $r) {
-                            if ($r->getStatus() == TeamRequestStatus::$ACCEPTED || $r->getStatus() == TeamRequestStatus::$ACCEPTEDANDADMIN) {
+                            if ($r['team_status'] == TeamRequestStatus::$ACCEPTED || $r['team_status'] == TeamRequestStatus::$ACCEPTEDANDADMIN) {
                                 $this->get('session')->getFlashBag()->add('error', "You are ALREADY a part of a team! You cannot create a team once you are accepted in a team.");
                                 return $this->redirect($this->generateUrl('ctf_team_select'));
                             }
