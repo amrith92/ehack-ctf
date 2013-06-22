@@ -36,7 +36,7 @@ Announce &middot; Admin Dashboard
     <div class="row-fluid">
         <div class="span12">
             <div id="tabbable">
-                <ul class="nav nav-list">
+                <ul class="nav nav-tabs">
                     <li class="active"><a href="#new_announcement" data-toggle="tab">New Announcement</a></li>
                     <li><a href="#announcement_history" data-toggle="tab">Announcement History</a></li>
                 </ul>
@@ -63,8 +63,6 @@ Announce &middot; Admin Dashboard
 <script type="text/javascript">
 //<!--
 $(document).ready(function() {
-    $('#tabs').tabs();
-    
     $('#refresh-history').click(function() {
         $.get(Routing.generate('ctf_admin_announce', null), null, function(data) {
             $('#announce-history').replaceWith(data);
