@@ -330,7 +330,7 @@ class QuestController extends Controller {
                 if (\preg_match("/.*\[ddynamic\][\s]*([\d\w\s\[\],\/\(\)\\\\\$\=\!\#\;\_\^\&\*\%\@\:\`]*)[\s]*\[\/ddynamic\][\s]*(.*)/s", $refAnswer, $matches)) {
                     $pmatches = null;
                     if (\preg_match("/.*\[params\][\s]*([\d\w\s,]*)[\s]*\[\/params\][\s]*(.*)/s", $matches[1], $pmatches)) {
-                        $params = \explode(',', $pmatches[1]);
+                        $params = \explode(',', \trim($pmatches[1]));
                         $user = $this->get('security.context')->getToken()->getUser();
                         $src = 'extract($args);' . \trim($pmatches[2]);
                         
@@ -364,7 +364,7 @@ class QuestController extends Controller {
                             }
                         }
                         
-                        $fn = \create_function('&$args', $src);
+                        $fn = \create_function('$args', $src);
                         
                         $answer = $fn($args);
                     } else {
