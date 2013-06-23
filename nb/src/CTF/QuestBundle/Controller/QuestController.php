@@ -327,12 +327,12 @@ class QuestController extends Controller {
                 ///     answer:     User's current answer
                 ///     number:     User's phone-number (as entered)
                 $matches = null;
-                if (\preg_match("/[.\n]*\[ddynamic\]([.\n]*)\[\/ddynamic\][.\n]*([.]*)/", $refAnswer, $matches)) {
+                if (\preg_match("/.*\[ddynamic\][\s]*([\d\w\s\[\],\/\(\)\\\\\$\=\!\#\;\_\^\&\*\%\@\:\`]*)[\s]*\[\/ddynamic\][\s]*(.*)/s", $refAnswer, $matches)) {
                     $pmatches = null;
-                    if (\preg_match("/[.\n]*\[params\]([.\n]*)\[\/params\]/", $matches[1], $pmatches)) {
+                    if (\preg_match("/.*\[params\][\s]*([\d\w\s,]*)[\s]*\[\/params\][\s]*(.*)/s", $matches[1], $pmatches)) {
                         $params = \explode(',', $pmatches[1]);
                         $user = $this->get('security.context')->getToken()->getUser();
-                        $src = "extract(\$args);" . \trim($matches[1]);
+                        $src = "extract(\$args);" . \trim($pmatches[2]);
                         
                         $args = null;
                         foreach ($params as $p) {
