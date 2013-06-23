@@ -25,8 +25,9 @@ var Announcer = {
             self.socket.on('notification', function (data) {
                 self.audience.innerHTML = null;
                 for(var i = 0; i < data.notifications.length ; i++) {
-                    var d = new Date();
-                    self.audience.innerHTML += '<div class="alert alert-notice fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><h4 class="alert-heading">Hoooold Up! This is an announcement!</h4><div class="row-fluid"><div class="span10">' + data.notifications[i].announce + '</div><div class="span2">' + d.toUTCString() + '</div></div></div>';
+                    var j = Date.parse(data.notifications[i].updated_tstamp);
+                    var d = new Date(j);
+                    self.audience.innerHTML += '<div class="alert alert-notice fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><h4 class="alert-heading">Hoooold Up! This is an announcement!</h4><div class="row-fluid"><div class="span10">' + data.notifications[i].announce + '</div><div class="span2">' + d.toLocaleString() + '</div></div></div>';
                     Announcer.dingdong.play();
                 }
             });
