@@ -308,8 +308,81 @@ class QuestController extends Controller {
                 /// TODO ///
                 // Parse for modifiers and apply as closures on the data
                 ////////////
+                /// Step 1: Find valid BBCODE [ddynamic]...[/ddynamic].
+                ///         The correct answer must be placed after the
+                ///         [ddynamic]...[/ddynamic] section.
+                /// Step 2: If [ddynamic]...[/ddynamic] exists, parse
+                ///         section [params]...[/params], if it exists
+                ///         Params MUST be a comma-separated list of
+                ///         valid params.
+                /// Step 3: Call custom anonymous function and evaluate result
+                /// Step 4: Continue validation
+                /// VALID PARAMS:
+                ///     name:       Full Name
+                ///     firstname:  First Name
+                ///     lastname:   Last Name
+                ///     id:         User Id
+                ///     teamname:   Team Name
+                ///     teamid:     Team Id
+                ///     answer:     User's current answer
+                ///     number:     User's phone-number (as entered)
+                $matches = null;
+                if (\preg_match("/[.\n]*\[ddynamic\]([.\n]*)\[\/ddynamic\][.\n]*([.]*)/", $refAnswer, $matches)) {
+                    $pmatches = null;
+                    if (\preg_match("/[.\n]*\[params\]([.\n]*)\[\/params\]/", $matches[1], $pmatches)) {
+                        $params = \explode(',', $pmatches[1]);
+                        $user = $this->get('security.context')->getToken()->getUser();
+                        $src = "extract(\$args);" . \trim($matches[1]);
+                        
+                        $args = null;
+                        foreach ($params as $p) {
+                            switch ($p) {
+                            case 'name':
+                                $args['name'] = $user->getFname() . ' ' . $user->getLname();
+                            break;
+                            case 'firstname':
+                                $args['firstname'] = $user->getFname();
+                            break;
+                            case 'lastname':
+                                $args['lastname'] = $user->getLname();
+                            break;
+                            case 'id':
+                                $args['id'] = $user->getId();
+                            break;
+                            case 'teamname':
+                                $args['teamname'] = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
+                            break;
+                            case 'teamid':
+                                $args['teamid'] = $em->getRepository('CTFTeamBundle:Team')->findTeamIdByUserId($user->getId());
+                            break;
+                            case 'answer':
+                                $args['answer'] = $answer;
+                            break;
+                            case 'number':
+                                $args['number'] = $user->getPhone();
+                            break;
+                            }
+                            $p = '$' . $p;
+                        }
+                        
+                        $arglist = \implode(',', $params);
+                        
+                        $fn = \create_function($arglist, $src);
+                        
+                        $answer = $fn($args);
+                    } else {
+                        $src = \trim($matches[1]);
+                        $fn = function() use ($src) {
+                            return eval($src);
+                        };
+                        
+                        $answer = $fn();
+                    }
+                    
+                    $refAnswer = \trim($matches[2]);
+                }
 
-                if (\strtolower($answer) === \strtolower($refAnswer)) {
+                if ($answer == $refAnswer) {
                     // The answer is correct
                     $user = $this->get('security.context')->getToken()->getUser();
                     $userquest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
