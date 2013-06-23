@@ -86,7 +86,6 @@ var TeamChatClient = {
     disconnect: function() {
         var self = this;
         
-        self.bindings.status.innerHTML = '<input type="button" id="connect" value="Connect!" />';
         self.bindings.chat.innerHTML = '';
         self.bindings.input.setAttribute('disabled', 'disabled');
         self.socket.emit('close');

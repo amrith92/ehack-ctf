@@ -114,7 +114,9 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('close', function() {
 		datastore.srem("clients_" + socket.team, socket.username, function(err, cliret) {
+			console.log("Client [" + cliret + "] removed from clients_" + socket.team);
 			datastore.srem("teams_" + socket.team, socket.id, function(terr, tret) {
+				console.log("Socket [" + socket.id + "] removed from teams_" + socket.team);
 				datastore.smembers("clients_" + socket.team, function(clerr, clientlist) {
 					datastore.smembers("teams_" + socket.team, function(err, data) {
 						for (var i = 0; i < data.length; ++i) {
