@@ -332,7 +332,7 @@ class QuestController extends Controller {
                     if (\preg_match("/.*\[params\][\s]*([\d\w\s,]*)[\s]*\[\/params\][\s]*(.*)/s", $matches[1], $pmatches)) {
                         $params = \explode(',', $pmatches[1]);
                         $user = $this->get('security.context')->getToken()->getUser();
-                        $src = "extract(\$args);" . \trim($pmatches[2]);
+                        $src = 'extract($args);' . \trim($pmatches[2]);
                         
                         $args = null;
                         foreach ($params as $p) {
@@ -362,12 +362,9 @@ class QuestController extends Controller {
                                 $args['number'] = $user->getPhone();
                             break;
                             }
-                            $p = '$' . $p;
                         }
                         
-                        $arglist = \implode(',', $params);
-                        
-                        $fn = \create_function($arglist, $src);
+                        $fn = \create_function('&$args', $src);
                         
                         $answer = $fn($args);
                     } else {
