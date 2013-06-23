@@ -156,7 +156,7 @@ function updateCurrentStats() {
         $('#score-display').text(res.score).fadeIn();
     });
 }
-var cli_on = false;
+var cli_on = false, clu_on = false;
 $(document).ready(function() {
     $.ajaxSetup({ cache: true });
     renderTeamView();
@@ -210,16 +210,30 @@ $(document).ready(function() {
     $('#question-container').on('click', '#clue-button', function(e) {
         e.preventDefault();
         
-        document.getElementById('clue-button-loader').innerHTML = document.getElementById('loader').innerHTML;
-        $.get($(this).attr('data-link'), null, function(data) {
-            $('#clue-button').popover({
-                title: 'Your Hint',
-                content: data,
-                html: true
+        if ($(this).attr('data-content') == null) {
+            document.getElementById('clue-button-loader').innerHTML = document.getElementById('loader').innerHTML;
+            $.get($(this).attr('data-link'), null, function(data) {
+                $('#clue-button').attr('data-content', data);
+                $('#clue-button').popover({
+                    title: 'Your Hint',
+                    content: data,
+                    html: true,
+                    placement: 'right',
+                    delay: 50
+                });
+                $('#clue-button').popover('show');
+                clu_on = true;
+                document.getElementById('clue-button-loader').innerHTML = null;
             });
-            $('#clue-button').popover('show');
-            document.getElementById('clue-button-loader').innerHTML = null;
-        });
+        } else {
+            if (false == clu_on) {
+                $('#clue-button').popover('show');
+                clu_on = true;
+            } else {
+                $('#clue-button').popover('close');
+                clu_on = false;
+            }
+        }
     });
     
     $('#question-container').on('submit', '#answer-form', function(e) {
