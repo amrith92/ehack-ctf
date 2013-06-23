@@ -1,16 +1,18 @@
 {# This defines the generic template for the website #}
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-GB" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="" />
     <meta name="author" content="thegeekmachine, vstartu" />
     <title>{% block title %}{% endblock %}</title>
+    <link rel="canonical" href="{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}" />
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/normalize.css') }}" type="text/css" />
-    <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/bootstrap.css') }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/bootstrap-responsive.css') }}" type="text/css" media="screen" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/social-buttons.css') }}" type="text/css" media="screen" />
     {% if light is not defined %}
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/darkstrap.css') }}" type="text/css" media="screen" />
     {% endif %}
@@ -21,7 +23,8 @@
     {# <link href="{{ asset('bundles/ctfcommon/css/flat-ui.css') }}" rel="stylesheet" /> #}
     {% block extracss %}{% endblock %}
     <!--[if lt IE 9]>
-      <script src="{{ asset('bundles/ctfcommon/js/html5shiv.js') }}"></script>
+        <script src="{{ asset('bundles/ctfcommon/js/html5shiv.js') }}"></script>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
     <![endif]-->
     {% block extrajs %}{% endblock %}
 </head>
@@ -64,7 +67,7 @@
     {# <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/moment.js') }}" ></script> #}
     <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/modernizr.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/underscore.min.js') }}" ></script>
-    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/bootstrap.js') }}" ></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <!--[if lt IE 8]>
       <script src="{{ asset('bundles/ctfcommon/js/icon-font-ie7.js') }}"></script>
       <script src="{{ asset('bundles/ctfcommon/js/icon-font-ie7-24.js') }}"></script>

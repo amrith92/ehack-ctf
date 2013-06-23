@@ -102,3 +102,12 @@ body {
     text-align: center;
     padding: 30px;
 }
+
+iframe.twitter-follow-button {
+    max-width: 200px;
+    overflow: hidden;
+}
+
+.popover-content {
+    overflow: auto!important;
+}

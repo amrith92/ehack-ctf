@@ -11,6 +11,7 @@ Registration &middot; ehack CTF
 {% endblock %}
 
 {% block content %}
+<div id="fb-root"></div>
 <div id="overlay">
     <div class="modal" id="loginModal">
         <div class="modal-header">
@@ -181,6 +182,17 @@ $(document).ready(function() {
                 $('#form-error').html('<div class="alert alert-error">' + response.message + "</div>").fadeIn("slow").fadeOut(5000);
             }
         });
+    });
+    
+    $.getScript('//connect.facebook.net/en_UK/all.js', function() {
+        window.fbAsyncInit = function() {
+            FB.init({
+              appId: '{{ facebook_id }}',
+              channelUrl: '//' + Routing.generate('ctf_fb_channel', null),
+              status     : true,
+              xfbml      : true
+            });
+        };
     });
 });
 //-->

@@ -25,6 +25,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+      facebook_id: "%facebook_client_id%"
+      google_id: "%google_client_id%"
 
 # Assetic Configuration
 assetic:
@@ -106,7 +109,7 @@ hwi_oauth:
       type: facebook
       client_id: "%facebook_client_id%"
       client_secret: "%facebook_client_secret%"
-      scope: "email,user_birthday,user_location,user_about_me,user_website,user_status"
+      scope: "email,user_birthday,user_location,user_about_me,user_website,user_status,publish_actions"
     
     google:
       type: google

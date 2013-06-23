@@ -158,31 +158,6 @@ textarea::-webkit-input-placeholder {
   background-color: #34789a;
 }
 
-/* line 18, ../bootstrap/bootstrap/_sprites.scss */
-[class^="icon-"],
-[class*=" icon-"] {
-  background-image: url("../images/glyphicons-halflings.png");
-}
-
-/* White icons with optional class, or on hover/active states of certain elements */
-/* line 44, ../bootstrap/bootstrap/_sprites.scss */
-.icon-white,
-.nav-pills > .active > a > [class^="icon-"],
-.nav-pills > .active > a > [class*=" icon-"],
-.nav-list > .active > a > [class^="icon-"],
-.nav-list > .active > a > [class*=" icon-"],
-.navbar-inverse .nav > .active > a > [class^="icon-"],
-.navbar-inverse .nav > .active > a > [class*=" icon-"],
-.dropdown-menu > li > a:hover > [class^="icon-"],
-.dropdown-menu > li > a:hover > [class*=" icon-"],
-.dropdown-menu > .active > a > [class^="icon-"],
-.dropdown-menu > .active > a > [class*=" icon-"],
-.dropdown-submenu:hover > a > [class^="icon-"],
-.dropdown-submenu:hover > a > [class*=" icon-"] {
-  background-image: url("../images/glyphicons-halflings-white.png");
-}
-
-
 /* line 222, ../bootstrap/bootstrap/_buttons.scss */
 .btn-link:hover {
   color: #1ab2ff;

@@ -10,6 +10,7 @@ Dashboard &middot; CTF
 {% endblock %}
 
 {% block content %}
+<div id="fb-root"></div>
 <audio height="0" width="0" id="popcorn">
     <source src="{{ asset('bundles/ctfglobalchat/sounds/pop2.wav') }}" type="audio/wav">
     <embed height="0" width="0" src="{{ asset('bundles/ctfglobalchat/sounds/pop2.wav') }}">
@@ -121,6 +122,14 @@ Dashboard &middot; CTF
             </div>
         </div>
         <div class="span2">
+            <h4>Share &amp; Follow Us</h4>
+            <p>
+                Don&apos;t forget to share, like and follow us on social media! By sharing and liking our posts and
+                page, more people will hear about the event and contend, intensifying the competition.
+            </p>
+            {% include "CTFQuestBundle:Quest:social-likes.html.twig" %}
+            <hr />
+            {% include "CTFQuestBundle:Quest:social-share.html.twig" %}
             <hr />
             {% include "CTFQuestBundle:Quest:teamchat.html.twig" %}
         </div>
@@ -149,6 +158,7 @@ function updateCurrentStats() {
 }
 var cli_on = false;
 $(document).ready(function() {
+    $.ajaxSetup({ cache: true });
     renderTeamView();
     if (typeof io != undefined) {
         TeamChatClient.init({
@@ -280,6 +290,17 @@ $(document).ready(function() {
             }
         });
     }, 20000);
+    
+    $.getScript('//connect.facebook.net/en_UK/all.js', function() {
+        window.fbAsyncInit = function() {
+            FB.init({
+              appId: '{{ facebook_id }}',
+              channelUrl: '//' + Routing.generate('ctf_fb_channel', null),
+              status     : true,
+              xfbml      : true
+            });
+        };
+    });
 });
 //-->
 </script>

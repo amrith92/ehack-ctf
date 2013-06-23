@@ -6,8 +6,7 @@
         Do your part to make this truly brilliant.
     </p>
     <hr />
-    <p>
-        Share the links below:
-    </p>
-    <a href="{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}">{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}</a>
+    {% include "CTFQuestBundle:Quest:social-likes.html.twig" %}
+    <hr />
+    {% include "CTFQuestBundle:Quest:social-share.html.twig" %}
 </div>

@@ -1,7 +1,9 @@
-ctf_common_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: CTFCommonBundle:Default:index }
-
 upload:
     pattern: /upload
     defaults: { _controller: CTFCommonBundle:Upload:upload }
+
+ctf_fb_channel:
+    pattern: /fb/channel
+    defaults: { _controller: CTFChannelBundle:Channel:facebookChannel }
+    options:
+      expose: true
