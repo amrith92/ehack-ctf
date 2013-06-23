@@ -5,6 +5,8 @@ var serverPort = 5560;
 
 var unknownCtr = 0;
 
+var CHAT_ON = true;
+
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
                       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -58,14 +60,55 @@ var app = require('http').createServer(function(request, response) {
 });
 var io = require('socket.io').listen(app),
 		redis = require('redis'),
-		datastore = redis.createClient();
+		datastore = redis.createClient(),
+		mysql = require('mysql'),
+		pollingInterval = 15000;
 
 app.listen(serverPort, function() {
 	console.log((new Date()) + " Server is listening on port " + serverPort);
 });
 
+var connection = mysql.createConnection( {
+	host     : 'localhost',
+	user     : 'announcer',
+	password : '@nnouncer',
+	database : 'ctf'
+});
+
+connection.connect(function(err) {
+	if (err != null) {
+		console.log( err );
+	}
+});
+
+var pollingCheckDb = function() {
+	var query = connection.query('SELECT * FROM global_state WHERE id=1');
+
+	query
+	.on('error', function(err) {
+		console.log( err );
+	})
+	.on('result', function( state ) {
+		if (state.enable_chat == 0) {
+			CHAT_ON = false;
+		} else {
+			CHAT_ON = true;
+		}
+	})
+	.on('end',function() {
+		// query ends
+	});
+};
+
+setInterval( function() { pollingCheckDb(); }, pollingInterval );
+
 io.sockets.on('connection', function (socket) {
 	socket.on('adduser', function(username) {
+		if (false == CHAT_ON) {
+			socket.emit('updatechat', 'SERVER', 'Global Chat is currently OFF.');
+			return;
+		}
+
 		if (username == null || username == "") {
 			username = "Who\'sThis_" + ++unknownCtr;
 		}
@@ -81,17 +124,14 @@ io.sockets.on('connection', function (socket) {
 			io.sockets.emit('updateusers', data);
 		});
 		
-		/*if(history.length > 0) {
-			socket.emit('updateHistory', JSON.stringify(history));
-		}*/
 	});
 	
 	socket.on('message', function(message) {
+		if (false == CHAT_ON) {
+			socket.emit('updatechat', 'SERVER', 'Global Chat is currently OFF.');
+			return;
+		}
 		message = censor(message);
-		/*history.push({
-			username: socket.username,
-			message: message
-		});*/
 		socket.emit('updatechat', socket.username, htmlEntities(message));
 		socket.broadcast.emit('updatechat', socket.username, htmlEntities(message));
 	});
