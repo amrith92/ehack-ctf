@@ -367,16 +367,15 @@ class QuestController extends Controller {
                         $fn = \create_function('$args', $src);
                         
                         $answer = $fn($args);
+                        $refAnswer = \trim($matches[2]);
                     } else {
                         $src = \trim($matches[1]);
                         $fn = function() use ($src) {
                             return eval($src);
                         };
                         
-                        $answer = $fn();
+                        $refAnswer = $fn();
                     }
-                    
-                    $refAnswer = \trim($matches[2]);
                 }
 
                 if ($answer == $refAnswer) {
