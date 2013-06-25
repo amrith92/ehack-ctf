@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<div id="loader" class="hidden"><img src="{{ asset('bundles/ctfcommon/images/loader.gif') }}" title="Loading..." /></div>
 <div class="clearfix">&nbsp;</div>
 <div class="container-fluid">
     <div class="row-fluid">
@@ -138,8 +139,9 @@ $(document).ready(function() {
     $( "[title]" ).tooltip();
     
     $('#editForm').on('change', '#ctf_userbundle_usertype_country', function() {
+        document.getElementById('state-loader').innerHTML = document.getElementById('loader').innerHTML;
         $.post(Routing.generate('ctf_get_edit_form', null), $("#edit-form").serialize(), function(data) {
-            $('#edit-form-container').replaceWith(data);
+            $('#edit-form-container').html(data);
             $('.date').datepicker({
                 dateFormat: 'dd-mm-yy',
                 changeMonth: true,
@@ -152,7 +154,7 @@ $(document).ready(function() {
                 var latlng = mapval.split(',');
                 showPosition({ coords: { latitude: latlng[0], longitude: latlng[1] } });
             }
-            $('#tabs').tabs();
+            $('#regTabs a[href="#address"]').tab('show');
         }, "html");
     });
     

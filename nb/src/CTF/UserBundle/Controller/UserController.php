@@ -111,7 +111,7 @@ class UserController extends Controller {
             ));
         }
         
-        return new Response('NOT ALLOWED!');
+        return new Response('Bad Request!', 400);
     }
 
 }

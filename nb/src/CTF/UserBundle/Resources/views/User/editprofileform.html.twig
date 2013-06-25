@@ -1,7 +1,7 @@
 {# edit profile form #}
 <form class="form-horizontal" action="{{ path('ctf_user_edit_profile') }}" method="post" {{ form_enctype(form) }} id="edit-form">
     <div id="tabbable">
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" id="regTabs">
             <li class="active"><a href="#general" data-toggle="tab">General</a></li>
             <li><a href="#extra-general" data-toggle="tab">About Me</a></li>
             <li><a href="#address" data-toggle="tab">Address</a></li>
@@ -12,10 +12,6 @@
             <div id="general" class="tab-pane active">
                 {{ form_row(form.username) }}
                 {{ form_row(form.email) }}
-                {% if form.password is defined %}
-                <hr />
-                {{ form_row(form.password) }}
-                {% endif %}
             </div>
                 <div id="extra-general" class="tab-pane">
                 {{ form_row(form.fname) }}
@@ -29,6 +25,7 @@
             </div>
             <div id="address" class="tab-pane">
                 {{ form_row(form.country) }}
+                <div id="state-loader"></div>
                 {% if form.state is defined %}
                 {{ form_row(form.state) }}
                 {% endif %}
@@ -57,6 +54,11 @@
                 <p>
                     This is a nice way to finish it, isn't it?
                 </p>
+                {% if form.password is defined %}
+                <hr />
+                {{ form_row(form.password) }}
+                {% endif %}
+                <hr />
                 <button class="btn">Save</button>
             </div>
         </div>
