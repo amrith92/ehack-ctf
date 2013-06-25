@@ -53,10 +53,11 @@
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
-var map;
+var map, marker = null;
 function initialiseMap() {
     var myOptions = {
-        zoom: 4,
+        center: new google.maps.LatLng(13.0810, 80.2740),
+        zoom: 6,
         mapTypeControl: false,
         mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
         navigationControl: false,
@@ -64,6 +65,18 @@ function initialiseMap() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    marker = new google.maps.Marker({
+        position: map.getCenter(),
+        map: map,
+        title:"You are here",
+        draggable: true
+    });
+    map.panTo(marker.getPosition());
+    geocodePosition(marker.getPosition());
+    google.maps.event.addListener(marker, 'dragend', function(evt) {
+        $("#ctf_userbundle_usertype_location").val(evt.latLng.lat() + "," + evt.latLng.lng());
+        geocodePosition(marker.getPosition());
+    });
 }
 
 function initialize() {
@@ -82,9 +95,6 @@ function onLocateClick() {
         geoPosition.getCurrentPosition(showPosition,function(){ alert('Could not find you! :('); },{enableHighAccuracy:true});
     }
 }
-
-// Map Marker
-var marker = null;
 
 function showPosition(p) {
     var latitude = parseFloat( p.coords.latitude );
@@ -109,7 +119,7 @@ function showPosition(p) {
     } else {
         marker.setPosition(pos);
     }
-    map.setCenter(pos);
+    map.panTo(pos);
 }
 
 function geocodePosition(pos) {
@@ -121,9 +131,6 @@ function geocodePosition(pos) {
        function(results, status) {
            if (status == google.maps.GeocoderStatus.OK) {
                $('#formatted-address').text(results[0].formatted_address);
-           } 
-           else {
-               alert('Cannot determine address at this location.' + status);
            }
        }
     );
@@ -162,7 +169,7 @@ $(document).ready(function() {
     initialiseMap();
     
     var mapval = $('#ctf_userbundle_usertype_location').val();
-    if (null !== mapval) {
+    if (null != mapval && 'NaN,NaN' != mapval) {
         var latlng = mapval.split(',');
         showPosition({ coords: { latitude: latlng[0], longitude: latlng[1] } });
     }

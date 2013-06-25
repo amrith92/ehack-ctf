@@ -73,9 +73,10 @@ Registration &middot; ehack CTF
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
-var map;
+var map, marker = null;
 function initialiseMap() {
     var myOptions = {
+        center: new google.maps.LatLng(13.0810, 80.2740),
         zoom: 4,
         mapTypeControl: false,
         mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
@@ -84,6 +85,18 @@ function initialiseMap() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    marker = new google.maps.Marker({
+        position: map.getCenter(),
+        map: map,
+        title:"You are here",
+        draggable: true
+    });
+    map.panTo(marker.getPosition());
+    geocodePosition(marker.getPosition());
+    google.maps.event.addListener(marker, 'dragend', function(evt) {
+        $("#ctf_userbundle_usertype_location").val(evt.latLng.lat() + "," + evt.latLng.lng());
+        geocodePosition(marker.getPosition());
+    });
 }
 
 function initialize() {
@@ -102,9 +115,6 @@ function onLocateClick() {
         geoPosition.getCurrentPosition(showPosition,function(){ alert('Could not find you! :('); },{enableHighAccuracy:true});
     }
 }
-
-// Map Marker
-var marker = null;
 
 function showPosition(p) {
     var latitude = parseFloat( p.coords.latitude );
@@ -130,7 +140,7 @@ function showPosition(p) {
     } else {
         marker.setPosition(pos);
     }
-    map.setCenter(pos);
+    map.panTo(pos);
 }
 
 function geocodePosition(pos) 
