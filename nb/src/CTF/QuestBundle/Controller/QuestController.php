@@ -569,53 +569,25 @@ class QuestController extends Controller {
             $file = $dir . '/' . $filename;
         }
         
+        $finfo = \finfo_open(FILEINFO_MIME_TYPE);
         $content = file_get_contents($file);
-        $mime_types = array(
-            "pdf"=>"application/pdf"
-            ,"exe"=>"application/octet-stream"
-            ,"zip"=>"application/zip"
-            ,"docx"=>"application/msword"
-            ,"doc"=>"application/msword"
-            ,"xls"=>"application/vnd.ms-excel"
-            ,"ppt"=>"application/vnd.ms-powerpoint"
-            ,"gif"=>"image/gif"
-            ,"png"=>"image/png"
-            ,"jpeg"=>"image/jpg"
-            ,"jpg"=>"image/jpg"
-            ,"mp3"=>"audio/mpeg"
-            ,"wav"=>"audio/x-wav"
-            ,"mpeg"=>"video/mpeg"
-            ,"mpg"=>"video/mpeg"
-            ,"mpe"=>"video/mpeg"
-            ,"mov"=>"video/quicktime"
-            ,"avi"=>"video/x-msvideo"
-            ,"3gp"=>"video/3gpp"
-            ,"css"=>"text/css"
-            ,"jsc"=>"application/javascript"
-            ,"js"=>"application/javascript"
-            ,"php"=>"text/html"
-            ,"htm"=>"text/html"
-            ,"html"=>"text/html"
-            ,"json"=>"application/json"
-        );
-        
-        $ctype=pathinfo($file  )['extension'];
-        if(isset($mime_types[$ctype])) {
-            $ctype=$mime_types[$ctype];
-        }
         
         $response = new Response();
         
-        if(isset($ctype)) {
-            $response->headers->set('Content-Type',$ctype);
-        }
-        else {
-            $response->headers->set('Content-Type','application/octet-stream');
-        }
+        $response->headers->set('Content-Type', \finfo_file($finfo, $file));
         $response->headers->set('Content-Transfer-Encoding','binary');
         $response->headers->set('Expires','0');
         $response->headers->set('Pragma','public');
-        $response->headers->set('Content-Length','' . filesize($file));
+        $response->headers->set('Content-Length','' . \filesize($file));
+        
+        \finfo_close($finfo);
+        
+        if ('php' == \pathinfo($file)['extension']) {
+            \ob_start();
+            include $file;
+            $content = \ob_get_contents();
+            \ob_end_clean();
+        }
         $response->setContent($content);
         
         return $response;
