@@ -592,9 +592,11 @@ class User extends BaseUser
      * @param \CTF\UserBundle\Entity\Zone $state
      * @return User
      */
-    public function setState(\CTF\UserBundle\Entity\Zone $state)
+    public function setState($state)
     {
-        $this->state = $state;
+        if (null != $state) {
+            $this->state = $state;
+        }
     
         return $this;
     }

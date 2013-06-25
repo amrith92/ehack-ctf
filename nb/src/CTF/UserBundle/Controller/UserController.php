@@ -33,6 +33,13 @@ class UserController extends Controller {
             if ($form->isValid()) {
                 //$em = $this->getDoctrine()->getEntityManager();
                 $data = $form->getData();
+                if ($data->getCountry() == null) {
+                    $this->get('session')->getFlashBag()->add('error', "Please select a valid country!");
+                    return $this->render('CTFUserBundle:User:editprofile.html.twig', array(
+                        'form' => $form->createView(),
+                        'profilePic' => $user->getImageURL()
+                    ));
+                }
                 if (isset($form['password'])) {
                     $passwd = $form['password']->getData();
                 }

@@ -1,5 +1,5 @@
 {# edit profile form #}
-<form class="form-horizontal" action="{{ path('ctf_user_edit_profile') }}" method="post" {{ form_enctype(form) }} id="edit-form">
+<form class="form-horizontal" action="{{ path('ctf_user_edit_profile') }}" method="post" {{ form_enctype(form) }} id="edit-form" novalidate="novalidate">
     <div id="tabbable">
         <ul class="nav nav-tabs" id="regTabs">
             <li class="active"><a href="#general" data-toggle="tab">General</a></li>

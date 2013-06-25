@@ -59,6 +59,7 @@ class UserEditEventListener implements EventSubscriberInterface {
                 'expanded' => false,
                 'property' => 'name',
                 'mapped' => true,
+                'empty_value' => 'None',
                 'query_builder' => function(\CTF\UserBundle\Entity\ZoneRepository $er) use ($cty) {
                     return $er->findStatesByCountryIdQueryBuilder($cty);
                 },
@@ -100,6 +101,7 @@ class UserEditEventListener implements EventSubscriberInterface {
                 'expanded' => false,
                 'property' => 'name',
                 'mapped' => true,
+                'empty_value' => 'None',
                 'query_builder' => function(\CTF\UserBundle\Entity\ZoneRepository $er) use ($cty) {
                     return $er->findStatesByCountryIdQueryBuilder($cty);
                 },
