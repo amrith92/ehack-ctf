@@ -20,6 +20,7 @@
         <h3>Login or Register</h3>
     </div>
     <div class="modal-body">
+        {% if not app.user %}
         <div class="row-fluid">
             <div class="span6 right-separator">
                 {% if error %}
@@ -69,6 +70,12 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <center>
+            <h2>You are already logged in!</h2>
+            <h4>:)</h4>
+        </center>
+        {% endif %}
     </div>
     <div class="modal-footer">
         <a href="javascript:closeLoginModal();" class="btn">Close</a>

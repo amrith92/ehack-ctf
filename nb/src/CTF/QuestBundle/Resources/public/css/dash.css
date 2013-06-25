@@ -111,3 +111,7 @@ iframe.twitter-follow-button {
 .popover-content {
     overflow: auto!important;
 }
+
+.dash-info-panel li a {
+    word-wrap: break-word;
+}

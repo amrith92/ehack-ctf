@@ -58,7 +58,7 @@ Dashboard &middot; CTF
         <div class="span3 shaded">
             <img src="{{ user.getImageUrl() }}" width="80" class="img-polaroid" />
             <hr />
-            <ul class="nav nav-list">
+            <ul class="nav nav-list dash-info-panel">
                 <li class="nav-header">Basic Information</li>
                 <li><a href="#"><span class="label label-inverse">Gender</span> {{ user.getGender() | lower }}</a></li>
                 <li><a href="#"><span class="label label-inverse">Birthday</span> {{ user.getDob() | date('F jS, Y') }}</a></li>
@@ -99,7 +99,7 @@ Dashboard &middot; CTF
             <hr />
             <div class="row-fluid">
                 <div class="span3 well well-small" id="qbox">
-                    <ul class="nav nav-list">
+                    <ul class="nav nav-list dash-info-panel">
                         <li><a href="#" class="btn btn-primary quest-button" id="continue-quest-button">Quest</a></li>
                         <li class="divider"></li>
                         {% for it in stages %}
