@@ -178,16 +178,22 @@ class UserProvider extends FOSUBUserProvider {
                         $user->setPassword('');
                         $user->setEnabled(true);
                         $user->setVerified(false);
-                        $user->setAboutMe($attr['description']);
+                        if (isset($attr['description'])) {
+                            $user->setAboutMe($attr['description']);
+                        }
                         $user->setImageURL(str_replace('_normal', '_bigger', $attr['profile_image_url_https']));
-                        $user->setCity(preg_split("/\s+(?=\S*+$)/", $attr['location'])[0]);
+                        if (isset($attr['location'])) {
+                            $user->setCity(preg_split("/\s+(?=\S*+$)/", $attr['location'])[0]);
+                        }
                         {
-                            $entities = $attr['entities']['url'];
-                            $urls = array();
-                            foreach ($entities['urls'] as $u) {
-                                $urls[] = $u['expanded_url'];
+                            if (isset($attr['entities']['url'])) {
+                                $entities = $attr['entities']['url'];
+                                $urls = array();
+                                foreach ($entities['urls'] as $u) {
+                                    $urls[] = $u['expanded_url'];
+                                }
+                                $user->setWebsite(implode("\n", $urls));
                             }
-                            $user->setWebsite(implode("\n", $urls));
                         }
                         $user->setLoginMode('twitter');
                         $user->addRole('ROLE_USER');
