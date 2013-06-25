@@ -49,4 +49,7 @@ ctf_quest_finish:
     defaults: { _controller: CTFQuestBundle:Quest:finish }
     options:
       expose: true
-      
+
+ctf_quest_share_cert:
+    pattern: /quest/share/twitter
+    defaults: { _controller: CTFQuestBundle:Quest:shareCertificateOnTwitter }

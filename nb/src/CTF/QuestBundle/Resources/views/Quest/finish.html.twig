@@ -13,9 +13,33 @@
         <a href="{{ path('ctf_certificate_test') }}" target="_blank" class="btn btn-primary">Your Certificate (PNG)</a>
         <a href="{{ path('ctf_certificate_test', { mode: 'pdf' }) }}" target="_blank" class="btn btn-warning">Your Certificate (PDF)</a>
     </center>
+    <h5>Share On</h5>
+    <ul>
+        <li><a class="btn btn-facebook" href="javascript:shareCertificateOnFacebook();"><i class="icon-white icon-facebook"></i>&nbsp;|&nbsp;Share on Facebook</a></li>
+        <li><iframe allowtransparency="true" frameborder="0" scrolling="no" src="{{ path('ctf_quest_share_cert') }}" style="width:140px;height:38px;margin-top:10px;"></iframe></li>
+    </ul>
     <hr />
     <p>
         Help us bring in <strong>even more</strong> fantastic people such as you!
         Do your part to make this truly brilliant.
     </p>
 </div>
+<script type="text/javascript">
+//<!--
+
+function shareCertificateOnFacebook() {
+    var obj = {
+        method: 'feed',
+        redirect_uri: '{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}',
+        link: '{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_certificate_user', { id: app.user.getId() }) }}',
+        picture: '{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_certificate_user', { id: app.user.getId() }) }}',
+        name: 'EHack - Capture the flag',
+        caption: 'The official Guiness attempt!',
+        description: 'I have participated in the official Guiness world record attempt and have been presented with this super-awesome certificate!'
+    };
+    
+    FB.ui(obj, function() {});
+}
+
+//-->
+</script>

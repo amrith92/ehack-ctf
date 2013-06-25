@@ -591,5 +591,13 @@ class QuestController extends Controller {
         
         return $response;
     }
+    
+    public function shareCertificateOnTwitterAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        return $this->render('CTFQuestBundle:Quest:twitter.share.html.twig');
+    }
 
 }
