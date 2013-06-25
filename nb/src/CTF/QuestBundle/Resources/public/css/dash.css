@@ -80,6 +80,8 @@ body {
 #chat div.message {
     margin: 6px 2px;
     clear: both;
+    word-wrap: break-word;
+    max-width: 80%;
 }
 
 .right {
