@@ -132,6 +132,7 @@ io.sockets.on('connection', function (socket) {
 			return;
 		}
 		message = censor(message);
+		message = message.substring(0, 140);
 		socket.emit('updatechat', socket.username, htmlEntities(message));
 		socket.broadcast.emit('updatechat', socket.username, htmlEntities(message));
 	});

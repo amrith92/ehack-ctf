@@ -100,6 +100,7 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('message', function(message) {
 		message = censor(message);
+		message = message.substring(0, 140);
 		socket.emit('updatechat', socket.username, htmlEntities(message));
 
 		datastore.smembers("teams_" + socket.team, function(err, data) {

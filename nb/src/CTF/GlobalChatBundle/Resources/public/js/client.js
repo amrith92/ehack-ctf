@@ -35,7 +35,7 @@ var GlobalChatClient = {
             if(event.keyCode == 13) {
                 event.preventDefault();
                 var msg = GlobalChatClient.bindings.input.value;
-                if (null !== msg && '' !== msg) {
+                if (null !== msg && '' !== msg && msg.length <= 140) {
                     GlobalChatClient.socket.emit('message', msg);
                     GlobalChatClient.bindings.input.value = '';
                 }
@@ -44,7 +44,7 @@ var GlobalChatClient = {
         
         self.bindings.send.addEventListener('click', function() {
             var msg = GlobalChatClient.bindings.input.value;
-            if (null !== msg && '' !== msg) {
+            if (null !== msg && '' !== msg && msg.length <= 140) {
                 GlobalChatClient.socket.emit('message', msg);
                 GlobalChatClient.bindings.input.value = '';
             }

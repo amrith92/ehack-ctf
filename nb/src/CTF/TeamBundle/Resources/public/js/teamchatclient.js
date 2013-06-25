@@ -33,7 +33,7 @@ var TeamChatClient = {
             if(event.keyCode == 13) {
                 event.preventDefault();
                 var msg = TeamChatClient.bindings.input.value;
-                if (null !== msg && '' !== msg) {
+                if (null !== msg && '' !== msg && msg.length <= 140) {
                     TeamChatClient.socket.emit('message', msg);
                     TeamChatClient.bindings.input.value = '';
                 }
@@ -42,7 +42,7 @@ var TeamChatClient = {
         
         self.bindings.send.addEventListener('click', function() {
             var msg = TeamChatClient.bindings.input.value;
-            if (null !== msg && '' !== msg) {
+            if (null !== msg && '' !== msg && msg.length <= 140) {
                 TeamChatClient.socket.emit('message', msg);
                 TeamChatClient.bindings.input.value = '';
             }
@@ -54,6 +54,7 @@ var TeamChatClient = {
         if (typeof io != undefined) {
             self.socket.on('connect', function() {
                 TeamChatClient.socket.emit('adduser', TeamChatClient.username, TeamChatClient.team);
+                TeamChatClient.bindings.input.removeAttribute('disabled');
             });
 
             self.socket.on('updateusers', function(data) {
