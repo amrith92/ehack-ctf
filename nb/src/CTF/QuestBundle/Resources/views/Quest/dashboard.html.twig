@@ -156,6 +156,15 @@ function updateCurrentStats() {
         $('#score-display').text(res.score).fadeIn();
     });
 }
+
+function checkLogin() {
+    $.get(Routing.generate('ctf_login_check', null), null, function(data) {
+        if ('false' == data) {
+            window.location = '{{ path('login') }}';
+        }
+    });
+}
+
 var cli_on = false, clu_on = false;
 $(document).ready(function() {
     $.ajaxSetup({ cache: true });

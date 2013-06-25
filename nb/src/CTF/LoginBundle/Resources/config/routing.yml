@@ -1,3 +1,5 @@
-ctf_login_homepage:
-    pattern:  /ctflogin
-    defaults: { _controller: CTFLoginBundle:Default:index }
+ctf_login_check:
+    pattern:  /check/login
+    defaults: { _controller: CTFLoginBundle:Login:check }
+    options:
+      expose: true

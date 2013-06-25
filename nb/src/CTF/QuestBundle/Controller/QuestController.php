@@ -49,12 +49,16 @@ class QuestController extends Controller {
         $salt = $this->container->getParameter('secret');
         $this->get('session')->set('__MYREF', $this->get('ctf_referral.cryptor')->encrypt($user->getId()));
 
-        return $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
+        $response = $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
                     'user' => $user,
                     'stages' => $stages,
                     'teamname' => \md5($teamname . $salt),
                     'team' => $team
                 ));
+        $response->mustRevalidate();
+        $response->expire();
+        
+        return $response;
     }
 
     public function continueQuestAction(Request $request) {
@@ -202,8 +206,11 @@ class QuestController extends Controller {
                         'result' => 'success',
                         'message' => $message
                     );
+                    
+                    $response = new Response(\json_encode($data));
+                    $response->mustRevalidate();
 
-                    return new Response(\json_encode($data));
+                    return $response;
                 } else {
                     // Not allowed to view the question
                     $message = $this->render('CTFQuestBundle:Quest:question.invalid.html.twig')->getContent();
@@ -281,7 +288,10 @@ class QuestController extends Controller {
 
             $hint = $it->getQuestion()->getHints();
 
-            return new Response($hint);
+            $response = new Response($hint);
+            $response->mustRevalidate();
+            
+            return $response;
         }
 
         return new Response('Bad Request!', 400);
