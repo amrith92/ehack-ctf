@@ -83,6 +83,12 @@ class QuestController extends Controller {
 
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $user = $this->get('security.context')->getToken()->getUser();
+            
+            if ($user->isLocked()) {
+                // The user has been banned
+                return new Response('<div class="alert alert-error">You have been banned by the administrator!</div>');
+            }
+            
             $em = $this->getDoctrine()->getEntityManager();
             
             $cache = $this->get('ctf_cache');
@@ -174,6 +180,11 @@ class QuestController extends Controller {
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $em = $this->getDoctrine()->getEntityManager();
             $user = $this->get('security.context')->getToken()->getUser();
+            
+            if ($user->isLocked()) {
+                // The user has been banned
+                return new Response('<div class="alert alert-error">You have been banned by the administrator!</div>');
+            }
             
             $cache = $this->get('ctf_cache');
             $teamid = $cache->get(\md5($user->getId() . '_teamid'));
@@ -347,6 +358,11 @@ class QuestController extends Controller {
             if (null !== $answer) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $user = $this->get('security.context')->getToken()->getUser();
+                
+                if ($user->isLocked()) {
+                    // The user has been banned
+                    return new Response('<div class="alert alert-error">You have been banned by the administrator!</div>');
+                }
                 
                 // Check if the team has been banned
                 $cache = $this->get('ctf_cache');
