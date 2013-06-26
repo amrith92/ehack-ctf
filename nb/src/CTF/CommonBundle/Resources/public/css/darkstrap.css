@@ -741,6 +741,6 @@ select:focus:invalid:focus {
 
 .nav-list > li > a.quest-button:hover, .nav-list > li > a.quest-button:focus, .nav-list > li > a.quest-button:active {
   color: #ffffff !important;
-  background-color: #0044cc !important;
-  *background-color: #003bb3 !important;
+  background-color: #51a351 !important;
+  *background-color: #499249 !important;
 }
