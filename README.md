@@ -73,16 +73,16 @@ properties of the game state you need to calculate an answer.
 ```
 
  * Property List
-	This should be comma-separated list of valid properties.
-	Must *not* contain any whitespaces between properties.
+	* This should be comma-separated list of valid properties.
+	* Must *not* contain any whitespaces between properties.
  * Code
-	Code should be valid PHP code. Closures are allowed.
-	Standard PHP functions allowed. All variables must
-	be explicitly defined *other than those already
-	defined in the property list!*
+	* Code should be valid PHP code. Closures are allowed.
+	* Standard PHP functions allowed. All variables must
+	* be explicitly defined *other than those already
+	* defined in the property list!*
  * Result
-	This value will be compared with the calculated result
-	(as calculated by the Code). See example.
+	* This value will be compared with the calculated result
+	  (as calculated by the Code). See example.
 
 The various properties (currently) available are:
 
@@ -107,7 +107,7 @@ to validate it sucessfully.
      firstname,answer
   [/params]
 
-  return (\md5($firstname) == $answer;
+  return (\md5($firstname) == $answer);
 [/ddynamic]
 
 1
