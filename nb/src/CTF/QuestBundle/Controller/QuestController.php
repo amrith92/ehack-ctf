@@ -183,7 +183,11 @@ class QuestController extends Controller {
             
             if ($user->isLocked()) {
                 // The user has been banned
-                return new Response('<div class="alert alert-error">You have been banned by the administrator!</div>');
+                $data = array(
+                    'result' => 'error',
+                    'message' => 'You have been banned by the administrator!'
+                );
+                return new Response(\json_encode($data));
             }
             
             $cache = $this->get('ctf_cache');
