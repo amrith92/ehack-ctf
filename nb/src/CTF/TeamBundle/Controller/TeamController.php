@@ -69,6 +69,21 @@ class TeamController extends Controller {
                 $this->get('session')->getFlashBag()->add('notice', "You are ALREADY a team admin. You are not allowed to select/create other teams!");
                 return $this->redirect($this->generateUrl('ctf_team_select'));
             }
+            
+            // Check if already IN a team
+            $cache = $this->get('ctf_cache');
+            if ($cache->has(\md5($user->getId() . '_teamname'))) {
+                $this->get('session')->getFlashBag()->add('error', "You are ALREADY a part of a team :P");
+                return $this->redirect($this->generateUrl('ctf_team_select'));
+            } else {
+                $em = $this->getDoctrine()->getEntityManager();
+                $teamname = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
+                if (null != $teamname) {
+                    $cache->store(\md5($user->getId() . '_teamname'), $teamname);
+                    $this->get('session')->getFlashBag()->add('error', "You are ALREADY a part of a team :P");
+                    return $this->redirect($this->generateUrl('ctf_team_select'));
+                }
+            }
 
             if ($form->isValid()) {
                 $dto = $form->getData();
@@ -147,6 +162,9 @@ class TeamController extends Controller {
                         $this->get('fos_user.user_manager')->updateUser($user, false);
 
                         $em->flush();
+                        
+                        $cache->store(\md5($user->getId() . '_teamname'), $team->getName());
+                        
                         $this->get('session')->getFlashBag()->add('success', "You've successfully created a team. You are now its ADMIN. Go forth, set out on your journey in this exciting competition.");
 
                         $this->redirect($this->generateUrl('ctf_quest_homepage'));
