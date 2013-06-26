@@ -276,6 +276,7 @@ $(document).ready(function() {
                 
                 $.get(Routing.generate('ctf_quest_finish'), null, function(data) {
                     $('#question-dyn').html(data).show().fadeIn();
+                    updateCurrentStats();
                 });
             } else {
                 $('#question-result').html('<div class="alert alert-error">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
