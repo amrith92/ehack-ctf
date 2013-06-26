@@ -37,5 +37,23 @@ class StageRepository extends EntityRepository {
         
         return $ret;
     }
+    
+    public function nextStage($currentId) {
+        $q = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.id > :id')
+            ->setParameter('id', $currentId)
+            ->setFirstResult(0)
+            ->setMaxResults(1)
+            ->getQuery();
+        
+        try {
+            $ret = $q->getSingleResult();
+        } catch (NoResultException $e) {
+            $ret = null;
+        }
+        
+        return $ret;
+    }
 }
 

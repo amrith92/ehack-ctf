@@ -430,7 +430,7 @@ class QuestController extends Controller {
                     
                     if (null == $nextLevel) {
                         // Stage exhausted, move to the next one
-                        $newStage = $em->getRepository('CTFQuestBundle:Stage')->find($stage->getId() + 1);
+                        $newStage = $em->getRepository('CTFQuestBundle:Stage')->nextStage($stage->getId());
                         
                         if (null != $newStage) {
                             $questions = $newStage->getQuestions();
