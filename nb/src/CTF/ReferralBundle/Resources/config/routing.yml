@@ -6,3 +6,8 @@ ctf_referral_refer:
     pattern: /referree/{ref}
     defaults: { _controller: CTFReferralBundle:Referral:ref }
     
+ctf_referral_shortify:
+    pattern: /refer/link/shortify
+    defaults: { _controller: CTFReferralBundle:Referral:shortenReferralLink }
+    options:
+      expose: true

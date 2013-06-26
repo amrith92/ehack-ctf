@@ -1,12 +1,12 @@
 {# Social Shares Twig template #}
+{% set longUrl = app.request.getSchemeAndHttpHost() ~ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) %}
 <div class="well well-small">
     <p>
         <strong>Share Referral Links</strong>
     </p>
     <div>
-        <div class="hidden" id="longUrl">{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}</div>
         <div class="label label-inverse" id="longUrlPopover"
-             data-content="<div><a href='{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}'>{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}</a></div>"
+             data-content="<div><a href='{{ longUrl }}'>{{ longUrl }}</a></div>"
              data-placement="left"
              data-html="true"
              data-title="Original Referral URL">Link</div>
@@ -17,7 +17,7 @@
     <hr />
     <button class="btn btn-facebook" onclick="javascript:shareOnFacebook();"><i class="icon-white icon-facebook"></i>&nbsp;|&nbsp;Share referral on Facebook</button>
     <hr />
-    <div class="g-plus" data-action="share" data-annotation="vertical-bubble" data-width="200" data-expandto="left" data-href="{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}"></div>
+    <div class="g-plus" data-action="share" data-annotation="vertical-bubble" data-width="200" data-expandto="left" data-href="{{ longUrl }}"></div>
     <hr />
     <div>
         <a id="twitter_share" href="https://twitter.com/share" class="twitter-share-button" data-url="{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}" data-text="Ehack! ARE YOU HAC-KING TODAY? Check out!" data-via="EHACK" data-size="large" data-hashtags="ehack,ctf">Tweet</a>
@@ -34,18 +34,13 @@ window.___gcfg = {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
     po.src = 'https://apis.google.com/js/plusone.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-    
-    window.googleApiLoaded = googleApiLoaded;
-    var sc = document.createElement('script'); sc.type = 'text/javascript';
-    sc.src = "https://apis.google.com/js/client.js?onload=googleApiLoaded";
-    document.body.appendChild(sc);
 })();
 
 function shareOnFacebook() {
     var obj = {
         method: 'feed',
-        redirect_uri: '{{ app.request.uri }}',
-        link: '{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}',
+        redirect_uri: '{{ longUrl }}',
+        link: '{{ longUrl }}',
         picture: 'http://ehack.in/images/EHACK logo.png',
         name: 'EHack - Capture the flag',
         caption: 'The official Guiness attempt!',
@@ -55,22 +50,11 @@ function shareOnFacebook() {
     FB.ui(obj, function() {});
 }
 
-function shortenShareLink() {
-    var request = gapi.client.urlshortener.url.insert({
-        'resource': {
-            'longUrl': document.getElementById('longUrl').innerHTML
-        }
-    });
-    request.execute(function(response) {
-        document.getElementById('shortUrl').innerHTML = '<a href="' + response.id + '" target="_blank">' + response.id + '</a>';
-    });
-}
-
 window.onload = function() {
-    $('#longUrlPopover').popover();    
-};
-var googleApiLoaded = function() {
-    gapi.client.setApiKey('AIzaSyAyeYtXXWPBfkDpL2xI3BrbgP4o-Za1LTs');
-    gapi.client.load("urlshortener", "v1", shortenShareLink);
+    $('#longUrlPopover').popover();
+    
+    $.get(Routing.generate('ctf_referral_shortify', null), null, function(data) {
+        document.getElementById('shortUrl').innerHTML = '<a href="' + data + '" target="_blank">' + data + '</a>';
+    });
 };
 </script>

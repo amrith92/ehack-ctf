@@ -35,6 +35,7 @@ Procedure
 	    google_client_secret: 
 	    twitter_client_id: 	
 	    twitter_client_secret: 
+		google_api_key:
 ```
 
 3. Enjoy the show.
