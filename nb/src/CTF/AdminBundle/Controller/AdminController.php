@@ -374,23 +374,24 @@ class AdminController extends Controller
                 $srepo = $em->getRepository('CTFQuestBundle:Stage');
                 $form['stage']->setData($srepo->find($stage));
                 
-                return $this->render('CTFAdminBundle:Admin:question.form.html.twig', array(
-                    'form' => $form->createView()
+                return $this->render('CTFAdminBundle:Admin:question.edit.form.html.twig', array(
+                    'form' => $form->createView(),
+                    'qid' => $id,
+                    'sid' => $stage
                 ));
             } else if (-1 != $stage && $request->isMethod('POST')) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $qrepo = $em->getRepository('CTFQuestBundle:Question');
-                $question = $qrepo->find($id);
-                $form = $this->createForm(new QuestionType(), $question);
+                $form = $this->createForm(new QuestionType());
+                $form->bind($request);
                 
                 if ($form->isValid()) {
-                    $_question = $form->getData();
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $question = $em->getRepository('CTFQuestBundle:Question')->find($id);
                     $stage = $em->getRepository('CTFQuestBundle:Stage')->find($stage);
                     
                     // Attachment
                     if (null !== $form['attachment']->getData()) {
                         $file = $form->get('attachment')->getData();
-                        $dir = __DIR__.'/../../../../web/uploads/questions' . '/s' . $stage->getId() . '/l' . $_question->getLevel();
+                        $dir = __DIR__.'/../../../../web/uploads/questions' . '/s' . $stage->getId() . '/l' . $question->getLevel();
                         $extension = $file->guessExtension();
                         if (!$extension) {
                             // extension cannot be guessed
@@ -426,22 +427,25 @@ class AdminController extends Controller
                             )));
                         }
                     }
+                    
+                    $question->setContent($form['content']->getData());
+                    $question->setTitle($form['title']->getData());
+                    $question->setLevel($form['level']->getData());
+                    $question->setAnswerTemplate($form['answerTemplate']->getData());
+                    $question->setHints($form['hints']->getData());
 
-                    if (true === $stage->hasQuestion($_question)) {
-                        if ($form['stage']->getData()->getId() == $stage->getId()) {
-                            
-                        } else {
+                    if (true === $stage->hasQuestion($question)) {
+                        if ($form['stage']->getData()->getId() != $stage->getId()) {
                             // Remove question from stage collection
                             $stage->getQuestions()->removeElement($question);
-                            $question->setId(null);
                             $em->flush();
                             
                             $newstage = $em->getRepository('CTFQuestBundle:Stage')->find($form['stage']->getData()->getId());
-                            $newstage->addQuestion($_question);
+                            $newstage->addQuestion($question);
                             $em->merge($newstage);
                         }
                     } else {
-                        $stage->addQuestion($_question);
+                        $stage->addQuestion($question);
                         $em->merge($stage);
                     }
                     

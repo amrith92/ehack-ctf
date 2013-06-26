@@ -149,6 +149,6 @@ class Stage {
     }
     
     public function hasQuestion($question) {
-        return \in_array($question, $this->questions);
+        return (false !== $this->questions->indexOf($question));
     }
 }

@@ -1,5 +1,5 @@
 {# Question Form #}
-<form action="{{ path('ctf_admin_stage_question') }}" method="post" {{ form_enctype(form) }} id="question-form" novalidate="novalidate">
+<form action="{% block qpath %}{{ path('ctf_admin_stage_question') }}{% endblock %}" method="post" {{ form_enctype(form) }} id="question-form" novalidate="novalidate">
     <fieldset>
         <legend>Edit Question</legend>
         <div class="tabbable tabs-right" id="qtabs" data-tabs="tabs">
