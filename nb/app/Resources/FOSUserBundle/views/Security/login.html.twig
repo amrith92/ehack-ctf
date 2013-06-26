@@ -127,7 +127,11 @@ function openLoginModal() {
 }
 
 $(document).ready(function() {
+    {% if not app.user %}
     openLoginModal();
+    {% else %}
+    window.location = '{{ app.request.getScheme() }}://{{ app.request.getHost() }}{{ path('ctf_quest_homepage') }}';
+    {% endif %}
 });
 //-->
     </script>
