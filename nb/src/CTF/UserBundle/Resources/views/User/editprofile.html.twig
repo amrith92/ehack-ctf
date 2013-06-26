@@ -172,6 +172,7 @@ $(document).ready(function() {
     if (null != mapval && 'NaN,NaN' != mapval) {
         var latlng = mapval.split(',');
         showPosition({ coords: { latitude: latlng[0], longitude: latlng[1] } });
+        geocodePosition(marker.getPosition());
     }
 });
 //-->
