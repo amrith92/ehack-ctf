@@ -1,7 +1,9 @@
 {# List of stages #}
 <ul class="nav nav-list well">
+    {% set ctr = 1 %}
     {% for item in list %}
-    <li><a href="{{ path('ctf_admin_stage_form', { id: item.getId() }) }}" class="list-item"><span class="badge badge-inverse">{{ item.getId() }}</span> {{ item.getName() }}</a></li>
+    <li><a href="{{ path('ctf_admin_stage_form', { id: item.getId() }) }}" class="list-item"><span class="badge badge-inverse">{{ ctr }}</span> {{ item.getName() }}</a></li>
+    {% set ctr = ctr + 1 %}
     {% endfor %}
     <li class="divider"></li>
     <li><a href="#" id="add-more-stages">Add More &raquo;</a></li>
