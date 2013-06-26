@@ -755,4 +755,27 @@ class User extends BaseUser
         
         return $this;
     }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function computeETag() {
+        return \md5(
+            $this->id .
+            $this->aboutMe .
+            $this->city .
+            $this->country->getId() .
+            $this->dob->getTimestamp() .
+            $this->gender .
+            $this->imageUrl .
+            $this->lname .
+            $this->phone .
+            $this->org->getId() .
+            $this->website .
+            $this->state->getId() .
+            $this->locked .
+            \implode(',', $this->roles)
+        );
+    }
 }
