@@ -77,9 +77,9 @@ properties of the game state you need to calculate an answer.
 	* Must *not* contain any whitespaces between properties.
  * Code
 	* Code should be valid PHP code. Closures are allowed.
-	* Standard PHP functions allowed. All variables must
-	* be explicitly defined _other than those already
-	  defined in the property list!_
+	* Standard PHP functions allowed.
+	* All variables must be explicitly defined _other than
+	  those already defined in the property list!_
  * Result
 	* This value will be compared with the calculated result
 	  (as calculated by the Code). See example.
