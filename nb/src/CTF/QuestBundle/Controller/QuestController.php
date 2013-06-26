@@ -32,17 +32,32 @@ class QuestController extends Controller {
         }
 
         $em = $this->getDoctrine()->getEntityManager();
+        $cache = $this->get('ctf_cache');
         
-        $teamname = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
+        if ($cache->has(\md5($user->getId() . '_teamname'))) {
+            $teamname = $cache->get(\md5($user->getId() . '_teamname'));
+        } else {
+            $teamname = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId());
+        }
         
         if (null == $teamname) {
             $this->get('session')->getFlashBag()->add('notice', "Looks like you aren't a part of a team yet! You cannot join the CTF Event without creating or selecting a team.");
             return $this->redirect($this->generateUrl('ctf_team_select'));
+        } else {
+            if (!$cache->has(\md5($user->getId() . '_teamname'))) {
+                $cache->store(\md5($user->getId() . '_teamname'), $teamname);
+            }
         }
         
-        $team = $em->getRepository('CTFTeamBundle:Team')->findOneBy(array(
-            'name' => $teamname
-        ));
+        if ($cache->has(\md5($user->getId() . '_teamid'))) {
+            $id = $cache->get(\md5($user->getId() . '_teamid'));
+            $team = $em->getRepository('CTFTeamBundle:Team')->find($id);
+        } else {
+            $team = $em->getRepository('CTFTeamBundle:Team')->findOneBy(array(
+                'name' => $teamname
+            ));
+            $cache->store(\md5($user->getId() . '_teamid'), $team->getId());
+        }
 
         $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
 
@@ -69,6 +84,14 @@ class QuestController extends Controller {
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $user = $this->get('security.context')->getToken()->getUser();
             $em = $this->getDoctrine()->getEntityManager();
+            
+            $cache = $this->get('ctf_cache');
+            $teamid = $cache->get(\md5($user->getId() . '_teamid'));
+            $team = $em->getRepository('CTFTeamBundle:Team')->find($teamid);
+
+            if (false == $team->getActive()) {
+                return new Response('<div class="alert alert-error">Your team has been banned from participating further for the time-being. Please try again later.</div>');
+            }
 
             $quest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
 
@@ -151,6 +174,19 @@ class QuestController extends Controller {
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $em = $this->getDoctrine()->getEntityManager();
             $user = $this->get('security.context')->getToken()->getUser();
+            
+            $cache = $this->get('ctf_cache');
+            $teamid = $cache->get(\md5($user->getId() . '_teamid'));
+            $team = $em->getRepository('CTFTeamBundle:Team')->find($teamid);
+
+            if (false == $team->getActive()) {
+                $data = array(
+                    'result' => 'error',
+                    'message' => "Your team has been banned from participating further for the time-being. Please try again later."
+                );
+                return new Response(\json_encode($data));
+            }
+            
             $question = $em->getRepository('CTFQuestBundle:Question')->find($qid);
             if (null != $question) {
                 $stage = $em->getRepository('CTFQuestBundle:Stage')->findByQuestion($qid);
@@ -310,6 +346,20 @@ class QuestController extends Controller {
 
             if (null !== $answer) {
                 $em = $this->getDoctrine()->getEntityManager();
+                $user = $this->get('security.context')->getToken()->getUser();
+                
+                // Check if the team has been banned
+                $cache = $this->get('ctf_cache');
+                $teamid = $cache->get(\md5($user->getId() . '_teamid'));
+                $team = $em->getRepository('CTFTeamBundle:Team')->find($teamid);
+                
+                if (false == $team->getActive()) {
+                    $data = array(
+                        'result' => 'error',
+                        'message' => "Your team has been banned from participating further for the time-being. Please try again later."
+                    );
+                    return new Response(\json_encode($data));
+                }
 
                 $question = $em->getRepository('CTFQuestBundle:Question')->find($id);
 
@@ -341,7 +391,6 @@ class QuestController extends Controller {
                     $pmatches = null;
                     if (\preg_match("/.*\[params\][\s]*([\d\w\s,]*)[\s]*\[\/params\][\s]*(.*)/s", $matches[1], $pmatches)) {
                         $params = \explode(',', \trim($pmatches[1]));
-                        $user = $this->get('security.context')->getToken()->getUser();
                         $src = 'extract($args);' . \trim($pmatches[2]);
                         
                         $args = null;
@@ -390,7 +439,6 @@ class QuestController extends Controller {
 
                 if ($answer == $refAnswer) {
                     // The answer is correct
-                    $user = $this->get('security.context')->getToken()->getUser();
                     $userquest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
 
                     $history = $userquest->getHistory();
