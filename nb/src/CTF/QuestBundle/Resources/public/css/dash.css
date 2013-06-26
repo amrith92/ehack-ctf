@@ -42,10 +42,12 @@ body {
 
 #qbox ul li a, #qbox ul li span.badge {
     font-size: 0.688em;
+    color: #00e800;
 }
 
 .nav-list > li > a.quest-button {
     font-size: 1em!important;
+    color: #fff!important;
 }
 
 #chat {
