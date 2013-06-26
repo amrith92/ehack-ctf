@@ -7,4 +7,5 @@
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ app.php [QSA,L]
+	RedirectMatch permanent ~/app\.php/(.*) /$1
 </IfModule>
