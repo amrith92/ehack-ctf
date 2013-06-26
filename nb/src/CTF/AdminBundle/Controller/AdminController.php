@@ -458,4 +458,172 @@ class AdminController extends Controller
         
         return new Response('Bad Request.', 400);
     }
+    
+    public function listTeamsAction($query, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $teamlist = $em->getRepository('CTFTeamBundle:Team')->findTeamsByPartialName($query);
+            
+            $names = null;
+            foreach ($teamlist as $team) {
+                $names["options"][] = $team->getName();
+            }
+            
+            $response = new Response(\json_encode($names), 200, array(
+                'Content-Type' => 'application/json'
+            ));
+            
+            return $response;
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
+    public function banTeamAction($name, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $team = $em->getRepository('CTFTeamBundle:Team')->findOneBy(array(
+                'name' => $name
+            ));
+            
+            if (null !== $team) {
+                $team->setActive(false);
+                $em->flush();
+                
+                $data = array(
+                    'result' => 'success'
+                );
+            } else {
+                $data = array(
+                    'result' => 'failure'
+                );
+            }
+            
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
+    public function unbanTeamAction($name, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $team = $em->getRepository('CTFTeamBundle:Team')->findOneBy(array(
+                'name' => $name
+            ));
+            
+            if (null !== $team) {
+                $team->setActive(true);
+                $em->flush();
+                
+                $data = array(
+                    'result' => 'success'
+                );
+            } else {
+                $data = array(
+                    'result' => 'failure'
+                );
+            }
+            
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
+    public function listUsersAction($query, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $userlist = $em->getRepository('CTFUserBundle:User')->findUsersByPartialUsername($query);
+            
+            $names = null;
+            foreach ($userlist as $user) {
+                $names["options"][] = $user->getUsername();
+            }
+            
+            $response = new Response(\json_encode($names), 200, array(
+                'Content-Type' => 'application/json'
+            ));
+            
+            return $response;
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
+    public function banUserAction($name, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $user = $em->getRepository('CTFUserBundle:User')->findOneBy(array(
+                'username' => $name
+            ));
+            
+            if (null !== $user) {
+                $user->setLocked(true);
+                $em->flush();
+                
+                $data = array(
+                    'result' => 'success'
+                );
+            } else {
+                $data = array(
+                    'result' => 'failure'
+                );
+            }
+            
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
+    public function unbanUserAction($name, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $user = $em->getRepository('CTFUserBundle:User')->findOneBy(array(
+                'username' => $name
+            ));
+            
+            if (null !== $user) {
+                $user->setLocked(false);
+                $em->flush();
+                
+                $data = array(
+                    'result' => 'success'
+                );
+            } else {
+                $data = array(
+                    'result' => 'failure'
+                );
+            }
+            
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
 }

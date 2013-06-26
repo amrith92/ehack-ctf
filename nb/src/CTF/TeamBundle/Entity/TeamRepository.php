@@ -80,4 +80,19 @@ class TeamRepository extends EntityRepository {
         
         return $ret;
     }
+    
+    public function findTeamsByPartialName($name) {
+         $q = $this->createQueryBuilder('t')
+            ->where('t.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->getQuery();
+        
+        try {
+            $ret = $q->getResult();
+        } catch (NoResultException $e) {
+            $ret = null;
+        }
+        
+        return $ret;
+    }
 }

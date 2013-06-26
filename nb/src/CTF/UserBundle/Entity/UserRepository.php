@@ -158,4 +158,19 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         
         return $res;
     }
+    
+    public function findUsersByPartialUsername($name) {
+         $q = $this->createQueryBuilder('u')
+            ->where('u.username LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->getQuery();
+        
+        try {
+            $ret = $q->getResult();
+        } catch (NoResultException $e) {
+            $ret = null;
+        }
+        
+        return $ret;
+    }
 }

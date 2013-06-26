@@ -53,6 +53,14 @@ body {
     content: 'Gender Statistics';
 }
 
+.dash-box-ban-teams:after {
+    content: 'Ban A Team';
+}
+
+.dash-box-ban-users:after {
+    content: 'Ban A User';
+}
+
 .hilite {
     background-color: #00aa00;
 }

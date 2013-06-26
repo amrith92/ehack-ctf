@@ -49,3 +49,39 @@ ctf_admin_stage_question:
     defaults: { _controller: CTFAdminBundle:Admin:question, id: -1, stage: -1 }
     options:
       expose: true
+
+ctf_admin_team_list:
+    pattern: /admin/list/teams/{query}
+    defaults: { _controller: CTFAdminBundle:Admin:listTeams, query: '' }
+    options:
+      expose: true
+
+ctf_admin_team_ban:
+    pattern: /admin/team/ban/{name}
+    defaults: { _controller: CTFAdminBundle:Admin:banTeam }
+    options:
+      expose: true
+
+ctf_admin_team_unban:
+    pattern: /admin/team/unban/{name}
+    defaults: { _controller: CTFAdminBundle:Admin:unbanTeam }
+    options:
+      expose: true
+
+ctf_admin_user_list:
+    pattern: /admin/list/users/{query}
+    defaults: { _controller: CTFAdminBundle:Admin:listUsers, query: '' }
+    options:
+      expose: true
+
+ctf_admin_user_ban:
+    pattern: /admin/user/ban/{name}
+    defaults: { _controller: CTFAdminBundle:Admin:banUser }
+    options:
+      expose: true
+
+ctf_admin_user_unban:
+    pattern: /admin/user/unban/{name}
+    defaults: { _controller: CTFAdminBundle:Admin:unbanUser }
+    options:
+      expose: true

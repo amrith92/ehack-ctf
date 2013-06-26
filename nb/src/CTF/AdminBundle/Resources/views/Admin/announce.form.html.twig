@@ -11,9 +11,10 @@
 {% else %}
 <form action="#" method="post" {{ form_enctype(form) }} id="announce-form">
     {{ form_errors(form) }}
-    {{ form_widget(form.announcement) }}
+    <div class="input-append">
+        {{ form_widget(form.announcement) }}
+        <button class="btn btn-success inline"><i class="icon-bullhorn icon-white"></i></button>
+    </div>
     {{ form_rest(form) }}
-
-    <button class="btn btn-success inline"><i class="icon-bullhorn icon-white"></i></button>
 </form>
 {% endif %}

@@ -35,26 +35,39 @@ Admin Dashboard
         </div>
     </div>
     <div class="row-fluid">
-        <div class="span3">
-            <div class="well dash-box dash-box-teamstats" id="teamstats-box">
-                <h1><span id="teamstats-count">0</span> teams</h1>
+        <div class="span12">
+            <div class="span3">
+                <div class="well dash-box dash-box-teamstats" id="teamstats-box">
+                    <h1><span id="teamstats-count">0</span> teams</h1>
+                </div>
+                <div class="well dash-box dash-box-genderstats">
+                    <div id="genderChart" style="height: 200px; width: 100%;">
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="span6">
-            <div class="well dash-box dash-box-announce" id="announce-box">
-                {% include "CTFAdminBundle:Admin:announce.form.html.twig" with { 'form': announceform, 'dash': dash } only %}
+            <div class="span6">
+                <div class="well dash-box dash-box-announce" id="announce-box">
+                    {% include "CTFAdminBundle:Admin:announce.form.html.twig" with { 'form': announceform, 'dash': dash } only %}
+                </div>
             </div>
-        </div>
 
-        <div class="span3">
-        
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span3">
-            <div class="well dash-box dash-box-genderstats">
-                <div id="genderChart" style="height: 200px; width: 100%;">
+            <div class="span3">
+                <div class="well dash-box dash-box-ban-teams" id="banteam-box">
+                    <div id="banteam-result"></div>
+                    <div class="input-prepend input-append">
+                        <button class="btn btn-success" id="banteam-button-unban"><i class="icon-plus-sign icon-white"></i><span class="hidden">Unban</span></button>
+                        <input type="text" autocomplete="off" id="banteam-typeahead" class="span8" />
+                        <button class="btn btn-danger" id="banteam-button"><i class="icon-minus-sign icon-white"></i><span class="hidden">Ban</span></button>
+                    </div>
+                </div>
+                <div class="well dash-box dash-box-ban-users" id="banuser-box">
+                    <div id="banuser-result"></div>
+                    <div class="input-prepend input-append">
+                        <button class="btn btn-success" id="banuser-button-unban"><i class="icon-plus-sign icon-white"></i><span class="hidden">Unban</span></button>
+                        <input type="text" autocomplete="off" id="banuser-typeahead" class="span8" />
+                        <button class="btn btn-danger" id="banuser-button"><i class="icon-minus-sign icon-white"></i><span class="hidden">Ban</span></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,6 +90,84 @@ $(document).ready(function() {
             });
         });
         return false;
+    });
+    
+    $('#banteam-typeahead').typeahead({
+        source: function(query, process) {
+            return $.get(Routing.generate('ctf_admin_team_list', { 'query': query }), null, function(data) {
+                return process(data.options);
+            });
+        },
+        items: 5
+    });
+    
+    $('#banuser-typeahead').typeahead({
+        source: function(query, process) {
+            return $.get(Routing.generate('ctf_admin_user_list', { 'query': query }), null, function(data) {
+                return process(data.options);
+            });
+        },
+        items: 5
+    });
+    
+    $('#banteam-button').click(function() {
+        var name = document.getElementById('banteam-typeahead').value;
+        if (name != null && name != '') {
+            $.post(Routing.generate('ctf_admin_team_ban', { 'name': name}), null, function(data) {
+                var response = JSON.parse(data);
+                if ('success' == response.result) {
+                    $('#banteam-result').html('<div class="alert alert-success">Successfully banned team "' + name + '"</div>').show().fadeOut(2000);
+                    document.getElementById('banteam-typeahead').value = null;
+                } else {
+                    $('#banteam-result').html('<div class="alert alert-error">Could not ban team "' + name + ' at this time."</div>').show().fadeOut(2000);
+                }
+            });
+        }
+    });
+    
+    $('#banteam-button-unban').click(function() {
+        var name = document.getElementById('banteam-typeahead').value;
+        if (name != null && name != '') {
+            $.post(Routing.generate('ctf_admin_team_unban', { 'name': name}), null, function(data) {
+                var response = JSON.parse(data);
+                if ('success' == response.result) {
+                    $('#banteam-result').html('<div class="alert alert-success">Successfully un-banned team "' + name + '"</div>').show().fadeOut(2000);
+                    document.getElementById('banteam-typeahead').value = null;
+                } else {
+                    $('#banteam-result').html('<div class="alert alert-error">Could not un-ban team "' + name + ' at this time."</div>').show().fadeOut(2000);
+                }
+            });
+        }
+    });
+    
+    $('#banuser-button').click(function() {
+        var name = document.getElementById('banuser-typeahead').value;
+        if (name != null && name != '') {
+            $.post(Routing.generate('ctf_admin_user_ban', { 'name': name}), null, function(data) {
+                var response = JSON.parse(data);
+                if ('success' == response.result) {
+                    $('#banuser-result').html('<div class="alert alert-success">Successfully banned user "' + name + '"</div>').show().fadeOut(2000);
+                    document.getElementById('banuser-typeahead').value = null;
+                } else {
+                    $('#banuser-result').html('<div class="alert alert-error">Could not ban user "' + name + ' at this time."</div>').show().fadeOut(2000);
+                }
+            });
+        }
+    });
+    
+    $('#banuser-button-unban').click(function() {
+        var name = document.getElementById('banuser-typeahead').value;
+        if (name != null && name != '') {
+            $.post(Routing.generate('ctf_admin_user_unban', { 'name': name}), null, function(data) {
+                var response = JSON.parse(data);
+                if ('success' == response.result) {
+                    $('#banuser-result').html('<div class="alert alert-success">Successfully un-banned user "' + name + '"</div>').show().fadeOut(2000);
+                    document.getElementById('banuser-typeahead').value = null;
+                } else {
+                    $('#banuser-result').html('<div class="alert alert-error">Could not un-ban user "' + name + ' at this time."</div>').show().fadeOut(2000);
+                }
+            });
+        }
     });
     
     $.post(Routing.generate('ctf_admin_team_count', null), null, function(data) {
