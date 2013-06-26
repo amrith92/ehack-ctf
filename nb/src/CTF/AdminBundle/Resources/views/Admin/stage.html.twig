@@ -102,7 +102,7 @@ $(document).ready(function() {
         
         $.get(Routing.generate('ctf_admin_stage_form', null), null, function(data) {
             $('#stage-form-dyn').empty();
-            $('#stage-form-dyn').html(data).show();
+            $('#stage-form-dyn').html(data).fadeIn();
         });
     });
     
@@ -111,7 +111,7 @@ $(document).ready(function() {
         
         $.get($(this).attr('href'), null, function(data) {
             $('#stage-form-dyn').empty();
-            $('#stage-form-dyn').html(data).show().fadeOut().fadeIn();
+            $('#stage-form-dyn').html(data).fadeIn();
         });
     });
     
@@ -145,7 +145,7 @@ $(document).ready(function() {
         
         $.get($(this).attr('href'), null, function(data) {
             $('#question-form-dyn').empty();
-            $('#question-form-dyn').html(data).show().fadeOut().fadeIn();
+            $('#question-form-dyn').html(data).fadeIn();
             tinyMCE.init({
                 selector: ".rich",
                 mode : "specific_textareas"
@@ -166,28 +166,6 @@ $(document).ready(function() {
             $('#qtabs').tab();
         });
     });
-    
-    {#$('#question-form-container').on('submit', '#question-form', function(e) {
-        e.preventDefault();
-        
-        $('#ctf_questbundle_questiontype_content').val(tinyMCE.get('ctf_questbundle_questiontype_content').getContent());
-        $('#ctf_questbundle_questiontype_hints').val(tinyMCE.get('ctf_questbundle_questiontype_hints').getContent());
-        
-        $.post($('#question-form').attr('action'), $('#question-form').serializeFiles(), function(data) {
-            var res = JSON.parse(data);
-            
-            if ('success' == res.result) {
-                $('#question-form-dyn').html('').show().fadeOut().fadeIn();
-                $('#question-form-status').html('<div class="alert alert-success">' + res.message + '</div>').show().fadeOut(2200);
-                
-                $.get(Routing.generate('ctf_admin_stage_list', { 'q': 1 }), null, function(data) {
-                    $('#qlist-dyn').html(data).show();
-                });
-            } else {
-                $('#question-form-status').html('<div class="alert alert-error">' + res.message + '</div>').show().fadeOut(2200);
-            }
-        });
-    });#}
 });
 //-->
 </script>

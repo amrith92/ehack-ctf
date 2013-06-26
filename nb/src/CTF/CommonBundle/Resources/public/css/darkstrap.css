@@ -555,7 +555,6 @@ select:focus:invalid:focus {
   border-color: #2f2f2f #2f2f2f #666666 #2f2f2f;
   background-color: rgba(0, 0, 0, 0.25);
   /*color: #00aaff;*/
-  color: #00e800;
 }
 /* line 284, ../darkstrap.scss */
 .nav-tabs.nav-stacked > li > a, .nav-tabs.nav-stacked > li > a:hover {
@@ -726,17 +725,22 @@ select:focus:invalid:focus {
 }
 
 .nav > li > a {
-    color: #00a600;
+    /*color: #00a600;*/
+    color: rgb(0, 170, 255);
 }
 
 .nav > li > a:focus, .tabs-right .nav-tabs .active > a {
     background-color: #101010 !important;
-    color: #00e800;
+    /*color: #00e800;*/
+    color: rgb(0, 170, 255);
 }
 
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
     background-color: rgb(10, 10, 10) !important;
-    color: #00e800;
+}
+
+.nav-tabs > .active > a:focus {
+    color: rgb(0, 170, 255);
 }
 
 .nav-list > li > a.quest-button:hover, .nav-list > li > a.quest-button:focus, .nav-list > li > a.quest-button:active {
