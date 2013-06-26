@@ -28,6 +28,14 @@ class Team {
     private $id;
     
     /**
+     *
+     * @var boolean
+     * 
+     * @ORM\Column(name="active", type="boolean", nullable=false)
+     */
+    private $active;
+    
+    /**
      * @var string
      * 
      * @ORM\Column(name="name", type="string", length=30, nullable=false, unique=true)
@@ -90,6 +98,25 @@ class Team {
      */
     public function getId() {
         return $this->id;
+    }
+    
+    /**
+     * 
+     * @param boolean $active
+     * @return \CTF\TeamBundle\Entity\Team
+     */
+    public function setActive($active) {
+        $this->active = $active;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getActive() {
+        return $this->active;
     }
     
     /**

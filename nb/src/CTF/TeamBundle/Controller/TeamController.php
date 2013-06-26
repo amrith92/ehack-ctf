@@ -135,6 +135,7 @@ class TeamController extends Controller {
                         }
 
                         $team->setScore(0);
+                        $team->setActive(true);
                         $em->persist($team);
 
                         $user->addRole('ROLE_TEAM_ADMIN');
