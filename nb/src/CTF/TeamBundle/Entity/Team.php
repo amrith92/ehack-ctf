@@ -239,4 +239,17 @@ class Team {
         
         return $this;
     }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function computeETag() {
+        return \md5(
+            $this->id .
+            $this->active .
+            $this->status .
+            $this->requests->count()
+        );
+    }
 }

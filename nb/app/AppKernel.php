@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new CTF\RegistrationBundle\CTFRegistrationBundle(),
             new CTF\ReferralBundle\CTFReferralBundle(),
             new CTF\AnnouncerBundle\CTFAnnouncerBundle(),
+            new CTF\StatisticsBundle\CTFStatisticsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

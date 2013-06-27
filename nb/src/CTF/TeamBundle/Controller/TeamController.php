@@ -226,18 +226,42 @@ class TeamController extends Controller {
         
         // Extra-security so that only admins can access the team-actions
         $user = $this->get('security.context')->getToken()->getUser();
-        $salt = $this->container->getParameter('secret');
-        $this->get('session')->set('team_admin_auth', md5($salt . $user->getId() . $salt));
+        
+        if (null === $this->get('session')->get('team_admin_auth')) {
+            $salt = $this->container->getParameter('secret');
+            $this->get('session')->set('team_admin_auth', md5($salt . $user->getId() . $salt));
+        }
         
         // Figure out which team to adminify
         $em = $this->getDoctrine()->getEntityManager();
         $teamrepo = $em->getRepository('CTFTeamBundle:Team');
-        $teamid = $teamrepo->findAdminedByUserId($user->getId());
+        $cache = $this->get('ctf_cache');
+        
+        $teamid = $cache->get(\md5($user->getId() . '_teamid'));
+        
+        if (false === $teamid) {
+            $teamid = $teamrepo->findAdminedByUserId($user->getId());
+            $cache->store(\md5($user->getId() . '_teamid'), $teamid, 172800);
+            $cache->store(\md5($user->getId() . '_last_access_team_admin_panel'), new \DateTime("now"));
+        }
+        
         $team = $teamrepo->find($teamid);
         
-        return $this->render('CTFTeamBundle:Team:teamadmin.html.twig', array(
-            'team' => $team
-        ));
+        $response = new Response();
+        $response->setEtag($team->computeETag());
+        $lastModified = $cache->get(\md5($user->getId() . '_last_access_team_admin_panel'), new \DateTime("now"));
+        if (false !== $lastModified) {
+            $response->setLastModified($lastModified);
+        }
+        $response->setPublic();
+        
+        if ($response->isNotModified($request)) {
+            return $response;
+        } else {
+            return $this->render('CTFTeamBundle:Team:teamadmin.html.twig', array(
+                'team' => $team
+            ), $response);
+        }
     }
     
     private function isTeamAdminTokenValid() {
