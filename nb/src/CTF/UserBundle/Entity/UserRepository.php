@@ -159,6 +159,20 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         return $res;
     }
     
+    public function count() {
+        $q = $this->createQueryBuilder('u')
+            ->select('COUNT(u)')
+            ->getQuery();
+        
+        try {
+            $res = $q->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $res = null;
+        }
+        
+        return $res;
+    }
+    
     public function findUsersByPartialUsername($name) {
          $q = $this->createQueryBuilder('u')
             ->where('u.username LIKE :name')
@@ -170,6 +184,27 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         } catch (NoResultException $e) {
             $ret = null;
         }
+        
+        return $ret;
+    }
+    
+    public function findUsersWithinBounds($bounds) {
+        if (null === $bounds) {
+            return null;
+        }
+        
+        $sql = 'SELECT AsText( location ) AS location, username, fname, lname, dp FROM auth_users WHERE MBRContains(GeomFromText(\'POLYGON((';
+        foreach($bounds as $k) {
+                $sql .= (double)$k->lat . ' ' . (double)$k->lng . ',';
+        }
+        $sql .= (double)$bounds[0]->lat . ' ' . (double)$bounds[0]->lng;
+        $sql .= '))\'), location)';
+        
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare($sql);
+        $statement->execute();
+        $ret = $statement->fetchAll(\PDO::FETCH_ASSOC);
         
         return $ret;
     }

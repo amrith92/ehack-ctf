@@ -170,22 +170,22 @@ $(document).ready(function() {
         }
     });
     
-    $.post(Routing.generate('ctf_admin_team_count', null), null, function(data) {
+    $.post(Routing.generate('ctf_statistics_team_count', null), null, function(data) {
         $('#teamstats-count').text(data);
     });
     setInterval(function() {
-        $.post(Routing.generate('ctf_admin_team_count', null), null, function(data) {
+        $.post(Routing.generate('ctf_statistics_team_count', null), null, function(data) {
             $('#teamstats-count').text(data);
         });
     }, 15000);
     
-    $.post(Routing.generate('ctf_admin_genders_count', null), null, function(data) {
+    $.post(Routing.generate('ctf_statistics_genders_count', null), null, function(data) {
         $("#genderChart").empty();
         var chart = new CanvasJS.Chart("genderChart", JSON.parse(data));
         chart.render();
     });
     setInterval(function() {
-        $.post(Routing.generate('ctf_admin_genders_count', null), null, function(data) {
+        $.post(Routing.generate('ctf_statistics_genders_count', null), null, function(data) {
             $("#genderChart").empty();
             var chart = new CanvasJS.Chart("genderChart", JSON.parse(data));
             chart.render();

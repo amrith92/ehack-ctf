@@ -28,7 +28,7 @@
     <![endif]-->
     {% block extrajs %}{% endblock %}
 </head>
-<body>
+<body {% block extrabodyattrib %}{% endblock %}>
     {% block menu %}
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
@@ -61,7 +61,7 @@
     </div>
     {% endblock %}
     {% block content %}{% endblock %}
-    <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/jquery-1.9.1.js') }}" ></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/jquery-ui-1.10.3.custom.min.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/cookiemanager.js') }}" ></script>
     {# <script type="text/javascript" src="{{ asset('bundles/ctfcommon/js/moment.js') }}" ></script> #}

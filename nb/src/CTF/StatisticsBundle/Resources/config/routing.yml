@@ -1,0 +1,21 @@
+ctf_statistics_homepage:
+    pattern:  /
+    defaults: { _controller: CTFStatisticsBundle:Statistics:index }
+
+ctf_statistics_genders_count:
+    pattern: /stats/count/gender
+    defaults: { _controller: CTFStatisticsBundle:Statistics:gendersCount }
+    options:
+      expose: true
+
+ctf_statistics_team_count:
+    pattern: /stats/count/team
+    defaults: { _controller: CTFStatisticsBundle:Statistics:teamCount }
+    options:
+      expose: true
+
+ctf_statistics_nearby_users_pub:
+    pattern: /stats/nearby/pub/{bounds}
+    defaults: { _controller: CTFStatisticsBundle:Statistics:nearbyPub }
+    options:
+      expose: true

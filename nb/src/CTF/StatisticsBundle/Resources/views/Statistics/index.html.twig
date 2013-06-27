@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Home &middot; CTF</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/darkstrap.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6/leaflet.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6/leaflet.ie.css" />
+    <![endif]-->
+    <link href='http://fonts.googleapis.com/css?family=Exo:800' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('bundles/ctfstatistics/css/stats-base.css') }}" rel="stylesheet" media="screen, handheld, print, projection">
+    <link href="{{ asset('bundles/ctfstatistics/css/stats-lowres.css') }}" rel="stylesheet" media="screen and (min-device-width:320px)">
+    <link rel="stylesheet" href="{{ asset('bundles/ctfstatistics/css/stats.css') }}" media="screen and (min-device-width:768px) and (min-width:768px), print, projection" />
+</head>
+<body>
+    <div id="map"></div>
+    <div id="content">
+        <div class="row-fluid">
+            <div class="span1"></div>
+            <div class="span3">
+                <img src="http://ehack.in/images/EHACK%20logo.png" title="EHACK" width="150" />
+                <img src="{{ asset('bundles/ctfstatistics/images/ctf.png') }}" title="CTF" width="150" />
+            </div>
+            <div class="span7">
+                <h1>Capture the Flag!</h1>
+                <p>
+                    Meddle in cyber-warfare, battle with our machine master mind who will throw challenges
+                    on web application security, network security, algorithms, reverse engineering and
+                    decryption. The team which cracks the final level will attain the glory of being
+                    Winner at our E-HACK Guinness record attempt with tons of prizes waiting.  Be simple
+                    but not simpler is quote by Einstein, that’s secret of success for E-HACK. Be there
+                    to witness the epic battle of brains.
+                </p>
+                <p>
+                    <strong>P.S.</strong> World renowned web security experts will be watching you at E-HACK, who knows
+                    you might end up working for them, prove your potential. 
+                </p>
+            </div>
+            <div class="span1"></div>
+        </div>
+    </div>
+    <div id="bottom-feeder">
+        <div class="well">
+            <button class="btn btn-primary btn-medium btn-block" id="locate-me" onclick="javascript:onLocateClick();">Who&apos;s Playing Near Me?</button>
+            <a href="login" class="btn btn-danger btn-medium btn-block">Register / Login</a>
+        </div>
+    </div>
+<script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script src="{{ asset('bundles/ctfstatistics/js/nearby.js') }}"></script>
+<script type="text/javascript">
+//<!--
+
+function onLocateClick() {
+    map.locate({
+        setView: true,
+        enableHighAccuracy: true,
+        maxZoom: 13
+    });
+}
+
+window.onload = function() {
+    var watercolour = L.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+            /*attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'*/
+        }),
+        normal = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+    
+    map = L.map('map', {
+        layers: [watercolour, normal]
+    }).setView([13.0810, 80.2740], 13);
+    
+    var baseMaps = {
+        "Normal": normal,
+        "Watercolour": watercolour
+    };
+    
+    L.control.layers(baseMaps).addTo(map);
+    
+    map.on('zoomend', UsersLoader.requestUsers, false);
+    map.on('moveend', UsersLoader.requestUsers, false);
+};
+
+//-->
+</script>
+</body>
+</html>

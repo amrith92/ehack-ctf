@@ -1,0 +1,22 @@
+/* 
+    Document   : stats-lowres
+    Created on : 28 Jun, 2013, 1:04:56 AM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+html, body, #map {
+    height:100%;
+    width:100%;
+    padding:0px;
+    margin:0px;
+}
+
+#content {
+    background-color: rgba(10, 10, 10, 0.6);
+}
+
+#bottom-feeder {
+    width: 100%;
+}

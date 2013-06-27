@@ -1,0 +1,29 @@
+/* 
+    Document   : stats
+    Created on : 27 Jun, 2013, 10:51:15 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+html, body, #map {
+    height:100%;
+    width:100%;
+    padding:0px;
+    margin:0px;
+}
+
+#content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(10, 10, 10, 0.95) url('../../ctflogin/images/noise.png');
+    border-bottom: solid 8px #000;
+    color: #e6e6e6;
+}
+
+#bottom-feeder {
+    width: 100%;
+    position: absolute;
+    bottom: -3%;
+}
