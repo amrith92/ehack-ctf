@@ -64,7 +64,7 @@ class QuestController extends Controller {
                 $team = $em->getRepository('CTFTeamBundle:Team')->findOneBy(array(
                     'name' => $teamname
                 ));
-                $cache->store(\md5($user->getId() . '_teamid'), $team->getId());
+                $cache->store(\md5($user->getId() . '_teamid'), $team->getId(), 172800);
             }
 
             $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
@@ -98,6 +98,11 @@ class QuestController extends Controller {
             
             $cache = $this->get('ctf_cache');
             $teamid = $cache->get(\md5($user->getId() . '_teamid'));
+            if (false === $teamid) {
+                $teamid = $em->getRepository('CTFTeamBundle:Team')->findTeamIdByUserId($user->getId());
+                $cache->store(\md5($user->getId() . '_teamid'), $teamid, 172800);
+            }
+            
             $team = $em->getRepository('CTFTeamBundle:Team')->find($teamid);
 
             if (false == $team->getActive()) {
