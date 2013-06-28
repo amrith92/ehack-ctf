@@ -11,13 +11,15 @@ class StatisticsController extends Controller
     public function indexAction(Request $request)
     {
         $response = new Response();
-        $response->setEtag(\md5("index.page.ctf"));
+        $content = $this->renderView('CTFStatisticsBundle:Statistics:index.html.twig');
+        $response->setEtag(\md5($content));
         $response->setPublic();
         
         if ($response->isNotModified($request)) {
             return $response;
         } else {
-            return $this->render('CTFStatisticsBundle:Statistics:index.html.twig', array(), $response);
+            $response->setContent($content);
+            return $response;
         }
     }
     
