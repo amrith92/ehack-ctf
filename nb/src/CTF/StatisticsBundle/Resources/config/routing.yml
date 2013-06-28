@@ -19,3 +19,7 @@ ctf_statistics_nearby_users_pub:
     defaults: { _controller: CTFStatisticsBundle:Statistics:nearbyPub }
     options:
       expose: true
+
+ctf_statistics_top_twenty_orgs:
+    pattern: /stats/top/twenty/organizations
+    defaults: { _controller: CTFStatisticsBundle:Statistics:topTwentyOrganizations }

@@ -765,7 +765,6 @@ class User extends BaseUser
             $this->id .
             $this->aboutMe .
             $this->city .
-            $this->country->getId() .
             $this->dob->getTimestamp() .
             $this->gender .
             $this->imageUrl .
@@ -773,7 +772,6 @@ class User extends BaseUser
             $this->phone .
             $this->org->getId() .
             $this->website .
-            $this->state->getId() .
             $this->locked .
             \implode(',', $this->roles)
         );

@@ -3,11 +3,16 @@
 namespace CTF\TeamBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use \Doctrine\ORM\NoResultException;
+use Doctrine\ORM\NoResultException;
 use CTF\TeamBundle\Util\TeamRequestStatus;
 
 class TeamRepository extends EntityRepository {
     
+    /**
+     * 
+     * @param integer $uid
+     * @return array
+     */
     public function findRequestsByUserId($uid) {
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
@@ -18,6 +23,11 @@ class TeamRepository extends EntityRepository {
         return $ret;
     }
     
+    /**
+     * 
+     * @param integer $uid
+     * @return string
+     */
     public function findAcceptedRequestByUserId($uid) {
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
@@ -28,6 +38,11 @@ class TeamRepository extends EntityRepository {
         return $ret;
     }
     
+    /**
+     * 
+     * @param integer $uid
+     * @return integer
+     */
     public function findTeamIdByUserId($uid) {
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
@@ -38,6 +53,11 @@ class TeamRepository extends EntityRepository {
         return $ret;
     }
     
+    /**
+     * 
+     * @param integer $uid
+     * @return integer
+     */
     public function findAdminedByUserId($uid) {
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
@@ -48,6 +68,10 @@ class TeamRepository extends EntityRepository {
         return $ret;
     }
     
+    /**
+     * 
+     * @return int
+     */
     public function countOfTeams() {
         $q = $this->createQueryBuilder('t')
             ->select('COUNT(t)')
@@ -62,6 +86,10 @@ class TeamRepository extends EntityRepository {
         return $ret;
     }
     
+    /**
+     * 
+     * @return array
+     */
     public function getGlobalRanks() {
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
@@ -72,6 +100,11 @@ class TeamRepository extends EntityRepository {
         return $ret;
     }
     
+    /**
+     * 
+     * @param integer $score
+     * @return array
+     */
     public function getSurrounding($score) {
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
@@ -81,10 +114,55 @@ class TeamRepository extends EntityRepository {
         return $ret;
     }
     
+    /**
+     * 
+     * @param string $name
+     * @return null | \CTF\TeamBundle\Entity\Team
+     */
     public function findTeamsByPartialName($name) {
          $q = $this->createQueryBuilder('t')
             ->where('t.name LIKE :name')
             ->setParameter('name', '%' . $name . '%')
+            ->getQuery();
+        
+        try {
+            $ret = $q->getResult();
+        } catch (NoResultException $e) {
+            $ret = null;
+        }
+        
+        return $ret;
+    }
+    
+    /**
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function findTopTen() {
+        $q = $this->createQueryBuilder('t')
+            ->orderBy('t.score', 'DESC')
+            ->setFirstResult(0)
+            ->setMaxResults(10)
+            ->getQuery();
+        
+        try {
+            $ret = $q->getResult();
+        } catch (NoResultException $e) {
+            $ret = null;
+        }
+        
+        return $ret;
+    }
+    
+    /**
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function findBottomTen() {
+        $q = $this->createQueryBuilder('t')
+            ->orderBy('t.score', 'ASC')
+            ->setFirstResult(0)
+            ->setMaxResults(10)
             ->getQuery();
         
         try {

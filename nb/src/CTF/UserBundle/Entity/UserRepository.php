@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 
@@ -205,6 +206,44 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         $statement = $connection->prepare($sql);
         $statement->execute();
         $ret = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        
+        return $ret;
+    }
+    
+    public function getTopTwentyOrganizations() {
+        $q = $this->createQueryBuilder('u')
+            ->select('o.name, COUNT(u.org) AS participants')
+            ->innerJoin('CTFUserBundle:Organization', 'o', Expr\Join::WITH, 'u.org = o.id')
+            ->groupBy('u.org')
+            ->orderBy('participants', 'DESC')
+            ->setFirstResult(0)
+            ->setMaxResults(20)
+            ->getQuery();
+        
+        try {
+            $ret = $q->getResult();
+        } catch (NoResultException $e) {
+            $ret = null;
+        }
+        
+        return $ret;
+    }
+    
+    public function getBottomTwentyOrganizations() {
+        $q = $this->createQueryBuilder('u')
+            ->select('o.name, COUNT(u.org) AS participants')
+            ->innerJoin('CTFUserBundle:Organization', 'o', Expr\Join::WITH, 'u.org = o.id')
+            ->groupBy('u.org')
+            ->orderBy('participants', 'ASC')
+            ->setFirstResult(0)
+            ->setMaxResults(20)
+            ->getQuery();
+        
+        try {
+            $ret = $q->getResult();
+        } catch (NoResultException $e) {
+            $ret = null;
+        }
         
         return $ret;
     }

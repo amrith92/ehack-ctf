@@ -115,4 +115,13 @@ class StatisticsController extends Controller
         
         return new Response('Bad Request.', 400);
     }
+    
+    public function topTwentyOrganizationsAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        return new Response(
+            '<pre>' .
+            \var_export($em->getRepository('CTFUserBundle:User')->getTopTwentyOrganizations(), true) .
+            '</pre>'
+        );
+    }
 }
