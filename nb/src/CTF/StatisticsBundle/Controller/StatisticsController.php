@@ -8,9 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StatisticsController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render('CTFStatisticsBundle:Statistics:index.html.twig');
+        $response = new Response();
+        $response->setEtag(\md5("index.page.ctf"));
+        $response->setPublic();
+        
+        if ($response->isNotModified($request)) {
+            return $response;
+        } else {
+            return $this->render('CTFStatisticsBundle:Statistics:index.html.twig', null, $response);
+        }
     }
     
     public function gendersCountAction(Request $request) {
