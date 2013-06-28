@@ -765,7 +765,7 @@ class User extends BaseUser
             $this->id .
             $this->aboutMe .
             $this->city .
-            $this->dob->getTimestamp() .
+            $this->dob .
             $this->gender .
             $this->imageUrl .
             $this->lname .
