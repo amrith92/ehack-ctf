@@ -23,10 +23,9 @@
             <div class="span1"></div>
             <div class="span3">
                 <img src="http://ehack.in/images/EHACK%20logo.png" title="EHACK" width="150" />
-                <img src="{{ asset('bundles/ctfstatistics/images/ctf.png') }}" title="CTF" width="150" />
             </div>
-            <div class="span7">
-                <h1>Capture the Flag!</h1>
+            <div class="span7 well">
+                <h1>Capture the Flag! <img src="{{ asset('bundles/ctfstatistics/images/ctf.png') }}" title="CTF" width="75" /></h1>
                 <p>
                     Meddle in cyber-warfare, battle with our machine master mind who will throw challenges
                     on web application security, network security, algorithms, reverse engineering and
@@ -44,9 +43,13 @@
         </div>
     </div>
     <div id="bottom-feeder">
-        <div class="well">
-            <button class="btn btn-primary btn-medium btn-block" id="locate-me" onclick="javascript:onLocateClick();">Who&apos;s Playing Near Me?</button>
-            <a href="{{ path('ctf_quest_homepage') }}" class="btn btn-danger btn-medium btn-block">Register / Login</a>
+        <div class="row-fluid">
+            <div class="span9"></div>
+            <div class="span2">
+                <button class="btn btn-inverse btn-medium btn-block" id="locate-me" onclick="javascript:onLocateClick();">Who's Playing Near Me?</button>
+                <a href="{{ path('ctf_quest_homepage') }}" class="btn btn-inverse btn-medium btn-block">Register / Login</a>
+            </div>
+            <div class="span1"></div>
         </div>
     </div>
 <script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>

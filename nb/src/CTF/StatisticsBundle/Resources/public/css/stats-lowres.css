@@ -13,10 +13,6 @@ html, body, #map {
     margin:0px;
 }
 
-#content {
-    background-color: rgba(10, 10, 10, 0.6);
-}
-
 #bottom-feeder {
     width: 100%;
 }

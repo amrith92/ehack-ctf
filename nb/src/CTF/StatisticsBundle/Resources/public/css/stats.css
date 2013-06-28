@@ -17,13 +17,11 @@ html, body, #map {
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(10, 10, 10, 0.95) url('../../ctflogin/images/noise.png');
-    border-bottom: solid 8px #000;
-    color: #e6e6e6;
+    color: #fff;
 }
 
 #bottom-feeder {
     width: 100%;
     position: absolute;
-    bottom: -3%;
+    bottom: 10px;
 }
