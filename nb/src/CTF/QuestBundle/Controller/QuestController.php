@@ -49,36 +49,27 @@ class QuestController extends Controller {
             }
         }
         
-        $response = new Response();
-        $response->setETag(\md5( $user->computeETag() . $teamname ));
-        $response->setLastModified($user->getLastLogin());
-        $response->setPublic();
-        
-        if ($response->isNotModified($request)) {
-            return $response;
+        if ($cache->has(\md5($user->getId() . '_teamid'))) {
+            $id = $cache->get(\md5($user->getId() . '_teamid'));
+            $team = $em->getRepository('CTFTeamBundle:Team')->find($id);
         } else {
-            if ($cache->has(\md5($user->getId() . '_teamid'))) {
-                $id = $cache->get(\md5($user->getId() . '_teamid'));
-                $team = $em->getRepository('CTFTeamBundle:Team')->find($id);
-            } else {
-                $team = $em->getRepository('CTFTeamBundle:Team')->findOneBy(array(
-                    'name' => $teamname
-                ));
-                $cache->store(\md5($user->getId() . '_teamid'), $team->getId(), 172800);
-            }
-
-            $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
-
-            $salt = $this->container->getParameter('secret');
-            $this->get('session')->set('__MYREF', $this->get('ctf_referral.cryptor')->encrypt($user->getId()));
-
-            return $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
-                'user' => $user,
-                'stages' => $stages,
-                'teamname' => \md5($teamname . $salt),
-                'team' => $team
-            ), $response);
+            $team = $em->getRepository('CTFTeamBundle:Team')->findOneBy(array(
+                'name' => $teamname
+            ));
+            $cache->store(\md5($user->getId() . '_teamid'), $team->getId(), 172800);
         }
+
+        $stages = $em->getRepository('CTFQuestBundle:Stage')->findAll();
+
+        $salt = $this->container->getParameter('secret');
+        $this->get('session')->set('__MYREF', $this->get('ctf_referral.cryptor')->encrypt($user->getId()));
+
+        return $this->render('CTFQuestBundle:Quest:dashboard.html.twig', array(
+            'user' => $user,
+            'stages' => $stages,
+            'teamname' => \md5($teamname . $salt),
+            'team' => $team
+        ));
     }
 
     public function continueQuestAction(Request $request) {
