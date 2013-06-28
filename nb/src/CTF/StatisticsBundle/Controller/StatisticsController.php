@@ -17,7 +17,7 @@ class StatisticsController extends Controller
         if ($response->isNotModified($request)) {
             return $response;
         } else {
-            return $this->render('CTFStatisticsBundle:Statistics:index.html.twig', null, $response);
+            return $this->render('CTFStatisticsBundle:Statistics:index.html.twig', array(), $response);
         }
     }
     
