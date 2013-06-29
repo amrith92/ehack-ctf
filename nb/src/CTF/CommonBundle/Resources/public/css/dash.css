@@ -74,11 +74,11 @@ body {
 }
 
 .dash-box-top-organizations-stats:after {
-    content: 'Top Twenty Organizations';
+    content: 'Top Ten Organizations';
 }
 
 .dash-box-bottom-organizations-stats:after {
-    content: 'Bottom Twenty Organizations';
+    content: 'Bottom Ten Organizations';
 }
 
 table a, table a:visited {

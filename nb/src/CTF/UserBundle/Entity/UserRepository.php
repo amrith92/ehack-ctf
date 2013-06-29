@@ -163,6 +163,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
     public function count() {
         $q = $this->createQueryBuilder('u')
             ->select('COUNT(u)')
+            ->where('u.verified=1')
             ->getQuery();
         
         try {
@@ -210,14 +211,14 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         return $ret;
     }
     
-    public function getTopTwentyOrganizations() {
+    public function getTopOrganizations($count) {
         $q = $this->createQueryBuilder('u')
             ->select('SUBSTRING_INDEX(o.name, \',\', 1) AS indexLabel, SUBSTRING_INDEX(o.name, \',\', 1) AS legendText, COUNT(u.org) AS y')
             ->innerJoin('CTFUserBundle:Organization', 'o', Expr\Join::WITH, 'u.org = o.id')
             ->groupBy('u.org')
             ->orderBy('y', 'DESC')
             ->setFirstResult(0)
-            ->setMaxResults(20)
+            ->setMaxResults($count)
             ->getQuery();
         
         try {
@@ -229,14 +230,14 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         return $ret;
     }
     
-    public function getBottomTwentyOrganizations() {
+    public function getBottomOrganizations($count) {
         $q = $this->createQueryBuilder('u')
             ->select('SUBSTRING_INDEX(o.name, \',\', 1) AS indexLabel, SUBSTRING_INDEX(o.name, \',\', 1) AS legendText, COUNT(u.org) AS y')
             ->innerJoin('CTFUserBundle:Organization', 'o', Expr\Join::WITH, 'u.org = o.id')
             ->groupBy('u.org')
             ->orderBy('y', 'ASC')
             ->setFirstResult(0)
-            ->setMaxResults(20)
+            ->setMaxResults($count)
             ->getQuery();
         
         try {

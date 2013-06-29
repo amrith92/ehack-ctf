@@ -118,7 +118,7 @@ class StatisticsController extends Controller
         return new Response('Bad Request.', 400);
     }
     
-    public function topTwentyOrganizationsAction(Request $request) {
+    public function topTenOrganizationsAction(Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
 
@@ -127,7 +127,7 @@ class StatisticsController extends Controller
                 'creditText' => '',
                 'theme' => 'theme2',
                 'title' => array(
-                    'text' => 'Top Twenty Organizations',
+                    'text' => 'Top Ten Organizations',
                     'fontColor' => '#fff'
                 ),
                 'legend' => array(
@@ -139,7 +139,7 @@ class StatisticsController extends Controller
                         'showInLegend' => true,
                         'indexLabelFontColor' => '#e6e6e6',
                         'indexLabelFontSize' => 8,
-                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getTopTwentyOrganizations()
+                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getTopOrganizations(10)
                     )
                 )
             );
@@ -150,14 +150,14 @@ class StatisticsController extends Controller
         return new Response('Bad Request.', 400);
     }
     
-    public function bottomTwentyOrganizationsAction(Request $request) {
+    public function bottomTenOrganizationsAction(Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
 
             $data = array(
                 'theme' => 'theme2',
                 'title' => array(
-                    'text' => 'Bottom Twenty Organizations'
+                    'text' => 'Bottom Ten Organizations'
                 ),
                 'legend' => array(
                     'fontColor' => '#fcfcfc'
@@ -168,7 +168,7 @@ class StatisticsController extends Controller
                         'showInLegend' => false,
                         'indexLabelFontColor' => '#e6e6e6',
                         'indexLabelFontSize' => 8,
-                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getBottomTwentyOrganizations()
+                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getBottomOrganizations(10)
                     )
                 )
             );

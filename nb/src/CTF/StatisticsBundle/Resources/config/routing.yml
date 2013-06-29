@@ -26,15 +26,15 @@ ctf_statistics_nearby_users_pub:
     options:
       expose: true
 
-ctf_statistics_top_twenty_orgs:
-    pattern: /stats/top/twenty/organizations
-    defaults: { _controller: CTFStatisticsBundle:Statistics:topTwentyOrganizations }
+ctf_statistics_top_ten_orgs:
+    pattern: /stats/top/ten/organizations
+    defaults: { _controller: CTFStatisticsBundle:Statistics:topTenOrganizations }
     options:
       expose: true
 
-ctf_statistics_bottom_twenty_orgs:
-    pattern: /stats/bottom/twenty/organizations
-    defaults: { _controller: CTFStatisticsBundle:Statistics:bottomTwentyOrganizations }
+ctf_statistics_bottom_ten_orgs:
+    pattern: /stats/bottom/ten/organizations
+    defaults: { _controller: CTFStatisticsBundle:Statistics:bottomTenOrganizations }
     options:
       expose: true
 

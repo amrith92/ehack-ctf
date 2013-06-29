@@ -12,9 +12,9 @@
     <tbody>
     {% for player in players %}
         <tr>
-            <td><img src="{{ player['dp'] }}" title="{{ player['username'] }}'s Profile Picture" width="25" /></td>
+            <td><img src="{{ player['dp'] }}" title="{{ player['username'] }}'s Profile Picture" width="18" /></td>
             <td>{{ player['rank'] }}</td>
-            <td><a href="#" target="_blank"><strong>@</strong>{{ player['username'] }}</a></td>
+            <td><a href="#" target="_blank">{{ player['username'] }}</a></td>
             <td>{{ player['score'] }}</td>
         </tr>
     {% endfor %}
