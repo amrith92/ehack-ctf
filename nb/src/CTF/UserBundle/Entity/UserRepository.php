@@ -212,10 +212,10 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
     
     public function getTopTwentyOrganizations() {
         $q = $this->createQueryBuilder('u')
-            ->select('o.name, COUNT(u.org) AS participants')
+            ->select('SUBSTRING_INDEX(o.name, \',\', 1) AS indexLabel, SUBSTRING_INDEX(o.name, \',\', 1) AS legendText, COUNT(u.org) AS y')
             ->innerJoin('CTFUserBundle:Organization', 'o', Expr\Join::WITH, 'u.org = o.id')
             ->groupBy('u.org')
-            ->orderBy('participants', 'DESC')
+            ->orderBy('y', 'DESC')
             ->setFirstResult(0)
             ->setMaxResults(20)
             ->getQuery();
@@ -231,10 +231,10 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
     
     public function getBottomTwentyOrganizations() {
         $q = $this->createQueryBuilder('u')
-            ->select('o.name, COUNT(u.org) AS participants')
+            ->select('SUBSTRING_INDEX(o.name, \',\', 1) AS indexLabel, SUBSTRING_INDEX(o.name, \',\', 1) AS legendText, COUNT(u.org) AS y')
             ->innerJoin('CTFUserBundle:Organization', 'o', Expr\Join::WITH, 'u.org = o.id')
             ->groupBy('u.org')
-            ->orderBy('participants', 'ASC')
+            ->orderBy('y', 'ASC')
             ->setFirstResult(0)
             ->setMaxResults(20)
             ->getQuery();

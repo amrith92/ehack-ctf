@@ -61,6 +61,43 @@ body {
     content: 'Ban A User';
 }
 
+.dash-box-player-count:after {
+    content: 'Player Count';
+}
+
+.dash-box-top-players:after {
+    content: 'Top Twenty Players';
+}
+
+.dash-box-bottom-players:after {
+    content: 'Bottom Twenty Players';
+}
+
+.dash-box-top-organizations-stats:after {
+    content: 'Top Twenty Organizations';
+}
+
+.dash-box-bottom-organizations-stats:after {
+    content: 'Bottom Twenty Organizations';
+}
+
+table a, table a:visited {
+    color: #e6e6e6;
+}
+
+table a:hover, table a:active {
+    color: #fff;
+}
+
+.table th {
+    color: #fff;
+}
+
+.table thead {
+    border-top: solid 2px #000;
+    border-bottom: solid 2px #000;
+}
+
 .hilite {
     background-color: #00aa00;
 }

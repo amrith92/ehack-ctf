@@ -68,6 +68,8 @@ doctrine:
               numeric_functions:
                 DISTANCE: CTF\CommonBundle\DBAL\Distance
                 POINT_STR: CTF\CommonBundle\DBAL\PointStr
+              string_functions:
+                SUBSTRING_INDEX: CTF\CommonBundle\DBAL\SubstringIndex
 
 # Swiftmailer Configuration
 swiftmailer:

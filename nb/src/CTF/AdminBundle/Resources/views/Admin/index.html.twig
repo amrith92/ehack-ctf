@@ -40,6 +40,9 @@ Admin Dashboard
                 <div class="well dash-box dash-box-teamstats" id="teamstats-box">
                     <h1><span id="teamstats-count">0</span> teams</h1>
                 </div>
+                <div class="well dash-box dash-box-player-count" id="teamstats-box">
+                    <h1><span id="player-count">0</span> players</h1>
+                </div>
                 <div class="well dash-box dash-box-genderstats">
                     <div id="genderChart" style="height: 200px; width: 100%;">
                     </div>
@@ -49,6 +52,18 @@ Admin Dashboard
             <div class="span6">
                 <div class="well dash-box dash-box-announce" id="announce-box">
                     {% include "CTFAdminBundle:Admin:announce.form.html.twig" with { 'form': announceform, 'dash': dash } only %}
+                </div>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div class="well dash-box dash-box-top-players">
+                            {% render url('ctf_statistics_top_twenty_players', {}) with {}, {'standalone': true} %}
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="well dash-box dash-box-bottom-players">
+                            {% render url('ctf_statistics_bottom_twenty_players', {}) with {}, {'standalone': true} %}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -67,6 +82,10 @@ Admin Dashboard
                         <button class="btn btn-success" id="banuser-button-unban"><i class="icon-plus-sign icon-white"></i><span class="hidden">Unban</span></button>
                         <input type="text" autocomplete="off" id="banuser-typeahead" class="span8" />
                         <button class="btn btn-danger" id="banuser-button"><i class="icon-minus-sign icon-white"></i><span class="hidden">Ban</span></button>
+                    </div>
+                </div>
+                <div class="well dash-box dash-box-top-organizations-stats">
+                    <div id="topOrgsChart" style="height: 200px; width: 100%;">
                     </div>
                 </div>
             </div>
@@ -177,6 +196,15 @@ $(document).ready(function() {
         $.post(Routing.generate('ctf_statistics_team_count', null), null, function(data) {
             $('#teamstats-count').text(data);
         });
+    }, 25000);
+    
+    $.post(Routing.generate('ctf_statistics_players_count', null), null, function(data) {
+        $('#player-count').text(data);
+    });
+    setInterval(function() {
+        $.post(Routing.generate('ctf_statistics_players_count', null), null, function(data) {
+            $('#player-count').text(data);
+        });
     }, 15000);
     
     $.post(Routing.generate('ctf_statistics_genders_count', null), null, function(data) {
@@ -191,6 +219,19 @@ $(document).ready(function() {
             chart.render();
         });
     }, 60000);
+    
+    $.post(Routing.generate('ctf_statistics_top_twenty_orgs', null), null, function(data) {
+        $("#topOrgsChart").empty();
+        var chart = new CanvasJS.Chart("topOrgsChart", JSON.parse(data));
+        chart.render();
+    });
+    setInterval(function() {
+        $.post(Routing.generate('ctf_statistics_top_twenty_orgs', null), null, function(data) {
+            $("#topOrgsChart").empty();
+            var chart = new CanvasJS.Chart("topOrgsChart", JSON.parse(data));
+            chart.render();
+        });
+    }, 65000);
 });
 //-->
 </script>

@@ -119,11 +119,93 @@ class StatisticsController extends Controller
     }
     
     public function topTwentyOrganizationsAction(Request $request) {
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+
+            $data = array(
+                'backgroundColor' => 'transparent',
+                'creditText' => '',
+                'theme' => 'theme2',
+                'title' => array(
+                    'text' => 'Top Twenty Organizations',
+                    'fontColor' => '#fff'
+                ),
+                'legend' => array(
+                    'fontColor' => '#fcfcfc'
+                ),
+                'data' => array(
+                    array(
+                        'type' => 'pie',
+                        'showInLegend' => true,
+                        'indexLabelFontColor' => '#e6e6e6',
+                        'indexLabelFontSize' => 8,
+                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getTopTwentyOrganizations()
+                    )
+                )
+            );
+
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
+    public function bottomTwentyOrganizationsAction(Request $request) {
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+
+            $data = array(
+                'theme' => 'theme2',
+                'title' => array(
+                    'text' => 'Bottom Twenty Organizations'
+                ),
+                'legend' => array(
+                    'fontColor' => '#fcfcfc'
+                ),
+                'data' => array(
+                    array(
+                        'type' => 'pie',
+                        'showInLegend' => false,
+                        'indexLabelFontColor' => '#e6e6e6',
+                        'indexLabelFontSize' => 8,
+                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getBottomTwentyOrganizations()
+                    )
+                )
+            );
+
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
+    public function topTwentyPlayersAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        return new Response(
-            '<pre>' .
-            \var_export($em->getRepository('CTFUserBundle:User')->getTopTwentyOrganizations(), true) .
-            '</pre>'
-        );
+        
+        $players = $em->getRepository('CTFQuestBundle:UserQuest')->getTopTwenty();
+        
+        $content = $this->renderView('CTFStatisticsBundle:Statistics:display-players.html.twig', array(
+            'players' => $players
+        ));
+        
+        $response = new Response($content);
+        $response->setSharedMaxAge(600);
+        
+        return $response;
+    }
+    
+    public function bottomTwentyPlayersAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $players = $em->getRepository('CTFQuestBundle:UserQuest')->getBottomTwenty();
+        
+        $content = $this->renderView('CTFStatisticsBundle:Statistics:display-players.html.twig', array(
+            'players' => $players
+        ));
+        
+        $response = new Response($content);
+        $response->setSharedMaxAge(600);
+        
+        return $response;
     }
 }

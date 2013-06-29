@@ -14,6 +14,12 @@ ctf_statistics_team_count:
     options:
       expose: true
 
+ctf_statistics_players_count:
+    pattern: /stats/count/players
+    defaults: { _controller: CTFStatisticsBundle:Statistics:totalPlayers }
+    options:
+      expose: true
+
 ctf_statistics_nearby_users_pub:
     pattern: /stats/nearby/pub/{bounds}
     defaults: { _controller: CTFStatisticsBundle:Statistics:nearbyPub }
@@ -23,3 +29,19 @@ ctf_statistics_nearby_users_pub:
 ctf_statistics_top_twenty_orgs:
     pattern: /stats/top/twenty/organizations
     defaults: { _controller: CTFStatisticsBundle:Statistics:topTwentyOrganizations }
+    options:
+      expose: true
+
+ctf_statistics_bottom_twenty_orgs:
+    pattern: /stats/bottom/twenty/organizations
+    defaults: { _controller: CTFStatisticsBundle:Statistics:bottomTwentyOrganizations }
+    options:
+      expose: true
+
+ctf_statistics_top_twenty_players:
+    pattern: /esi/stats/top/twenty/players
+    defaults: { _controller: CTFStatisticsBundle:Statistics:topTwentyPlayers }
+
+ctf_statistics_bottom_twenty_players:
+    pattern: /esi/stats/bottom/twenty/players
+    defaults: { _controller: CTFStatisticsBundle:Statistics:bottomTwentyPlayers }
