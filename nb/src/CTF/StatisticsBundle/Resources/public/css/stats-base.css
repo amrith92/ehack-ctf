@@ -6,36 +6,38 @@
         Purpose of the stylesheet follows.
 */
 
-h1 {
-    font-family: 'Exo', Arial, sans-serif;
-}
+@media screen, handheld, print, projection {
+    h1 {
+        font-family: 'Exo', Arial, sans-serif;
+    }
 
-.nav-list li a, .nav-list li a:active {
-    color: #fcfcfc;
-}
+    .nav-list li a, .nav-list li a:active {
+        color: #fcfcfc;
+    }
 
-.nav-list li a:visited, .nav-list li a:hover {
-    color: #fff;
-}
+    .nav-list li a:visited, .nav-list li a:hover {
+        color: #fff;
+    }
 
-.nav-header {
-    color: #fff;
-}
+    .nav-header {
+        color: #fff;
+    }
 
-.about-me-item {
-    min-width: 150px;
-    min-height: 150px;
-    max-height: 150px;
-    overflow-x: none;
-    overflow-y: auto;
-    background-color: rgba(10, 10, 10, 0.5);
-}
+    .about-me-item {
+        min-width: 150px;
+        min-height: 150px;
+        max-height: 150px;
+        overflow-x: none;
+        overflow-y: auto;
+        background-color: rgba(10, 10, 10, 0.5);
+    }
 
-.inner-item {
-    margin: 10px 10%;
-}
+    .inner-item {
+        margin: 10px 10%;
+    }
 
-.item-block {
-    background-color: #2B292E;
-    padding: 6px;
+    .item-block {
+        background-color: #2B292E;
+        padding: 6px;
+    }
 }

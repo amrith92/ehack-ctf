@@ -6,7 +6,12 @@ Dashboard &middot; CTF
 {% endblock %}
 
 {% block extracss %}
-<link rel="stylesheet" href="{{ asset('bundles/ctfquest/css/dash.css') }}" type="text/css" media="screen" />
+{% stylesheets
+    'bundles/ctfquest/css/dash.css'
+    filter='cssrewrite, yui_css'
+    output='quest-dash.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen" />
+{% endstylesheets %}
 {% endblock %}
 
 {% block content %}
@@ -66,7 +71,7 @@ Dashboard &middot; CTF
                 <li class="nav-header">Contact Information</li>
                 <li><a href="#"><span class="label label-inverse">Mobile</span> {{ user.getPhone() }}</a></li>
                 <li><a href="#"><span class="label label-inverse">From</span> {{ user.getCity() }}, {{ user.getState().getName() }}, {{ user.getCountry().getName() }}</a></li>
-                <li><a href="#"><span class="label label-inverse">Website</span> {{ user.getWebsite() }}</a></li>
+                <li><a href="#"><span class="label label-inverse">Website</span><br />{{ user.getWebsite() | listify | autolink }}</a></li>
             </ul>
             <hr />
             {% include "CTFQuestBundle:Quest:teamview.html.twig" with { 'team': team } only %}
@@ -139,9 +144,14 @@ Dashboard &middot; CTF
 
 {% block extrajsend %}
 <script type="text/javascript" src="http://{{ app.request.getHttpHost() }}:5561/socket.io/socket.io.js"></script>
-<script src="{{ asset('bundles/ctfteam/js/teamchatclient.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/ctfannouncer/js/announcer.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/ctfquest/js/raphael.min.js') }}" type="text/javascript"></script>
+{% javascripts
+    '@CTFTeamBundle/Resources/public/js/teamchatclient.js'
+    '@CTFAnnouncerBundle/Resources/public/js/announcer.js'
+    '@CTFQuestBundle/Resources/public/js/raphael.min.js'
+    filter='yui_js'
+    output='quest-dash.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">

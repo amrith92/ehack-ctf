@@ -6,15 +6,21 @@
     <title>{% block title %}Home &middot; CTF{% endblock %}</title>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/darkstrap.css') }}" type="text/css" media="screen" />
+    <!--<link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/darkstrap.css') }}" type="text/css" media="screen" />-->
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6/leaflet.css" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6/leaflet.ie.css" />
     <![endif]-->
     <link href='http://fonts.googleapis.com/css?family=Exo:800' rel='stylesheet' type='text/css'>
-    <link href="{{ asset('bundles/ctfstatistics/css/stats-base.css') }}" rel="stylesheet" media="screen, handheld, print, projection">
-    <link href="{{ asset('bundles/ctfstatistics/css/stats-lowres.css') }}" rel="stylesheet" media="screen and (min-device-width:320px)">
-    <link rel="stylesheet" href="{{ asset('bundles/ctfstatistics/css/stats.css') }}" media="screen and (min-device-width:768px) and (min-width:768px), print, projection" />
+{% stylesheets
+    'bundles/ctfcommon/css/darkstrap.css'
+    'bundles/ctfstatistics/css/stats-base.css'
+    'bundles/ctfstatistics/css/stats-lowres.css'
+    'bundles/ctfstatistics/css/stats.css'
+    filter='cssrewrite, yui_css'
+    output='index.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
 </head>
 <body>
     <div id="map"></div>
@@ -60,7 +66,9 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-<script src="{{ asset('bundles/ctfstatistics/js/nearby.js') }}"></script>
+{% javascripts '@CTFStatisticsBundle/Resources/public/js/nearby.js' filter='yui_js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% block extrajsincludes %}{% endblock %}
 <script type="text/javascript">
 //<!--

@@ -7,7 +7,12 @@ Registration &middot; ehack CTF
 {% endblock %}
 
 {% block extracss %}
-<link href="{{ asset('bundles/ctfregistration/css/style.css') }}" rel="stylesheet" media="screen" />
+{% stylesheets
+    'bundles/ctfregistration/css/style.css'
+    filter='cssrewrite, yui_css'
+    output='registration.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen" />
+{% endstylesheets %}
 {% endblock %}
 
 {% block content %}
@@ -66,8 +71,13 @@ Registration &middot; ehack CTF
 {% endblock %}
 
 {% block extrajsend %}
-<script src="{{ asset('bundles/ctfcommon/js/cookiemanager.js') }}"></script>
-<script src="{{ asset('bundles/ctfcommon/js/geoPosition.js') }}"></script>
+{% javascripts
+    '@CTFCommonBundle/Resources/public/js/cookiemanager.js'
+    '@CTFCommonBundle/Resources/public/js/geoPosition.js'
+    filter='yui_js'
+    output='registration.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD10aDs0eCuaeaaZMFzLu5yrPnN4_TgqU&sensor=false&libraries=places"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>

@@ -6,13 +6,15 @@
         Purpose of the stylesheet follows.
 */
 
-html, body, #map {
-    height:100%;
-    width:100%;
-    padding:0px;
-    margin:0px;
-}
+@media screen and (min-device-width:320px) {
+    html, body, #map {
+        height:100%;
+        width:100%;
+        padding:0px;
+        margin:0px;
+    }
 
-#bottom-feeder {
-    width: 100%;
+    #bottom-feeder {
+        width: 100%;
+    }
 }
