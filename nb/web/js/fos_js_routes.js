@@ -1,1 +1,0 @@
-fos.Router.setData({"base_url":"","routes":[],"prefix":"","host":"localhost","scheme":"http"});
