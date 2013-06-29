@@ -51,7 +51,7 @@ var UsersLoader = {
                 var marker = new L.marker(users[i].location, {
                     title: users[i].username
                 });
-                marker.bindPopup('<div class="row-fluid"><div class="span12"><h2 style="color:#000;">' + users[i].fname + ' ' + users[i].lname + '</h2></div></div><div class="row-fluid"><div class="span4"><img src="' + users[i].dp + '" title="' + users[i].username + '\'s Profile Picture" class="img-polaroid" width="50"></div><div style="color:#000;" class="span8">@' + users[i].username + '</div></div>');
+                marker.bindPopup('<div class="row-fluid"><div class="span12"><h2 style="color:#000;">' + users[i].fname + ' ' + users[i].lname + '</h2></div></div><div class="row-fluid"><div class="span4"><img src="' + users[i].dp + '" title="' + users[i].username + '\'s Profile Picture" class="img-polaroid" width="50"></div><div style="color:#000;" class="span8"><a href="' + Routing.generate('ctf_public_profile', { id: users[i].id }) + '" target="_blank">@' + users[i].username + '</a></div></div>');
                 map.addLayer(marker);
                 UsersLoader.usersLayers.push(marker);
             }

@@ -7,3 +7,13 @@ services:
 #        arguments: [@service_id, "plain_value", %parameter%]
      ctf_cache:
         class: CTF\CommonBundle\Service\CacheService
+
+     ctf.twig.autolink_extension:
+        class: CTF\CommonBundle\Twig\AutoLinkExtension
+        tags:
+          - { name: twig.extension }
+      
+     ctf.twig.listify_extension:
+        class: CTF\CommonBundle\Twig\ListifyExtension
+        tags:
+          - { name: twig.extension }

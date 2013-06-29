@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <title>Home &middot; CTF</title>
+    <title>{% block title %}Home &middot; CTF{% endblock %}</title>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/darkstrap.css') }}" type="text/css" media="screen" />
@@ -19,6 +19,7 @@
 <body>
     <div id="map"></div>
     <div id="content">
+        {% block content %}
         <div class="row-fluid">
             <div class="span1"></div>
             <div class="span3">
@@ -41,8 +42,10 @@
             </div>
             <div class="span1"></div>
         </div>
+        {% endblock %}
     </div>
     <div id="bottom-feeder">
+        {% block bottom %}
         <div class="row-fluid">
             <div class="span9"></div>
             <div class="span2">
@@ -51,12 +54,14 @@
             </div>
             <div class="span1"></div>
         </div>
+        {% endblock %}
     </div>
 <script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script src="{{ asset('bundles/ctfstatistics/js/nearby.js') }}"></script>
+{% block extrajsincludes %}{% endblock %}
 <script type="text/javascript">
 //<!--
 
@@ -87,6 +92,7 @@ window.onload = function() {
     
     map.on('zoomend', UsersLoader.requestUsers, false);
     map.on('moveend', UsersLoader.requestUsers, false);
+    {% block extraonloaders %}{% endblock %}
 };
 
 //-->

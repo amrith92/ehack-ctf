@@ -1,0 +1,94 @@
+{# Public Profile View Twig template #}
+
+{% extends "CTFStatisticsBundle:Statistics:index.html.twig" %}
+
+{% block title %}
+{{ user.getUsername() }}&apos;s Public Profile &middot; ehack CTF
+{% endblock %}
+
+{% block bottom %}
+<div class="row-fluid">
+    <div class="span2"></div>
+    <div class="span2">
+        <img src="{{ user.getImageURL() }}" title="{{ user.getUsername() }}'s Profile Picture" width="160" />
+    </div>
+    <div class="span7">
+        <div id="info-carousel" class="carousel slide">
+            <ol class="carousel-indicators">
+                <li data-target="#info-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#info-carousel" data-slide-to="1"></li>
+                <li data-target="#info-carousel" data-slide-to="2"></li>
+                <li data-target="#info-carousel" data-slide-to="3"></li>
+            </ol>
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <div class="active item">
+                    <div class="about-me-item">
+                        <div class="inner-item">
+                            <h1>{{ user.getFname() }} {{ user.getLname() }}</h1>
+                            <hr />
+                            <div class="item-block">
+                                <span class="label label-inverse">About Me</span> {{ user.getAboutMe() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="about-me-item">
+                        <div class="inner-item">
+                            <div class="item-block">
+                                <span class="label label-inverse">Gender</span> {{ user.getGender() | lower }}
+                            </div>
+                            <div class="item-block">
+                                <span class="label label-inverse">Birthday</span> {{ user.getDob() | date('F jS, Y') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="about-me-item">
+                        <div class="inner-item">
+                            <div class="item-block">
+                                <span class="label label-inverse">Mobile</span> {{ user.getPhone() }}
+                            </div>
+                            <div class="item-block">
+                                <span class="label label-inverse">From</span> {{ user.getCity() }}, {{ user.getState().getName() }}, {{ user.getCountry().getName() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="about-me-item">
+                        <div class="inner-item">
+                            <div class="item-block">
+                                <span class="label label-inverse">Website(s)</span><br />
+                                {{ user.getWebsite() | listify | autolink }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#info-carousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#info-carousel" data-slide="next">&rsaquo;</a>
+        </div>
+    </div>
+    <div class="span1"></div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block extrajsincludes %}
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block extraonloaders %}
+var str = '{{ user.getLocation() }}';
+str = str.replace('POINT(', '');
+str = str.replace(')', '');
+var data = str.split(' ');
+var latlng = new L.LatLng(data[0], data[1]);
+map.panTo(latlng);
+{% endblock %}

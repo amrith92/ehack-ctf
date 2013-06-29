@@ -195,7 +195,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
             return null;
         }
         
-        $sql = 'SELECT AsText( location ) AS location, username, fname, lname, dp FROM auth_users WHERE MBRContains(GeomFromText(\'POLYGON((';
+        $sql = 'SELECT AsText( location ) AS location, username, fname, lname, dp, id FROM auth_users WHERE MBRContains(GeomFromText(\'POLYGON((';
         foreach($bounds as $k) {
                 $sql .= (double)$k->lat . ' ' . (double)$k->lng . ',';
         }

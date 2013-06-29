@@ -6,4 +6,12 @@ ctf_get_edit_form:
     pattern: /profile/edit/form
     defaults: { _controller: CTFUserBundle:User:grabForm }
     options:
-        expose: true
+      expose: true
+
+ctf_public_profile:
+    pattern: /profile/show/{id}
+    defaults: { _controller: CTFUserBundle:User:public }
+    requirements:
+      id: \d+
+    options:
+      expose: true

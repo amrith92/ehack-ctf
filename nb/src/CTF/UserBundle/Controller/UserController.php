@@ -120,5 +120,17 @@ class UserController extends Controller {
         
         return new Response('Bad Request!', 400);
     }
+    
+    public function publicAction($id, Request $request) {
+        $user = $this->getDoctrine()->getEntityManager()->getRepository('CTFUserBundle:User')->find($id);
+        
+        if (null !== $user) {
+            return $this->render('CTFUserBundle:User:public.html.twig', array(
+                'user' => $user
+            ));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
 
 }
