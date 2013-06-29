@@ -18,7 +18,8 @@
     'bundles/ctfstatistics/css/stats-lowres.css'
     'bundles/ctfstatistics/css/stats.css'
     filter='cssrewrite, yui_css'
-    output='index.css' %}
+    output='index.css'
+%}
     <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
 </head>
@@ -66,7 +67,11 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-{% javascripts '@CTFStatisticsBundle/Resources/public/js/nearby.js' filter='yui_js' %}
+{% javascripts
+    '@CTFStatisticsBundle/Resources/public/js/nearby.js'
+    filter='yui_js'
+    output='index.js'
+%}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% block extrajsincludes %}{% endblock %}

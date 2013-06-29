@@ -1,6 +1,7 @@
 /web/bundles/
 /web/uploads/*
-/web/assets/*
+/web/*.css
+/web/*.js
 #/app/bootstrap*
 /app/cache/*
 /app/logs/*

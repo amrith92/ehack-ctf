@@ -35,7 +35,6 @@ assetic:
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [ 'CTFStatisticsBundle', 'CTFCommonBundle', 'CTFUserBundle', 'CTFRegistrationBundle', 'CTFAdminBundle', 'CTFQuestBundle', 'CTFTeamBundle', 'CTFAnnouncerBundle', 'CTFGlobalChatBundle' ]
-    write_to:       "%kernel.root_dir%/../web/assets"
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
