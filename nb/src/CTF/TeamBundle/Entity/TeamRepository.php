@@ -138,11 +138,11 @@ class TeamRepository extends EntityRepository {
      * 
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function findTopTen() {
+    public function findTopN($n) {
         $q = $this->createQueryBuilder('t')
             ->orderBy('t.score', 'DESC')
             ->setFirstResult(0)
-            ->setMaxResults(10)
+            ->setMaxResults($n)
             ->getQuery();
         
         try {
@@ -158,11 +158,11 @@ class TeamRepository extends EntityRepository {
      * 
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function findBottomTen() {
+    public function findBottomN($n) {
         $q = $this->createQueryBuilder('t')
             ->orderBy('t.score', 'ASC')
             ->setFirstResult(0)
-            ->setMaxResults(10)
+            ->setMaxResults($n)
             ->getQuery();
         
         try {

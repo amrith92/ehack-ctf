@@ -208,4 +208,34 @@ class StatisticsController extends Controller
         
         return $response;
     }
+    
+    public function topTenTeamsAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $teams = $em->getRepository('CTFTeamBundle:Team')->findTopN(10);
+        
+        $content = $this->renderView('CTFStatisticsBundle:Statistics:display-teams.html.twig', array(
+            'teams' => $teams
+        ));
+        
+        $response = new Response($content);
+        $response->setSharedMaxAge(600);
+        
+        return $response;
+    }
+    
+    public function bottomTenTeamsAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $teams = $em->getRepository('CTFTeamBundle:Team')->findBottomN(10);
+        
+        $content = $this->renderView('CTFStatisticsBundle:Statistics:display-teams.html.twig', array(
+            'teams' => $teams
+        ));
+        
+        $response = new Response($content);
+        $response->setSharedMaxAge(600);
+        
+        return $response;
+    }
 }

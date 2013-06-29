@@ -1,0 +1,22 @@
+{# Top Teams Twig template #}
+
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Team</th>
+            <th>Status</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for team in teams %}
+        <tr>
+            <td><img src="{{ team.getTeamPic() }}" title="{{ team.getName() }}'s Display Picture" width="22" /></td>
+            <td>{{ team.getName() }}</td>
+            <td>{{ team.getStatus() }}</td>
+            <td>{{ team.getScore() }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

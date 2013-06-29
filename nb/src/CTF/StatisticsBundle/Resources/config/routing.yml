@@ -45,3 +45,11 @@ ctf_statistics_top_twenty_players:
 ctf_statistics_bottom_twenty_players:
     pattern: /esi/stats/bottom/twenty/players
     defaults: { _controller: CTFStatisticsBundle:Statistics:bottomTwentyPlayers }
+
+ctf_statistics_top_ten_teams:
+    pattern: /esi/stats/top/ten/teams
+    defaults: { _controller: CTFStatisticsBundle:Statistics:topTenTeams }
+
+ctf_statistics_bottom_ten_teams:
+    pattern: /esi/stats/bottom/ten/teams
+    defaults: { _controller: CTFStatisticsBundle:Statistics:bottomTenTeams }

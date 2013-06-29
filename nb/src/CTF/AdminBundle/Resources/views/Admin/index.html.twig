@@ -44,8 +44,11 @@ Admin Dashboard
                     <h1><span id="player-count">0</span> players</h1>
                 </div>
                 <div class="well dash-box dash-box-genderstats">
-                    <div id="genderChart" style="height: 200px; width: 100%;">
+                    <div id="genderChart" style="height: 100px; width: 100%;">
                     </div>
+                </div>
+                <div class="well dash-box dash-box-top-teams">
+                    {% render url('ctf_statistics_top_ten_teams', {}) with {}, {'standalone': true} %}
                 </div>
             </div>
 

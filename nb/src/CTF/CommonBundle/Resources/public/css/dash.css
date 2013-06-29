@@ -21,6 +21,7 @@ body {
     padding: 39px 19px 14px;
     background: url('../images/brushed-light-metal.jpg');
     border: solid 1px #000;
+    overflow: auto;
 }
 
 .dash-box textarea {
@@ -79,6 +80,10 @@ body {
 
 .dash-box-bottom-organizations-stats:after {
     content: 'Bottom Ten Organizations';
+}
+
+.dash-box-top-teams:after {
+    content: 'Top Ten Teams';
 }
 
 table a, table a:visited {
