@@ -93,12 +93,12 @@ window.onload = function() {
         normal = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
     
     map = L.map('map', {
-        layers: [watercolour, normal]
+        layers: [normal, watercolour]
     }).setView([13.0810, 80.2740], 13);
     
     var baseMaps = {
-        "Watercolour": watercolour,
-        "Normal": normal
+        "Normal": normal,
+        "Watercolour": watercolour
     };
     
     L.control.layers(baseMaps).addTo(map);
