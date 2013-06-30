@@ -9,8 +9,6 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="canonical" href="{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}" />
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
     {% stylesheets
         'bundles/ctfcommon/css/normalize.css'
         'bundles/ctfcommon/css/social-buttons.css'
@@ -20,6 +18,8 @@
         output='base.css' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
     {% if light is not defined %}
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/darkstrap.css') }}" type="text/css" media="screen" />
     {% endif %}

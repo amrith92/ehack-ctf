@@ -748,3 +748,7 @@ select:focus:invalid:focus {
   background-color: #51a351 !important;
   *background-color: #499249 !important;
 }
+
+fieldset {
+    border: none !important;
+}
