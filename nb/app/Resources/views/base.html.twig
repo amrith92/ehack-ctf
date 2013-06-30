@@ -11,9 +11,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     {% stylesheets
         'bundles/ctfcommon/css/normalize.css'
-        'bundles/ctfcommon/css/social-buttons.css'
         'bundles/ctfcommon/css/eggplant/jquery-ui-1.10.3.custom.min.css'
-        'bundles/ctfcommon/css/toggle-switch.css'
         filter='cssrewrite, yui_css'
         output='base.css' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -23,6 +21,14 @@
     {% if light is not defined %}
     <link rel="stylesheet" href="{{ asset('bundles/ctfcommon/css/darkstrap.css') }}" type="text/css" media="screen" />
     {% endif %}
+    {% stylesheets
+        'bundles/ctfcommon/css/toggle-switch.css',
+        'bundles/ctfcommon/css/social-buttons.css'
+        filter='cssrewrite, yui_css'
+        output='base-extras.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
     {% block extracss %}{% endblock %}
     <!--[if lt IE 9]>
         <script src="{{ asset('bundles/ctfcommon/js/html5shiv.js') }}"></script>
