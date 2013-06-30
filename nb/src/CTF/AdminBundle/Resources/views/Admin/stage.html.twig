@@ -93,8 +93,8 @@ Stages &amp; Questions &middot; Admin Dashboard
 {% block extrajsend %}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script src="{{ asset('bundles/ctfcommon/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 {% javascripts
-    '@CTFCommonBundle/Resources/public/js/tinymce/tinymce.min.js'
     '@CTFAdminBundle/Resources/public/js/stage.js'
     filter='yui_js'
     output='admin-stage.js' %}
