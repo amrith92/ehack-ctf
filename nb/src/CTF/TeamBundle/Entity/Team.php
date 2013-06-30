@@ -249,7 +249,7 @@ class Team {
             $this->id .
             $this->active .
             $this->status .
-            $this->requests->count()
+            $this->getAcceptedRequests()
         );
     }
 }
