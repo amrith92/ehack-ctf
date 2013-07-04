@@ -53,6 +53,36 @@ The official admin is:
 	password: PASS_word
 ```
 
+Note
+====
+
+If a question requires an attachment, then the attachment **MUST** possess the following characteristics:
+
+1. It must be a zip archive (ending with _*.zip_ extension)
+2. It must have an __index.php__ _or_ __index.html__ file, which will act as an entry-point for the "Visit" button
+3. The index file must live outside of all directories within the zip file
+4. It can contain multiple sub-directories
+
+A **valid** example:
+```
++ Stage1Level1.zip
+	- index.html
+	- image.jpg
+	+ lib
+		- abc.js
+		- style.css
+	- password.txt
+```
+
+An **invalid** example:
+```
++ Stag1Level1.zip
+	+ stuff
+		- index.html
+		- somethingimportant.txt
+	- abc.js
+```
+
 Dynamic Questions
 =================
 
