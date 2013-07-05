@@ -12,6 +12,38 @@ use \CTF\QuestBundle\Form\QuestionType;
 
 class QuestionController extends Controller {
     
+    public function removeAction($id, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $entity = $em->getRepository('CTFQuestBundle:Question')->find($id);
+            
+            if ($entity) {
+                $em->remove($entity);
+                $em->flush();
+                
+                $data = array(
+                    'result' => 'success',
+                    'message' => 'Successfully removed question!'
+                );
+                
+                return new Response(\json_encode($data));
+            }
+            
+            $data = array(
+                'result' => 'error',
+                'message' => 'Could not remove question!'
+            );
+            
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
     public function questionAction($id, $stage, Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();

@@ -44,6 +44,12 @@ ctf_admin_stage_question:
     options:
       expose: true
 
+ctf_admin_question_remove:
+    pattern: /admin/question/remove/{id}
+    defaults: { _controller: CTFAdminBundle:Question:remove }
+    options:
+      expose: true
+
 ctf_admin_team_list:
     pattern: /admin/list/teams/{query}
     defaults: { _controller: CTFAdminBundle:Admin:listTeams, query: '' }

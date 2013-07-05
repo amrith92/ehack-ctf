@@ -3,7 +3,19 @@
     {% for it in list %}
     <li class="nav-header">{{ it.getName() }}</li>
     {% for item in it.getQuestions() %}
-    <li><a href="{{ path('ctf_admin_stage_question', { id: item.getId(), stage: it.getId() }) }}" class="list-item"><span class="badge badge-inverse">{{ item.getLevel() }}</span> {{ item.getTitle() }}</a></li>
+    <li>
+        <a href="{{ path('ctf_admin_stage_question', { id: item.getId(), stage: it.getId() }) }}" class="list-item">
+            <span class="badge badge-inverse">
+                {{ item.getLevel() }}
+            </span>
+            {{ item.getTitle() }}
+            <span class="pull-right">
+                <button class="btn-link" data-url="{{ path('ctf_admin_question_remove', { id: item.getId() }) }}">
+                    <i class="icon-white icon-remove"></i>
+                </button>
+            </span>
+        </a>
+    </li>
     {% endfor %}
     {% endfor %}
     <li class="divider"></li>
