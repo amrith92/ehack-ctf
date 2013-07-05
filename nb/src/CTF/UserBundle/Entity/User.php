@@ -424,6 +424,15 @@ class User extends BaseUser
     {
         return $this->lname;
     }
+    
+    /**
+     * Get Full Name
+     * 
+     * @return string
+     */
+    public function getFullName() {
+        return $this->fname . ' ' . $this->lname;
+    }
 
     /**
      * Set dp

@@ -151,15 +151,20 @@ class QuestController extends Controller {
                 $question = $quest->getQuestLevel();
             }
 
-            // TODO ///
+            // TODO - Done ///
             // Check to see whether any attachments are associated with this question
-            ///////////
+            //////////////////
             $salt = $this->container->getParameter('secret');
             $attachment = null;
             $dir = __DIR__ . '/../../../../web/uploads/questions/' . md5($salt . '/s' . $quest->getCurrentStage()->getId() . $salt . '/l' . $question->getLevel() . $salt);
             if (\file_exists($dir)) {
                 $attachment = true;
             }
+            
+            // Transform placeholders
+            $content = QuestUtil::transformPlaceholders($question->getContent(), $user);
+            $em->detach($question);
+            $question->setContent($content);
 
             $answer = $this->createForm(new AnswerType());
 
@@ -245,6 +250,11 @@ class QuestController extends Controller {
                     if (\file_exists($dir)) {
                         $attachment = true;
                     }
+                    
+                    // Transform placeholders
+                    $content = QuestUtil::transformPlaceholders($question->getContent(), $user);
+                    $em->detach($question);
+                    $question->setContent($content);
 
                     // Return question
                     $answer = $this->createForm(new AnswerType());
