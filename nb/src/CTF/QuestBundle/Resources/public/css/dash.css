@@ -19,7 +19,6 @@ body {
 }
 
 #qbox {
-    max-height: 400px;
     overflow: auto;
 }
 
@@ -41,7 +40,6 @@ body {
 }
 
 #qbox ul li a, #qbox ul li span.badge {
-    font-size: 0.688em;
     color: #00e800;
 }
 
@@ -50,11 +48,71 @@ body {
     color: #fff!important;
 }
 
-#chat {
-    height: 160px;
-    max-height: 160px;
-    overflow: auto;
+#toggle-chat {
+    background: url('../../ctfcommon/images/brushed-metal.jpg');
+    text-align: center;
+    border: solid 1px #000;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+#toggle-chat button {
+    font-family: 'Courier New', "Lucida Console", monospace;
     font-size: 0.75em;
+    color: #fff;
+}
+
+#chat-client {
+    background: transparent url('../images/walkie-typie.png') center center no-repeat;
+    background-position: fixed;
+    background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    height: 496px;
+    max-height: 496px;
+    max-width: 232px;
+    width: 232px;
+    overflow: none;
+}
+
+#chat {
+    font-size: 0.75em;
+    height: 250px;
+    margin: 127px auto 0;
+    max-height: 400px;
+    overflow: auto;
+    width: 139px;
+    background-color: rgba(10, 10, 10, 0.8);
+}
+
+#text-bar {
+    display: block;
+    margin: 0 auto;
+    width: 157px;
+    max-width: 157px;
+    overflow: hidden;
+    background-color: rgba(10, 10, 10, 0.8);
+}
+
+#chat-bar {
+    max-width: 145px!important;
+    margin-bottom: 0px;
+}
+
+#chat-send {
+    margin: 0 auto;
+    display: block;
+    max-width: 160px;
+    width: 160px;
+}
+
+#chat-list-info {
+    margin: 0 auto;
+    width: 160px;
+    max-width: 160px;
+    text-align: center;
 }
 
 #chat .message-text {
@@ -98,6 +156,10 @@ body {
     display: none;
 }
 
+.padded {
+    padding: 6px;
+}
+
 .loader {
     text-align: center;
 }
@@ -118,4 +180,8 @@ iframe.twitter-follow-button {
 
 .dash-info-panel li a {
     word-wrap: break-word;
+}
+
+textarea {
+    width: 90%!important;
 }

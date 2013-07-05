@@ -25,8 +25,48 @@ Dashboard &middot; CTF
     <embed height="0" width="0" src="{{ asset('bundles/ctfannouncer/sounds/ding.wav') }}">
 </audio>
 <div id="loader" class="hidden"><img src="{{ asset('bundles/ctfcommon/images/loader.gif') }}" title="Loading..." /></div>
-<div class="clearfix">
-    &nbsp;
+<div class="container-fluid clearfix">
+    <div class="row-fluid">
+        <div class="span12"></div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            <div id="toggle-chat">
+                <button class="btn btn-link" id="toggle-chat-btn">
+                    <img src="{{ asset('bundles/ctfquest/images/walkie-typie-icon.png') }}" title="Your Walkie-Typie!"><br />
+                    My Walkie-Typie
+                </button>
+            </div>
+            {% include "CTFQuestBundle:Quest:teamchat.html.twig" %}
+        </div>
+        <div class="span2">
+            <img src="{{ user.getImageUrl() }}" width="80" class="img-circle" />
+        </div>
+        <div class="span4">
+            
+        </div>
+        <div class="span2">
+            <div id="user-rank">
+                <h4>Rank</h4>
+                <div id="rank-display">
+                    0
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            <ul class="nav nav-list padded">
+                <li>
+                    <b>Stage <span id="stage-display">-</span><br />Level <span id="level-display">-</span></b>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <strong>Score:</strong> <span id="score-display" class="badge badge-warning"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 <div class="container-fluid">
     <div class="row-fluid">
@@ -60,69 +100,32 @@ Dashboard &middot; CTF
 </div>
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span3 shaded">
-            <img src="{{ user.getImageUrl() }}" width="80" class="img-polaroid" />
-            <hr />
-            <ul class="nav nav-list dash-info-panel">
-                <li class="nav-header">Basic Information</li>
-                <li><a href="#"><span class="label label-inverse">Gender</span> {{ user.getGender() | lower }}</a></li>
-                <li><a href="#"><span class="label label-inverse">Birthday</span> {{ user.getDob() | date('F jS, Y') }}</a></li>
-                <li><a href="#"><span class="label label-inverse">About Me</span> {{ user.getAboutMe() }}</a></li>
-                <li class="nav-header">Contact Information</li>
-                <li><a href="#"><span class="label label-inverse">Mobile</span> {{ user.getPhone() }}</a></li>
-                <li><a href="#"><span class="label label-inverse">From</span> {{ user.getCity() }}, {{ user.getState().getName() }}, {{ user.getCountry().getName() }}</a></li>
-                <li><a href="#"><span class="label label-inverse">Website</span><br />{{ user.getWebsite() | listify | autolink }}</a></li>
-            </ul>
+        {#<div class="span3 shaded">
             <hr />
             {% include "CTFQuestBundle:Quest:teamview.html.twig" with { 'team': team } only %}
+        </div>#}
+        <div class="span3">
+            <div class="well well-small">
+                <ul class="nav nav-list dash-info-panel">
+                    <li><a href="#" class="btn btn-success quest-button" id="continue-quest-button">Quest</a></li>
+                    <li class="divider"></li>
+                    {% for it in stages %}
+                    <li class="nav-header">{{ it.getName() }}</li>
+                    {% for item in it.getQuestions() %}
+                    <li><a href="{{ path('ctf_quest_fetch', { qid: item.getId() }) }}" class="list-item fetch-item"><span class="badge badge-inverse">{{ item.getLevel() }}</span> {{ item.getTitle() }}</a></li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         <div class="span7">
-            <div class="row-fluid">
-                <div class="span8">
-                    <h2 id="title-display">Level</h2>
-                </div>
-                <div class="span2">
-                    <div id="user-rank">
-                        <h4>Rank</h4>
-                        <div id="rank-display">
-                            0
-                        </div>
-                    </div>
-                </div>
-                <div class="span2">
-                    <ul class="nav nav-list">
-                        <li>
-                            <b>Stage <span id="stage-display">-</span><br />Level <span id="level-display">-</span></b>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <strong>Score:</strong> <span id="score-display" class="badge badge-warning"></span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <h2 id="title-display">Level</h2>
             <hr />
-            <div class="row-fluid">
-                <div class="span3 well well-small" id="qbox">
-                    <ul class="nav nav-list dash-info-panel">
-                        <li><a href="#" class="btn btn-success quest-button" id="continue-quest-button">Quest</a></li>
-                        <li class="divider"></li>
-                        {% for it in stages %}
-                        <li class="nav-header">{{ it.getName() }}</li>
-                        {% for item in it.getQuestions() %}
-                        <li><a href="{{ path('ctf_quest_fetch', { qid: item.getId() }) }}" class="list-item fetch-item"><span class="badge badge-inverse">{{ item.getLevel() }}</span> {{ item.getTitle() }}</a></li>
-                        {% endfor %}
-                        {% endfor %}
-                    </ul>
+            <div id="question-container">
+                <div id="question-result">
                 </div>
-                <div class="span9">
-                    <div id="question-container">
-                        <div id="question-result">
-                        </div>
-                        <div id="question-dyn">
-                            
-                        </div>
-                    </div>
+                <div id="question-dyn">
+
                 </div>
             </div>
         </div>
@@ -135,8 +138,6 @@ Dashboard &middot; CTF
             {% include "CTFQuestBundle:Quest:social-likes.html.twig" %}
             <hr />
             {% include "CTFQuestBundle:Quest:social-share.html.twig" %}
-            <hr />
-            {% include "CTFQuestBundle:Quest:teamchat.html.twig" %}
         </div>
     </div>
 </div>
@@ -178,7 +179,7 @@ function checkLogin() {
 var cli_on = false, clu_on = false;
 $(document).ready(function() {
     $.ajaxSetup({ cache: true });
-    renderTeamView();
+    //renderTeamView();
     if (typeof io != undefined) {
         TeamChatClient.init({
             host: '{{ app.request.getHttpHost() }}',
@@ -200,6 +201,20 @@ $(document).ready(function() {
         
         Announcer.tuneIn();
     }
+    
+    $('#toggle-chat-btn').click(function() {
+        var btn = $(this);
+        
+        if ('true' != $('#chat-client').attr('data-shown')) {
+            $('#chat-client').css({
+                position: 'absolute',
+                top: btn.offset().top + btn.outerHeight() + 10,
+                left: btn.offset().left
+            }).attr('data-shown', 'true').show();
+        } else {
+            $('#chat-client').attr('style', '').attr('data-shown', 'false').fadeOut();
+        }
+    });
     
     $('#client-list-button').click(function(e) {
         e.preventDefault();

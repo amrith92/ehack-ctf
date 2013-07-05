@@ -1,14 +1,18 @@
 {# Team Chat template #}
-<div id="chat-client">
+<div id="chat-client" class="hide" tabindex="-1">
+    <div>&nbsp;</div>
+    <div id="chat" class="well well-small">
+    </div>
+    <div id="text-bar">
+        <input id="chat-bar" type="text" />
+    </div>
+    <button class="btn btn-inverse" type="button" id="chat-send">Send</button>
     <div id="chat-list-info">
-        <a href="#clients" id="client-list-button"><i class="icon-user icon-white"></i>&nbsp;Members</a>
+        <button class="btn btn-inverse" id="client-list-button"><i class="icon-user icon-white"></i></button>
         <div id="clientList" class="hidden">
         </div>
     </div>
-    <div id="chat" class="well well-small">
-    </div>
-    <div class="input-append">
-        <input id="chat-bar" type="text" class="span9" />
-        <button class="btn btn-primary" type="button" id="chat-send">Send</button>
-    </div>
 </div>
+{#
+
+#}
