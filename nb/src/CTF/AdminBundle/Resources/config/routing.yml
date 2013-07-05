@@ -18,23 +18,23 @@ ctf_admin_chat:
 
 ctf_admin_stage:
     pattern: /admin/stage
-    defaults: { _controller: CTFAdminBundle:Admin:stage }
+    defaults: { _controller: CTFAdminBundle:Stage:stage }
 
 ctf_admin_stage_form:
     pattern: /admin/stage/form/{id}
-    defaults: { _controller: CTFAdminBundle:Admin:stageForm, id: -1 }
+    defaults: { _controller: CTFAdminBundle:Stage:stageForm, id: -1 }
     options:
       expose: true
       
 ctf_admin_stage_list:
     pattern: /admin/stage/list/{q}
-    defaults: { _controller: CTFAdminBundle:Admin:stageList, q: 0 }
+    defaults: { _controller: CTFAdminBundle:Stage:stageList, q: 0 }
     options:
       expose: true
 
 ctf_admin_stage_question:
     pattern: /admin/stage/question/{id}/{stage}
-    defaults: { _controller: CTFAdminBundle:Admin:question, id: -1, stage: -1 }
+    defaults: { _controller: CTFAdminBundle:Question:question, id: -1, stage: -1 }
     options:
       expose: true
 

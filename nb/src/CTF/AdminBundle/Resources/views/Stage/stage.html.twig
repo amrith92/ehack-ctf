@@ -71,7 +71,7 @@ Stages &amp; Questions &middot; Admin Dashboard
                             <div class="span4">
                                 <div id="stage-list-container">
                                     <div id="stage-list-dyn">
-                                        {% include "CTFAdminBundle:Admin:stage.list.html.twig" with { 'list': list } only %}
+                                        {% include "CTFAdminBundle:Stage:stage.list.html.twig" with { 'list': list } only %}
                                     </div>
                                 </div>
                             </div>
@@ -81,9 +81,9 @@ Stages &amp; Questions &middot; Admin Dashboard
                                     </div>
                                     <div id="stage-form-dyn">
                                     {% if stageform is defined and edit is not defined %}
-                                        {% include "CTFAdminBundle:Admin:stage.form.html.twig" with { 'form': stageform } only %}
+                                        {% include "CTFAdminBundle:Stage:stage.form.html.twig" with { 'form': stageform } only %}
                                     {% elseif stageform is defined and edit is defined %}
-                                        {% include "CTFAdminBundle:Admin:stage.form.html.twig" with { 'form': stageform, 'edit': edit } only %}
+                                        {% include "CTFAdminBundle:Stage:stage.form.html.twig" with { 'form': stageform, 'edit': edit } only %}
                                     {% endif %}
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@ Stages &amp; Questions &middot; Admin Dashboard
                             <div class="span4">
                                 <div id="qlist-container">
                                     <div id="qlist-dyn">
-                                        {% include "CTFAdminBundle:Admin:question.list.html.twig" with { 'list': list } only %}
+                                        {% include "CTFAdminBundle:Question:question.list.html.twig" with { 'list': list } only %}
                                     </div>
                                 </div>
                             </div>

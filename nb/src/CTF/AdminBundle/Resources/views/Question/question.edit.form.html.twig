@@ -1,5 +1,5 @@
 {# Question Edit Form #}
-{% extends "CTFAdminBundle:Admin:question.form.html.twig" %}
+{% extends "CTFAdminBundle:Question:question.form.html.twig" %}
 
 {% block qpath %}
 {{ path('ctf_admin_stage_question', { id: qid, stage: sid }) }}
