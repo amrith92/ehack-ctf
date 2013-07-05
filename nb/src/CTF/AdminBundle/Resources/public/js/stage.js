@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    
     $('#stage-list-container').on('click', '#add-more-stages', function(e) {
         e.preventDefault();
         
