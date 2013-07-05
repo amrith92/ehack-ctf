@@ -104,4 +104,36 @@ class StageController extends Controller {
         
         return new Response('Bad Request!', 400);
     }
+    
+    public function removeAction($id, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $entity = $em->getRepository('CTFQuestBundle:Stage')->find($id);
+            
+            if ($entity) {
+                $em->remove($entity);
+                $em->flush();
+                
+                $data = array(
+                    'result' => 'success',
+                    'message' => 'Successfully removed stage with ID ' . $id
+                );
+                
+                return new Response(\json_encode($data));
+            }
+            
+            $data = array (
+                'result' => 'error',
+                'message' => 'Could not remove stage!'
+            );
+            
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
 }

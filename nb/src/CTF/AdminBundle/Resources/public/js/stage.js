@@ -17,6 +17,26 @@ $(document).ready(function() {
         });
     });
     
+    $('#stage-list-container').on('click', 'button', function(e) {
+        e.preventDefault();
+        
+        $.get($(this).attr('data-url'), null, function(data) {
+            var response = JSON.parse(data);
+            $('#stage-form-dyn').empty();
+            
+            $('#stage-form-status').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeOut(2200);
+            
+            if ('success' == response.result) {
+                $.get(Routing.generate('ctf_admin_stage_list', null), null, function(data) {
+                    $('#stage-list-dyn').html(data).show();
+                });
+                $.get(Routing.generate('ctf_admin_stage_list', { 'q': 1 }), null, function(data) {
+                    $('#qlist-dyn').html(data).show();
+                });
+            }
+        });
+    });
+    
     $('#stage-form-container').on('submit', '#stage-form', function(e) {
         e.preventDefault();
         

@@ -25,6 +25,12 @@ ctf_admin_stage_form:
     defaults: { _controller: CTFAdminBundle:Stage:stageForm, id: -1 }
     options:
       expose: true
+
+ctf_admin_stage_remove:
+    pattern: /admin/stage/remove/{id}
+    defaults: { _controller: CTFAdminBundle:Stage:remove }
+    options:
+      expose: true
       
 ctf_admin_stage_list:
     pattern: /admin/stage/list/{q}
