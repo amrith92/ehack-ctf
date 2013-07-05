@@ -51,7 +51,7 @@ ctf_admin_question_remove:
       expose: true
 
 ctf_admin_question_attachments:
-    pattern: /esi/admin/question/attachments/{stage}/{level}
+    pattern: /admin/question/attachments/{stage}/{level}
     defaults: { _controller: CTFAdminBundle:Question:attachments }
 
 ctf_admin_question_view_attachment:

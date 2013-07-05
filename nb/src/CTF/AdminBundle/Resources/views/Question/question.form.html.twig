@@ -35,7 +35,7 @@
                     <hr />
                     {{ form_row(form.attachment) }}
                     {% if form.vars.value %}
-                        {% render url('ctf_admin_question_attachments', { 'stage': form.stage.get('value'), 'level': form.vars.value.getLevel() }) with {}, {'standalone': true} %}
+                        {% render url('ctf_admin_question_attachments', { 'stage': form.stage.get('value'), 'level': form.vars.value.getLevel() }) with {} %}
                     {% endif %}
                 </div>
 
