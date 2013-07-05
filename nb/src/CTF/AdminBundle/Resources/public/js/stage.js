@@ -18,7 +18,7 @@ $(document).ready(function() {
         });
     });
     
-    $('#stage-list-container').on('click', 'button', function(e) {
+    $('#stage-form-container').on('click', '#poof-stage', function(e) {
         e.preventDefault();
         
         $.get($(this).attr('data-url'), null, function(data) {
@@ -38,6 +38,13 @@ $(document).ready(function() {
                 $('#stage-form-status').html('<div class="alert alert-error">' + response.message + '</div>').show().fadeOut(2200);
             }
         });
+    });
+    
+    $('#stage-list-container').on('click', 'button', function(event) {
+        event.preventDefault();
+        $('#stage-form-dyn').html('<div class="alert alert-error"><button class="close" data-dismiss="alert" type="button">&times;</button><h4 class="alert-heading">Are you sure?</h4><p>You are about to delete a stage.</p><a class="btn btn-danger" id="poof-stage" data-url="' + $(this).attr('data-url') + '">Poof, delete it!</a>&nbsp;<button class="btn" data-dismiss="alert">Cancel</button></div>').show();
+        
+        return false;
     });
     
     $('#stage-form-container').on('submit', '#stage-form', function(e) {
@@ -92,7 +99,7 @@ $(document).ready(function() {
         });
     });
     
-    $('#qlist-container').on('click', 'button', function(e) {
+    $('#question-form-container').on('click', '#poof-question', function(e) {
         e.preventDefault();
         
         $.get($(this).attr('data-url'), null, function(data) {
@@ -109,5 +116,13 @@ $(document).ready(function() {
                 $('#question-form-dyn').html('<div class="alert alert-error">' + response.message + '</div>').show().fadeOut(2200);
             }
         });
+    });
+    
+    $('#qlist-container').on('click', 'button', function(e) {
+        e.preventDefault();
+        
+        $('#question-form-dyn').html('<div class="alert alert-error"><button class="close" data-dismiss="alert" type="button">&times;</button><h4 class="alert-heading">Are you sure?</h4><p>You are about to delete a question.</p><a class="btn btn-danger" id="poof-question" data-url="' + $(this).attr('data-url') + '">Poof, delete it!</a>&nbsp;<button class="btn" data-dismiss="alert">Cancel</button></div>').show();
+        
+        return false;
     });
 });
