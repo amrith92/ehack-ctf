@@ -34,7 +34,9 @@
                     </p>
                     <hr />
                     {{ form_row(form.attachment) }}
-                    {% render url('ctf_admin_question_attachments', { 'stage': form.stage.get('value'), 'level': form.vars.value.getLevel() }) with {}, {'standalone': true} %}
+                    {% if form.vars.value %}
+                        {% render url('ctf_admin_question_attachments', { 'stage': form.stage.get('value'), 'level': form.vars.value.getLevel() }) with {}, {'standalone': true} %}
+                    {% endif %}
                 </div>
 
                 <div class="tab-pane" id="finish">
