@@ -44,7 +44,8 @@ class QuestionType extends AbstractType
             ))
             ->add('attachment', 'file', array(
                 'label' => 'Attachment',
-                'mapped' => false
+                'mapped' => false,
+                'required' => false
             ))
         ;
     }

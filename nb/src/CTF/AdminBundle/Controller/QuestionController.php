@@ -125,47 +125,11 @@ class QuestionController extends Controller {
                         $file = $form->get('attachment')->getData();
                         $salt = $this->container->getParameter('secret');
                         $dir = __DIR__.'/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage . $salt . '/l' . $level . $salt);
-                        $extension = $file->guessExtension();
-                        if (!$extension) {
-                            // extension cannot be guessed
-                            $extension = 'bin';
-                        }
-                        $newFileName = sha1($file . rand(0, 199992993)) . '.' . $extension;
                         
-                        if(!\file_exists($dir)) {
-                            $fs = new Filesystem();
-                            
-                            try {
-                                $fs->mkdir($dir);
-                            } catch (Exception $e) {
-                                /*return new Response(\json_encode(array(
-                                    'result' => 'error',
-                                    'message' => 'Stage/Level already exists!'
-                                )));*/
-                            }
-                        } else {
-                            // Remove existing files
-                            // before adding new ones
-                            $fs = new Filesystem();
-                            $finder = new Finder();
-                            $finder->files()->in($dir)->ignoreDotFiles(true);
-                            
-                            $fs->remove($finder);
-                        }
+                        $result = $this->uploadAndExtractAttachment($file, $dir);
                         
-                        $file->move($dir, $newFileName);
-                        
-                        // Unzip the file
-                        $zip = new \ZipArchive();
-                        $res = $zip->open($dir . DIRECTORY_SEPARATOR . $newFileName);
-                        if ($res === TRUE) {
-                            $zip->extractTo($dir);
-                            $zip->close();
-                        } else {
-                            return new Response(\json_encode(array(
-                                'result' => 'error',
-                                'message' => 'Not a zip-file!'
-                            )));
+                        if (true !== $result) {
+                            return new Response($result);
                         }
                     }
                     
@@ -208,42 +172,15 @@ class QuestionController extends Controller {
                     $stage = $em->getRepository('CTFQuestBundle:Stage')->find($stage);
                     
                     // Attachment
-                    if (null !== $form['attachment']->getData()) {
+                    if ($form['attachment']->getData()) {
                         $file = $form->get('attachment')->getData();
-                        $dir = __DIR__.'/../../../../web/uploads/questions' . '/s' . $stage->getId() . '/l' . $question->getLevel();
-                        $extension = $file->guessExtension();
-                        if (!$extension) {
-                            // extension cannot be guessed
-                            $extension = 'bin';
-                        }
-                        $newFileName = sha1($file . rand(0, 199992993)) . '.' . $extension;
+                        $salt = $this->container->getParameter('secret');
+                        $dir = __DIR__.'/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage->getId() . $salt . '/l' . $question->getLevel() . $salt);
                         
-                        if(!\file_exists($dir)) {
-                            $fs = new Filesystem();
-                            
-                            try {
-                                $fs->mkdir($dir);
-                            } catch (Exception $e) {
-                                /*return new Response(\json_encode(array(
-                                    'result' => 'error',
-                                    'message' => 'Stage/Level already exists!'
-                                )));*/
-                            }
-                        }
+                        $result = $this->uploadAndExtractAttachment($file, $dir);
                         
-                        $file->move($dir, $newFileName);
-                        
-                        // Unzip the file
-                        $zip = new \ZipArchive();
-                        $res = $zip->open($dir . DIRECTORY_SEPARATOR . $newFileName);
-                        if ($res === TRUE) {
-                            $zip->extractTo($dir);
-                            $zip->close();
-                        } else {
-                            return new Response(\json_encode(array(
-                                'result' => 'error',
-                                'message' => 'Not a zip-file!'
-                            )));
+                        if (true !== $result) {
+                            return new Response($result);
                         }
                     }
                     
@@ -280,5 +217,61 @@ class QuestionController extends Controller {
         }
         
         return new Response('Bad Request.', 400);
+    }
+    
+    private function uploadAndExtractAttachment($file, $dir) {
+        $extension = $file->guessExtension();
+        if (!$extension) {
+            // extension cannot be guessed
+            $extension = 'bin';
+        }
+        $newFileName = sha1($file . rand(0, 199992993)) . '.' . $extension;
+
+        if(!\file_exists($dir)) {
+            $fs = new Filesystem();
+
+            try {
+                $fs->mkdir($dir);
+            } catch (Exception $e) {
+                // Sit tight :P
+                return \json_encode(array(
+                    'result' => 'error',
+                    'message' => 'Unable to create the magically secret location  to upload the files to.'
+                ));
+            }
+        } else {
+            // Remove existing files
+            // before adding new ones
+            $fs = new Filesystem();
+            $finder = new Finder();
+            $finder->files()->in($dir)->ignoreDotFiles(true);
+
+            try {
+                $fs->remove($finder);
+            } catch (Exception $e) {
+                return \json_encode(array(
+                    'result' => 'error',
+                    'message' => 'Unable to purge already-existing files!'
+                ));
+            }
+        }
+
+        $target = $file->move($dir, $newFileName);
+
+        // Unzip the file
+        $zip = new \ZipArchive();
+        $res = $zip->open($target);
+        if ($res === TRUE) {
+            $zip->extractTo($dir);
+            $zip->close();
+        } else {
+            return \json_encode(array(
+                'result' => 'error',
+                'message' => 'Not a zip-file!'
+            ));
+        }
+        
+        // Everything's okay
+        return true;
     }
 }
