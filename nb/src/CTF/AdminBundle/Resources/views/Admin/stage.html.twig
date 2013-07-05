@@ -16,25 +16,52 @@ Stages &amp; Questions &middot; Admin Dashboard
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     {{ flashMessage }}
                 </div>
+                {% if "question" in flashMessage or "Question" in flashMessage %}
+                <script type="text/javascript">
+//<!--
+    window.onload = function() {
+        $('#stageTabs li:eq(1) a').tab('show');
+    };
+//-->
+                </script>
+                {% endif %}
             {% endfor %}
             {% for flashMessage in app.session.flashbag.get('notice') %}
                 <div class="alert alert-success clearfix">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     {{ flashMessage }}
                 </div>
+                {% if "question" in flashMessage or "Question" in flashMessage %}
+                <script type="text/javascript">
+//<!--
+    window.onload = function() {
+        $('#stageTabs li:eq(1) a').tab('show');
+    };
+//-->
+                </script>
+                {% endif %}
             {% endfor %}
             {% for flashMessage in app.session.flashbag.get('error') %}
                 <div class="alert alert-success clearfix">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     {{ flashMessage }}
                 </div>
+                {% if "question" in flashMessage or "Question" in flashMessage %}
+                <script type="text/javascript">
+//<!--
+    window.onload = function() {
+        $('#stageTabs li:eq(1) a').tab('show');
+    };
+//-->
+                </script>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
     <div class="row-fluid">
         <div class="span12">
             <div class="tabbable">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs" id="stageTabs">
                     <li class="active"><a href="#stages" data-toggle="tab">Stages</a></li>
                     <li><a href="#questions" data-toggle="tab">Questions</a></li>
                 </ul>
