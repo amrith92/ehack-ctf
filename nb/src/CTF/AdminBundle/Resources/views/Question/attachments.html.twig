@@ -1,0 +1,28 @@
+{# Attachments Twig template #}
+<hr />
+<h5>Currently uploaded files</h5>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>File Name</th>
+            <th>Parent</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in list %}
+        <tr>
+            <td>
+                <a href="{{ path('ctf_admin_question_view_attachment', { 'stage': stage, 'level': level, 'filename': file.getFilename() }) }}" target="_blank">{{ file.getFilename() }}</a>
+            </td>
+            <td>
+                {% if file.getRelativePath() == '' %}
+                <center>-</center>
+                {% else %}
+                {{ file.getRelativePath() }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

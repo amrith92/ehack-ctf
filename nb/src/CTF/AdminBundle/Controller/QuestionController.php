@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
-use \CTF\QuestBundle\Form\QuestionType;
+use CTF\QuestBundle\Form\QuestionType;
+use Symfony\Component\Finder\Finder;
 
 class QuestionController extends Controller {
     
@@ -44,6 +45,56 @@ class QuestionController extends Controller {
         return new Response('Bad Request.', 400);
     }
     
+    public function attachmentsAction($stage, $level, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($stage && $level) {
+            $salt = $this->container->getParameter('secret');
+            $dir = __DIR__ . '/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage . $salt . '/l' . $level . $salt);
+            if (\file_exists($dir)) {
+                $finder = new Finder();
+                $finder->files()->in($dir)->ignoreDotFiles(true)->notName('/zip/i');
+
+                if (\iterator_count($finder) > 0) {
+                    return $this->render('CTFAdminBundle:Question:attachments.html.twig', array(
+                        'list' => $finder,
+                        'stage' => $stage,
+                        'level' => $level
+                    ));
+                }
+            }
+        }
+        
+        return new Response("<hr /><i>No attachments uploaded yet</i>");
+    }
+    
+    public function viewAttachmentAction($stage, $level, $filename, Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($stage && $level && $filename) {
+            $salt = $this->container->getParameter('secret');
+            $dir = __DIR__ . '/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage . $salt . '/l' . $level . $salt) . '/' . $filename;
+            if (\file_exists($dir)) {
+                $data = \file_get_contents($dir);
+                
+                $finfo = new \finfo(FILEINFO_MIME);
+                
+                $response = new Response($data, 200, array(
+                    'Content-Type' => $finfo->file($dir),
+                    'Content-Disposition' => 'inline; filename=' . $filename
+                ));
+                
+                return $response;
+            }
+        }
+        
+        return new Response('Bad Request.', 400);
+    }
+    
     public function questionAction($id, $stage, Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
@@ -70,7 +121,7 @@ class QuestionController extends Controller {
                     $level = $question->getLevel();
                     
                     // Check for the attachment
-                    if (null !== $form['attachment']->getData()) {
+                    if ($form['attachment']->getData()) {
                         $file = $form->get('attachment')->getData();
                         $salt = $this->container->getParameter('secret');
                         $dir = __DIR__.'/../../../../web/uploads/questions/' . md5($salt . '/s' . $stage . $salt . '/l' . $level . $salt);
@@ -92,6 +143,14 @@ class QuestionController extends Controller {
                                     'message' => 'Stage/Level already exists!'
                                 )));*/
                             }
+                        } else {
+                            // Remove existing files
+                            // before adding new ones
+                            $fs = new Filesystem();
+                            $finder = new Finder();
+                            $finder->files()->in($dir)->ignoreDotFiles(true);
+                            
+                            $fs->remove($finder);
                         }
                         
                         $file->move($dir, $newFileName);
