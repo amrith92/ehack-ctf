@@ -47,8 +47,6 @@
             </div>
             <hr />
             {{ form_row(form.org) }}
-
-            {{ form_rest(form) }}
             </div>
             <div id="finish" class="tab-pane">
                 <p>
@@ -59,6 +57,7 @@
                 {{ form_row(form.password) }}
                 {% endif %}
                 <hr />
+                {{ form_rest(form) }}
                 <button class="btn">Save</button>
             </div>
         </div>

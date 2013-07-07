@@ -1,0 +1,12 @@
+/* 
+    Document   : select-team
+    Created on : 7 Jul, 2013, 1:31:04 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.picture-window:hover, .selected-window {
+    cursor: pointer;
+    background-color: #0af;
+}

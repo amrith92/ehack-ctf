@@ -5,6 +5,15 @@
 {{ app.user.username }} &raquo; Team Selection &middot; ehack CTF
 {% endblock %}
 
+{% block extracss %}
+{% stylesheets
+    'bundles/ctfteam/css/select-team.css'
+    filter='cssrewrite, yui_css'
+    output='selectteam.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen" />
+{% endstylesheets %}
+{% endblock %}
+
 {% block content %}
     <div class="clearfix">&nbsp;</div>
     <div class="container-fluid">
@@ -66,34 +75,13 @@
 
 {% block extrajsend %}
 <!--[if lt IE 9]><script type="text/javascript" src="{{ asset('bundles/ctfteam/js/excanvas.js') }}"></script><![endif]-->
-<script src="{{ asset('bundles/ctfteam/js/jquery.tagcanvas.select.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-<script type="text/javascript">
-//<!--
-$("#teamFormContainer").on('change', '#select_team input:radio', function(event) {
-    var dataSend = $('#select_team').serialize();
-    $.post(Routing.generate('ctf_team_select_ajax', null), dataSend, function(data) {
-        $('#formContent').replaceWith(data);
-        
-        var val = $('#ctf_teambundle_teamselecttype_is_selecting_0').val();
-        if ('select' == val) {
-            if( ! $('#teamCanvas').tagcanvas({
-                textColour : '#fff',
-                textFont: '"Helvetica Neue",Helvetica,Arial,sans-serif',
-                textHeight: 18,
-                outlineThickness : 1,
-                maxSpeed : 0.03,
-                depth : 0.75,
-                outlineColour: '#e74c3c',
-                outlineMethod: 'block',
-                outlineOffset: 10,
-              }, 'tags', 'ctf_teambundle_teamselecttype_team')) {
-                $('#teamcloud').hide();
-              }
-        }
-    }, "html");
-});
-//-->
-    </script>
+{% javascripts
+    '@CTFTeamBundle/Resources/public/js/jquery.tagcanvas.select.min.js'
+    '@CTFTeamBundle/Resources/public/js/select-team.js'
+    filter='yui_js'
+    output='selectteam.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}

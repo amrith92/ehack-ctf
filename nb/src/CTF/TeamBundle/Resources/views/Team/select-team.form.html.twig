@@ -17,41 +17,16 @@
             </div>
             
             {% if selectmap is defined %}
-            <hr />
-            <div id="tags" class="control-group">
-                {{ form_label(form.team) }}
-                <div class="controls">
-                    {{ form_errors(form.team) }}
-                    {{ form_widget(form.team) }}
+                {% if 'selectmap' == selectmap %}
+                <hr />
+                <div id="tags" class="control-group">
+                    {{ form_label(form.team) }}
+                    <div class="controls">
+                        {{ form_errors(form.team) }}
+                        {{ form_widget(form.team) }}
+                    </div>
                 </div>
-            </div>
-            {% elseif form.team is defined %}
-            <hr />
-            {{ form_label(form.team) }}
-            {{ form_errors(form.team) }}
-            <div class="control-group">
-                {{ form_label(form.team.name) }}
-                {{ form_errors(form.team.name) }}
-                <div class="controls">
-                    {{ form_widget(form.team.name) }}
-                </div>
-            </div>
-            <div class="control-group">
-                {{ form_label(form.team.status) }}
-                {{ form_errors(form.team.status) }}
-                <div class="controls">
-                    {{ form_widget(form.team.status) }}
-                </div>
-            </div>
-            <div class="control-group">
-                {{ form_label(form.team.teamPic) }}
-                {{ form_errors(form.team.teamPic) }}
-                <div class="controls">
-                    {{ form_widget(form.team.teamPic) }}
-                </div>
-            </div>
-            <div>
-            
+                {% endif %}
             {% endif %}
             {% if form.message is defined %}
             <div class="control-group">
@@ -64,11 +39,44 @@
             </div>
             {% endif %}
             
-            {{ form_rest(form) }}
-
-            <div class="form-row">
-                <button class="btn">Select</button>
-            </div>
+            {% if selectmap is defined %}
+                {% if 'selectmap' != selectmap %}
+                    <hr />
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="control-group">
+                                {{ form_label(form.team.name) }}
+                                <div class="controls">
+                                    {{ form_errors(form.team.name) }}
+                                    {{ form_widget(form.team.name) }}
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                {{ form_label(form.team.status) }}
+                                <div class="controls">
+                                    {{ form_errors(form.team.status) }}
+                                    {{ form_widget(form.team.status) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            {{ form_rest(form) }}
+                            <h5>Choose Avatar</h5>
+                            {% include "CTFTeamBundle:Team:team-display-select.html.twig" %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <button class="btn btn-primary" id="create-clicked">Create</button>
+                    </div>
+                {% else %}
+                    {{ form_rest(form) }}
+                    <div class="form-row">
+                        <button class="btn">Select</button>
+                    </div>
+                {% endif %}
+            {% else %}
+                {{ form_rest(form) }}
+            {% endif %}
         </fieldset>
     </form>
     </div>
