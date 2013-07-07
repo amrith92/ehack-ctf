@@ -6,6 +6,12 @@ function updateCurrentStats() {
         $('#level-display').text(res.level).fadeIn();
         $('#title-display').text(res.title).fadeIn();
         $('#score-display').text(res.score).fadeIn();
+        
+        $('#collapse-' + res.stage).collapse('show');
+        $('#collapse-' + res.stage + ' .accordion-inner ul li').each(function (index) {
+            $(this).removeClass('selected-level');
+        });
+        $('#collapse-' + res.stage + ' .accordion-inner ul li:eq(' + (res.level - 1) + ')').addClass('selected-level');
     });
 }
 

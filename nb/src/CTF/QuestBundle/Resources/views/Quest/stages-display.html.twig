@@ -1,15 +1,15 @@
 {# Stages-Display Twig template #}
 
 <div id="quest-tabs" class="accordion">
-    {% set first = 0 %}
+    {% set first = 1 %}
     {% for it in stages %}
         <div class="accordion-group">
             <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#quest-tabs" href="#collapse-{{ it.getId() }}">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#quest-tabs" href="#collapse-{{ first }}">
                 {{ it.getName() }}
                 </a>
             </div>
-            <div id="collapse-{{ it.getId() }}" class="accordion-body collapse{% if 0 == first %} in{% endif %}">
+            <div id="collapse-{{ it.getId() }}" class="accordion-body collapse{% if 1 == first %} in{% endif %}">
                 <div class="accordion-inner">
                     <ul>
                     {% for item in it.getQuestions() %}
@@ -19,6 +19,6 @@
                 </div>
             </div>
         </div>
-        {% set first = 1 %}
+        {% set first = first + 1 %}
     {% endfor %}
 </div>
