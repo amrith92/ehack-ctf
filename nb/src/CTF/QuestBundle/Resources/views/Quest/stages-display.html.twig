@@ -9,7 +9,7 @@
                 {{ it.getName() }}
                 </a>
             </div>
-            <div id="collapse-{{ it.getId() }}" class="accordion-body collapse{% if 1 == first %} in{% endif %}">
+            <div id="collapse-{{ first }}" class="accordion-body collapse{% if 1 == first %} in{% endif %}">
                 <div class="accordion-inner">
                     <ul>
                     {% for item in it.getQuestions() %}
