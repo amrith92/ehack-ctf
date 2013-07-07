@@ -100,13 +100,8 @@
 //<!--
 var teamSelectFilter, filterT;
 
-function addFilter() {
-    teamSelectFilter = new filterList(
-        document.getElementById('ctf_teambundle_teamselecttype_team')
-    );
-    filterT = document.getElementById('filterT');
-
-    filterT.addEventListener('keyup', function() {
+var filterListener = function() {
+    if (teamSelectFilter != null) {
         teamSelectFilter.set(this.value);
         $('#teamCanvas').empty();
         $('#teamCanvas').tagcanvas({
@@ -120,7 +115,23 @@ function addFilter() {
             outlineMethod: 'block',
             outlineOffset: 10
           }, 'tags', 'ctf_teambundle_teamselecttype_team');
-    });
+    }
+};
+
+function addFilter() {
+    var select = document.getElementById('ctf_teambundle_teamselecttype_team');
+    
+    if (select != null) {
+        teamSelectFilter = new filterList(
+            select
+        );
+
+        filterT = document.getElementById('filterT');
+
+        if (filterT != null) {
+            filterT.addEventListener('keyup', filterListener);
+        }
+    }
 }
 //-->
 </script>

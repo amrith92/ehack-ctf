@@ -1,7 +1,7 @@
 $("#teamFormContainer").on('change', '#select_team input:radio', function(event) {
     var dataSend = $('#select_team').serialize();
     $.post(Routing.generate('ctf_team_select_ajax', null), dataSend, function(data) {
-        $('#formContent').replaceWith(data);
+        $('#formContent').html(data).show();
         
         var val = $('#ctf_teambundle_teamselecttype_is_selecting_0').val();
         if ('select' == val) {
@@ -18,16 +18,17 @@ $("#teamFormContainer").on('change', '#select_team input:radio', function(event)
               }, 'tags', 'ctf_teambundle_teamselecttype_team')) {
                 $('#teamcloud').hide();
               }
-        }
-        
-        if (typeof addFilter == 'function') {
-            addFilter();
+            if (typeof addFilter == 'function') {
+                addFilter();
+            }
         }
     }, "html");
 });
 
 $('#tab1').on('click', '.picture-window', function() {
-    
+    $('.picture-window').each(function(index) {
+        $(this).removeClass('selected-window');
+    });
 
     $(this).addClass('selected-window');
     $('#ctf_teambundle_teamselecttype_team_teamPic').val($(this).attr('src'));
