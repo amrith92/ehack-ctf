@@ -10,8 +10,18 @@
         </ul>
         <div class="tab-content">
             <div id="general" class="tab-pane active">
-                {{ form_row(form.username) }}
-                {{ form_row(form.email) }}
+                <div>
+                    <div>
+                        <strong>Username</strong>
+                    </div>
+                    <strong>{{ app.user.username }}</strong>
+                </div>
+                <div>
+                    <div>
+                        <strong>Email-ID</strong>
+                    </div>
+                    <strong>{{ app.user.getEmailCanonical() }}</strong>
+                </div>
             </div>
                 <div id="extra-general" class="tab-pane">
                 {{ form_row(form.fname) }}

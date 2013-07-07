@@ -29,14 +29,6 @@ class UserType extends AbstractType
         $pointTransformer = new TextToPointTransformer();
         
         $builder
-            ->add('username', 'text', array(
-                'required' => true,
-                'read_only' => true
-            ))
-            ->add('email', 'email', array(
-                'required' => true,
-                'read_only' => true
-            ))
             ->add('fname', 'text', array(
                 'required' => true,
                 'max_length' => 50,
