@@ -1,0 +1,104 @@
+/* 
+    Document   : team-chat
+    Created on : 7 Jul, 2013, 3:46:28 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#toggle-chat {
+    background: url('../../ctfcommon/images/brushed-metal.jpg');
+    text-align: center;
+    border: solid 1px #000;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+#toggle-chat button {
+    font-family: 'Courier New', "Lucida Console", monospace;
+    font-size: 0.75em;
+    color: #fff;
+}
+
+#chat-client {
+    background: transparent url('../images/walkie-typie.png') center center no-repeat;
+    background-position: fixed;
+    background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    height: 496px;
+    max-height: 496px;
+    max-width: 232px;
+    width: 232px;
+    overflow: none;
+    z-index: 9999;
+}
+
+#chat {
+    font-size: 0.75em;
+    height: 250px;
+    margin: 127px auto 0;
+    max-height: 400px;
+    overflow: auto;
+    width: 139px;
+    background-color: rgb(10, 10, 10);
+}
+
+#text-bar {
+    display: block;
+    margin: 0 auto;
+    width: 157px;
+    max-width: 157px;
+    overflow: hidden;
+    background-color: rgb(10, 10, 10);
+}
+
+#chat-bar {
+    max-width: 145px!important;
+    margin-bottom: 0px;
+}
+
+#chat-send {
+    margin: 0 auto;
+    display: block;
+    max-width: 160px;
+    width: 160px;
+}
+
+#chat-list-info {
+    margin: 0 auto;
+    width: 160px;
+    max-width: 160px;
+    text-align: center;
+}
+
+#chat .message-text {
+    padding: 3px!important;
+    color: #C09853;
+    background-color: #FCF8E3;
+    border: 1px solid #FBEED5;
+    border-radius: 4px 4px 4px 4px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+#chat .message-text-success {
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+    color: #468847;
+}
+
+#chat .message-text-info {
+    background-color: #D9EDF7;
+    border-color: #BCE8F1;
+    color: #3A87AD;
+}
+
+#chat div.message {
+    margin: 6px 2px;
+    clear: both;
+    word-wrap: break-word;
+    max-width: 80%;
+}

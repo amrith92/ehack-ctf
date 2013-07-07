@@ -18,10 +18,6 @@ body {
     margin: 10px;
 }
 
-#qbox {
-    overflow: auto;
-}
-
 .popover-title, .popover-content {
     color: #000;
 }
@@ -37,111 +33,6 @@ body {
 #rank-display {
     font-size: 4em;
     color: #ffdb1f;
-}
-
-#qbox ul li a, #qbox ul li span.badge {
-    color: #00e800;
-}
-
-.nav-list > li > a.quest-button {
-    font-size: 1em!important;
-    color: #fff!important;
-}
-
-#toggle-chat {
-    background: url('../../ctfcommon/images/brushed-metal.jpg');
-    text-align: center;
-    border: solid 1px #000;
-    border-radius: 6px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-}
-
-#toggle-chat button {
-    font-family: 'Courier New', "Lucida Console", monospace;
-    font-size: 0.75em;
-    color: #fff;
-}
-
-#chat-client {
-    background: transparent url('../images/walkie-typie.png') center center no-repeat;
-    background-position: fixed;
-    background-size: cover;
-    -o-background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
-    height: 496px;
-    max-height: 496px;
-    max-width: 232px;
-    width: 232px;
-    overflow: none;
-}
-
-#chat {
-    font-size: 0.75em;
-    height: 250px;
-    margin: 127px auto 0;
-    max-height: 400px;
-    overflow: auto;
-    width: 139px;
-    background-color: rgba(10, 10, 10, 0.8);
-}
-
-#text-bar {
-    display: block;
-    margin: 0 auto;
-    width: 157px;
-    max-width: 157px;
-    overflow: hidden;
-    background-color: rgba(10, 10, 10, 0.8);
-}
-
-#chat-bar {
-    max-width: 145px!important;
-    margin-bottom: 0px;
-}
-
-#chat-send {
-    margin: 0 auto;
-    display: block;
-    max-width: 160px;
-    width: 160px;
-}
-
-#chat-list-info {
-    margin: 0 auto;
-    width: 160px;
-    max-width: 160px;
-    text-align: center;
-}
-
-#chat .message-text {
-    padding: 3px!important;
-    color: #C09853;
-    background-color: #FCF8E3;
-    border: 1px solid #FBEED5;
-    border-radius: 4px 4px 4px 4px;
-    margin-bottom: 20px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-#chat .message-text-success {
-    background-color: #DFF0D8;
-    border-color: #D6E9C6;
-    color: #468847;
-}
-
-#chat .message-text-info {
-    background-color: #D9EDF7;
-    border-color: #BCE8F1;
-    color: #3A87AD;
-}
-
-#chat div.message {
-    margin: 6px 2px;
-    clear: both;
-    word-wrap: break-word;
-    max-width: 80%;
 }
 
 .right {

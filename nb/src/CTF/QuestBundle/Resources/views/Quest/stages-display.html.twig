@@ -1,0 +1,24 @@
+{# Stages-Display Twig template #}
+
+<div id="quest-tabs" class="accordion">
+    {% set first = 0 %}
+    {% for it in stages %}
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#quest-tabs" href="#collapse-{{ it.getId() }}">
+                {{ it.getName() }}
+                </a>
+            </div>
+            <div id="collapse-{{ it.getId() }}" class="accordion-body collapse{% if 0 == first %} in{% endif %}">
+                <div class="accordion-inner">
+                    <ul>
+                    {% for item in it.getQuestions() %}
+                        <li><span class="badge badge-inverse">{{ item.getLevel() }}</span>&nbsp;<a href="{{ path('ctf_quest_fetch', { qid: item.getId() }) }}" class="list-item fetch-item">{{ item.getTitle() }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% set first = 1 %}
+    {% endfor %}
+</div>

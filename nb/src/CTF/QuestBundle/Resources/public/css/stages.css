@@ -1,0 +1,47 @@
+/* 
+    Document   : stages
+    Created on : 7 Jul, 2013, 3:50:16 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.accordion-inner ul {
+    list-style-type: none;
+    margin: 10px 0 0 0;
+}
+
+.accordion-inner ul li {
+    padding: 6px;
+}
+
+.accordion-inner ul li:hover, .selected-level {
+    background-color: rgba(10, 10, 10, 0.5);
+}
+
+#quest-tabs .accordion-group {
+    border-color: #666!important;
+    border-radius: 0px!important;
+    -moz-border-radius: 0px!important;
+    -webkit-border-radius: 0px!important;
+}
+
+#quest-tabs .accordion-inner {
+    border-color: #666;
+}
+
+#quest-tabs .accordion-heading {
+    text-transform: uppercase;
+    text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    line-height: 20px;
+    color: rgb(153, 153, 153);
+}
+
+#quest-tabs .accordion-heading:hover {
+    background-color: rgba(10, 10, 10, 0.6);
+}
+
+.quest-button {
+    width: 100%;
+}
