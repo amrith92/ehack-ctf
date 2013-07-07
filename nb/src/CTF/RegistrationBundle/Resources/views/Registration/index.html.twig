@@ -197,6 +197,11 @@ $(document).ready(function() {
                     $('#form-error').html('<div class="alert alert-success">' + response.message + "</div>").fadeIn("slow").fadeOut(15000);
                     $('#form-dyn-container').html(response.sharepage);
                     finish = true;
+                    $('#longUrlPopover').popover();
+    
+                    $.get(Routing.generate('ctf_referral_shortify', null), null, function(data) {
+                        document.getElementById('shortUrl').innerHTML = '<a href="' + data + '" target="_blank">' + data + '</a>';
+                    });
                 }
             } else {
                 $('#form-error').html('<div class="alert alert-error">' + response.message + "</div>").fadeIn("slow").fadeOut(5000);
