@@ -19,11 +19,23 @@
             {% if selectmap is defined %}
                 {% if 'selectmap' == selectmap %}
                 <hr />
-                <div id="tags" class="control-group">
-                    {{ form_label(form.team) }}
-                    <div class="controls">
-                        {{ form_errors(form.team) }}
-                        {{ form_widget(form.team) }}
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div id="tags" class="control-group">
+                            {{ form_label(form.team) }}
+                            <div class="controls">
+                                {{ form_errors(form.team) }}
+                                {{ form_widget(form.team) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="control-group">
+                            <label for="filterT"><strong>Filter Teams</strong></label>
+                            <div class="controls">
+                                <input type="text" id="filterT" name="regexp" placeholder="Type to filter" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endif %}
@@ -81,3 +93,36 @@
     </form>
     </div>
 </div>
+
+{% if selectmap is defined %}
+    {% if 'selectmap' == selectmap %}
+<script type="text/javascript">
+//<!--
+var teamSelectFilter, filterT;
+
+function addFilter() {
+    teamSelectFilter = new filterList(
+        document.getElementById('ctf_teambundle_teamselecttype_team')
+    );
+    filterT = document.getElementById('filterT');
+
+    filterT.addEventListener('keyup', function() {
+        teamSelectFilter.set(this.value);
+        $('#teamCanvas').empty();
+        $('#teamCanvas').tagcanvas({
+            textColour : '#fff',
+            textFont: '"Helvetica Neue",Helvetica,Arial,sans-serif',
+            textHeight: 18,
+            outlineThickness : 1,
+            maxSpeed : 0.03,
+            depth : 0.75,
+            outlineColour: '#e74c3c',
+            outlineMethod: 'block',
+            outlineOffset: 10
+          }, 'tags', 'ctf_teambundle_teamselecttype_team');
+    });
+}
+//-->
+</script>
+    {% endif %}
+{% endif %}

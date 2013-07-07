@@ -14,10 +14,14 @@ $("#teamFormContainer").on('change', '#select_team input:radio', function(event)
                 depth : 0.75,
                 outlineColour: '#e74c3c',
                 outlineMethod: 'block',
-                outlineOffset: 10,
+                outlineOffset: 10
               }, 'tags', 'ctf_teambundle_teamselecttype_team')) {
                 $('#teamcloud').hide();
               }
+        }
+        
+        if (typeof addFilter == 'function') {
+            addFilter();
         }
     }, "html");
 });

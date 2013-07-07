@@ -53,6 +53,8 @@
 
                                     </canvas>
                                 </div>
+                                <div id="filter-teams">
+                                </div>
                             </div>
                             <div class="span7">
                                 {% include "CTFTeamBundle:Team:select-team.form.html.twig" with { 'form': form } only %}
@@ -79,6 +81,7 @@
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% javascripts
     '@CTFTeamBundle/Resources/public/js/jquery.tagcanvas.select.min.js'
+    '@CTFTeamBundle/Resources/public/js/search-select.js'
     '@CTFTeamBundle/Resources/public/js/select-team.js'
     filter='yui_js'
     output='selectteam.js' %}
