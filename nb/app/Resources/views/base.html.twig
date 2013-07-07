@@ -24,6 +24,7 @@
     {% stylesheets
         'bundles/ctfcommon/css/toggle-switch.css'
         'bundles/ctfcommon/css/social-buttons.css'
+        'bundles/ctfcommon/css/bootstrap-select.css'
         filter='cssrewrite, yui_css'
         output='base-extras.css'
     %}
@@ -83,6 +84,12 @@
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+{% javascripts
+    '@CTFCommonBundle/Resources/public/js/bootstrap-select.js'
+    filter='yui_js'
+    output='base-select.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
     <!--[if lt IE 8]>
 {% javascripts
     '@CTFCommonBundle/Resources/public/js/icon-font-ie7.js'
