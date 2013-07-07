@@ -35,6 +35,11 @@ Registration &middot; ehack CTF
             </div>
         </div>
         <div class="modal-footer">
+            <div class="pull-left hidden" id="map_normalize_container">
+                <button id="map_normalize" class="btn btn-primary">
+                    <i class="icon-white icon-resize-small"></i>
+                </button>
+            </div>
             <button class="btn btn-success" id="next-button">Next</button>
         </div>
     </div>
@@ -177,7 +182,7 @@ $('#map_fullscreen').click(function (e) {
     $('#map_canvas').addClass('fullscreen');
     $('#map_canvas').empty();
     initialiseMap();
-    $('#map_normalize_container').removeClass('hidden').addClass('fullscreen');
+    $('#map_normalize_container').removeClass('hidden');
 });
 
 $('#map_normalize').click(function (e) {
@@ -186,7 +191,7 @@ $('#map_normalize').click(function (e) {
     $('#map_canvas').removeClass('fullscreen');
     $('#map_canvas').empty();
     initialiseMap();
-    $('#map_normalize_container').removeClass('fullscreen').addClass('hidden');
+    $('#map_normalize_container').addClass('hidden');
 });
 
 var finish = false;
