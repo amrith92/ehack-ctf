@@ -171,6 +171,24 @@ function geocodePosition(pos)
     );
 }
 
+$('#map_fullscreen').click(function (e) {
+    e.preventDefault();
+    
+    $('#map_canvas').addClass('fullscreen');
+    $('#map_canvas').empty();
+    initialiseMap();
+    $('#map_normalize_container').removeClass('hidden').addClass('fullscreen');
+});
+
+$('#map_normalize').click(function (e) {
+    e.preventDefault();
+    
+    $('#map_canvas').removeClass('fullscreen');
+    $('#map_canvas').empty();
+    initialiseMap();
+    $('#map_normalize_container').removeClass('fullscreen').addClass('hidden');
+});
+
 var finish = false;
 $(document).ready(function() {
     initialize();

@@ -35,3 +35,15 @@ body {
     text-align: right;
 }
 
+.fullscreen {  
+    position: absolute!important;
+    top: 0;
+    left: 0;
+    width: 100%!important;
+    height: 100%!important;
+    z-index: 1001;
+}
+
+.hidden {
+    display: none;
+}
