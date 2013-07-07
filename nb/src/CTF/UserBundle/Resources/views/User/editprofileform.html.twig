@@ -10,15 +10,15 @@
         </ul>
         <div class="tab-content">
             <div id="general" class="tab-pane active">
-                <div>
+                <div class="well well-small">
                     <div>
-                        <strong>Username</strong>
+                        Username
                     </div>
                     <strong>{{ app.user.username }}</strong>
                 </div>
-                <div>
+                <div class="well well-small">
                     <div>
-                        <strong>Email-ID</strong>
+                        Email-ID
                     </div>
                     <strong>{{ app.user.getEmailCanonical() }}</strong>
                 </div>
