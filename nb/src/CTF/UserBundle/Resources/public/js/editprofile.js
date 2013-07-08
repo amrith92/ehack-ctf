@@ -86,8 +86,8 @@ $(document).ready(function() {
         dateFormat: 'dd-mm-yy',
         changeMonth: true,
         changeYear: true,
-        maxDate: "-10Y",
-        yearRange: "-100:-10"
+        maxDate: "-17Y",
+        yearRange: "-100:-17"
     });
     
     $( "[title]" ).tooltip();

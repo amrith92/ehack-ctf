@@ -45,12 +45,12 @@ class UserController extends Controller {
                  * Sanity checks for DOB
                  */
                 $range_min = new \DateTime();
-                $range_min->modify('-10 years');
+                $range_min->modify('-17 years');
                 $range_max = new \DateTime();
                 $range_max->modify('-100 years');
                 
                 if ($data->getDob() > $range_min || $data->getDob() < $range_max) {
-                    $this->get('session')->getFlashBag()->add('error', "You have to be at-least 10 years of age (and below 100 :P) to participate.");
+                    $this->get('session')->getFlashBag()->add('error', "You have to be at-least 17 years of age (and below 100 :P) to participate.");
                     return $this->render('CTFUserBundle:User:editprofile.html.twig', array(
                         'form' => $form->createView(),
                         'profilePic' => $user->getImageURL()
