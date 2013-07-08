@@ -646,12 +646,14 @@ class QuestController extends Controller {
         $dir = __DIR__ . '/../../../../web/uploads/questions/' . $hash;
 
         if (null == $filename) {
+            $filename = 'index.html';
             $file = $dir . '/index.html';
         } else {
             $file = $dir . '/' . $filename;
         }
         
         if (!\file_exists($file)) {
+            $filename = 'index.php';
             $file = $dir . '/index.php';
         } else {
             $file = $dir . '/' . $filename;
@@ -667,6 +669,7 @@ class QuestController extends Controller {
         $response->headers->set('Expires','0');
         $response->headers->set('Pragma','public');
         $response->headers->set('Content-Length','' . \filesize($file));
+        $response->headers->set('Content-Disposition','inline; filename=' . $filename);
         
         \finfo_close($finfo);
         
@@ -675,6 +678,8 @@ class QuestController extends Controller {
             include $file;
             $content = \ob_get_contents();
             \ob_end_clean();
+            
+            $response->headers->set('Content-Type', 'text/html');
         }
         $response->setContent($content);
         
