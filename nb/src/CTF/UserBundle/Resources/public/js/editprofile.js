@@ -85,7 +85,9 @@ $(document).ready(function() {
     $('.date').datepicker({
         dateFormat: 'dd-mm-yy',
         changeMonth: true,
-        changeYear: true
+        changeYear: true,
+        maxDate: "-10Y",
+        yearRange: "-100:-10"
     });
     
     $( "[title]" ).tooltip();
