@@ -673,7 +673,9 @@ class QuestController extends Controller {
         
         \finfo_close($finfo);
         
-        if ('php' == \pathinfo($file)['extension']) {
+        $extension = \pathinfo($file)['extension'];
+        
+        if ('php' == $extension) {
             \ob_start();
             include $file;
             $content = \ob_get_contents();
@@ -682,6 +684,12 @@ class QuestController extends Controller {
             $response->headers->set('Content-Type', 'text/html');
         }
         $response->setContent($content);
+        
+        if ('css' == $extension) {
+            $response->headers->set('Content-Type', 'text/css');
+        } else if ('js' == $extension) {
+            $response->headers->set('Content-Type', 'text/javascript');
+        }
         
         return $response;
     }
