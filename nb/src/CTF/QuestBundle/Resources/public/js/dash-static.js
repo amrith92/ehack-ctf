@@ -96,20 +96,27 @@ $(document).ready(function() {
             
             document.getElementById('answer-button-loader').innerHTML = null;
             
-            if ('success' == response.result) {
+            if ('success' == response.result || 'stoptoshare' == response.result) {
                 $('#question-result').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
                 
                 document.getElementById('question-dyn').innerHTML = '<div id="question-dyn-loader">' + document.getElementById('loader').innerHTML + '</div>';
                 
-                $.get(Routing.generate('ctf_quest_fetch', { qid: response.next }), null, function(data) {
-                    var rp = JSON.parse(data);
-            
-                    $('#question-dyn').html(rp.message).show().fadeIn();
+                if ('success' == response.result) {
+                    $.get(Routing.generate('ctf_quest_fetch', { qid: response.next }), null, function(data) {
+                        var rp = JSON.parse(data);
 
-                    if ('success' == rp.result) {
+                        $('#question-dyn').html(rp.message).show().fadeIn();
+
+                        if ('success' == rp.result) {
+                            updateCurrentStats();
+                        }
+                    });
+                } else {
+                    $.get(Routing.generate('ctf_quest_stoptoshare'), null, function(data) {
+                        $('#question-dyn').html(data).show().fadeIn();
                         updateCurrentStats();
-                    }
-                });
+                    });
+                }
             } else if ('finish' == response.result) {
                 $('#question-result').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
                 

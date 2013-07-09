@@ -214,7 +214,8 @@ class QuestController extends Controller {
 
                 $userquest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
 
-                if ($stage->getId() <= $userquest->getQuestStage() && $question->getLevel() <= $userquest->getQuestLevel()->getLevel()) {
+                if (($userquest->getQuestStage()->getId() > $stage->getId()) ||
+                        ($stage->getId() == $userquest->getQuestStage()->getId() && $question->getLevel() <= $userquest->getQuestLevel()->getLevel())) {
                     // Check if there's some history associated with this question,stage,level and user
                     $history = $userquest->getHistory();
                     $ffound = false;
@@ -250,7 +251,7 @@ class QuestController extends Controller {
                     if (\file_exists($dir)) {
                         $attachment = true;
                     }
-                    
+
                     // Transform placeholders
                     $content = QuestUtil::transformPlaceholders($question->getContent(), $user);
                     $em->detach($question);
@@ -268,7 +269,7 @@ class QuestController extends Controller {
                         'result' => 'success',
                         'message' => $message
                     );
-                    
+
                     $response = new Response(\json_encode($data));
                     $response->mustRevalidate();
 
@@ -507,6 +508,8 @@ class QuestController extends Controller {
                         }
                     }
                     
+                    $finishedStage = false;
+                    
                     if (null == $nextLevel) {
                         // Stage exhausted, move to the next one
                         $newStage = $em->getRepository('CTFQuestBundle:Stage')->nextStage($stage->getId());
@@ -515,6 +518,7 @@ class QuestController extends Controller {
                             $questions = $newStage->getQuestions();
                             if (null != $questions[0]) {
                                 $nextLevel = $questions[0];
+                                $finishedStage = true;
                             } else {
                                 //////
                                 // No more levels in this stage - END of CTF
@@ -570,7 +574,7 @@ class QuestController extends Controller {
                     $em->flush();
 
                     $data = array(
-                        'result' => 'success',
+                        'result' => (true == $finishedStage) ? 'stoptoshare' : 'success',
                         'message' => 'Congrats! That was the right answer!',
                         'next' => $nextLevel->getId()
                     );
@@ -624,6 +628,18 @@ class QuestController extends Controller {
         
         if ($request->isXmlHttpRequest()) {
             return $this->render('CTFQuestBundle:Quest:finish.html.twig');
+        }
+        
+        return new Response('Bad Request!', 400);
+    }
+    
+    public function stopToShareAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('CTFQuestBundle:Quest:stoptoshare.html.twig');
         }
         
         return new Response('Bad Request!', 400);

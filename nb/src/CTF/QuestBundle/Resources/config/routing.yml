@@ -50,6 +50,12 @@ ctf_quest_finish:
     options:
       expose: true
 
+ctf_quest_stoptoshare:
+    pattern: /quest/stoptoshare
+    defaults: { _controller: CTFQuestBundle:Quest:stopToShare }
+    options:
+      expose: true
+
 ctf_quest_share_cert:
     pattern: /quest/share/twitter
     defaults: { _controller: CTFQuestBundle:Quest:shareCertificateOnTwitter }
