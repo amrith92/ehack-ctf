@@ -62,6 +62,11 @@ class EssentialUserType extends AbstractType {
                     'attr' => array('autocomplete' => 'off', 'class' => 'input-xlarge')
                 ))->addModelTransformer($organizationTransformer)
             )
+            ->add('coe', 'checkbox', array(
+                'required' => true,
+                'label' => 'DO YOU AGREE TO THE ABOVE TERMS AND CODE OF ETHICS?',
+                'mapped' => false
+            ))
         ;
     }
     

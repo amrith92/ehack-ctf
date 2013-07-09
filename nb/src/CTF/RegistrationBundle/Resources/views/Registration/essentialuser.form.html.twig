@@ -42,10 +42,120 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane" id="coe">
+                <div class="row-fluid">
+                    <div class="span5">
+                        <img src="http://www.infysec.com/images/infysec/logo.png" width="150" title="infySEC" />
+                    </div>
+                    <div class="span2">
+                    </div>
+                    <div class="span5">
+                        <h3>Code Of Ethics</h3>
+                    </div>
+                </div>
+                <hr />
+                <div class="row-fluid">
+                    <div class="span12">
+                        <p>
+                            Information security professional's are entrusted with the herculean responsibility of protecting
+                            the confidentiality, integrity, and availability of an organization's information
+                            assets. It is paramount for information security professionals to hold themselves accountable for
+                            their actions and to comply with ethical and professional conduct of high standards.
+                        </p>
+                        <p>
+                            infySEC as a company has established the following <strong>Code Of Ethics</strong> to provide a
+                            common direction and set of shared principles for information security professionals
+                            associated with the infySEC employees or professionals trained by infySEC.
+                        </p>
+                    </div>
+                </div>
+                <hr />
+                <div class="row-fluid">
+                    <div class="span12">
+                        <h5>infySEC&apos;s Code Of Ethics</h5>
+                        <p>
+                            All infySEC associated employees and trainees shall:
+                        </p>
+                        <ol>
+                            <li>
+                                Conduct themselves and their professional duties with integrity, in accordance with the law
+                                and in accordance with the professional standards and best-practices.
+                            </li>
+                            <li>
+                                Provide diligent and thorough security services, advice and consultation for their principles.
+                            </li>
+                            <li>
+                                Acquire and maintain professional competence in their fields and agree to undertake only those
+                                activities which they can reasonably expect to complete with professional competence, or after
+                                disclosure of relevant limitations.
+                            </li>
+                            <li>
+                                Maintain the privace and confidentiality of information obtained in the course of their duties
+                                and exercise due care to prevent it&amp;s improper disclosure.
+                            </li>
+                            <li>
+                                Never misrepresent their credentials, education, training, experience or association with
+                                infySEC.
+                            </li>
+                            <li>
+                                Take no action which would have a detrimental effect on the profession or infySEC.
+                            </li>
+                        </ol>
+                        <hr />
+                        <h5>Terms</h5>
+                        <p>
+                            The terms of the game are stated as follows.
+                        </p>
+                        <ol>
+                            <li>
+                                No Dos/DDos will be encouraged
+                            </li>
+                            <li>
+                                No Scanners allowed (port scanning/Vulnerablity scanning) will prove to be a failure
+                            </li>
+                            <li>
+                                Work in your own teams
+                            </li>
+                            <li>
+                                Social engineering other teams are also welcome ;)
+                            </li>
+                            <li>
+                                On Completion of any levels, it&apos;s encouraged you stay at your desk and inform the Organizing team
+                            </li>
+                            <li>
+                                Incase of any confusion, <strong>do not create panic</strong>. Remain calm and reach the Organizing team.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <hr />
+                <div class="row-fluid">
+                    <div class="span12">
+                        <p>
+                            <i>
+                            infySEC recommends that the tools and methodologies shared during the training session in part
+                            or full are to be practiced in a controlled lab environment or with prior permission of the
+                            asset owner on which these tools and knowledge will be used.
+                            </i>
+                        </p>
+                        <hr />
+                        <div class="row-fluid">
+                            <div class="span1">
+                                {{ form_widget(form.coe) }}
+                            </div>
+                            <div class="span11">
+                                {{ form_label(form.coe) }}
+                                {{ form_errors(form.coe) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <ul class="nav nav-tabs">
             <li class="active"><a href="#general" data-toggle="tab">Basic Info</a></li>
             <li><a href="#location" data-toggle="tab">Location &amp; Organization</a></li>
+            <li><a href="#coe" data-toggle="tab">Terms &amp; Code Of Ethics</a></li>
         </ul>
     </div>
     {{ form_rest(form) }}

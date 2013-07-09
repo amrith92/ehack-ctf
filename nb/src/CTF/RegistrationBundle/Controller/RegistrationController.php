@@ -66,6 +66,16 @@ class RegistrationController extends Controller {
             $form->bind($request);
 
             if ($form->isValid()) {
+                
+                if (!$form['coe']->getData()) {
+                    $data = array(
+                        'result' => 'error',
+                        'message' => 'You HAVE to agree with the code of ethics and terms to continue.'
+                    );
+
+                    return new Response(\json_encode($data));
+                }
+                
                 $user = $form->getData();
                 $_user = $this->get('security.context')->getToken()->getUser();
                 $_user->setEmail($user->getEmail());
