@@ -7,7 +7,7 @@ function updateCurrentStats() {
         $('#title-display').text(res.title).fadeIn();
         $('#score-display').text(res.score).fadeIn();
         
-        $('.accordion-body').collapse('hide');
+        $('.accordion-body.in').collapse('hide');
         $('#collapse-' + res.stage).collapse('show');
         $('.accordion-inner ul li').each(function (index) {
             $(this).removeClass('selected-level');
