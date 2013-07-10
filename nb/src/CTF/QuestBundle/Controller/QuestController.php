@@ -307,9 +307,10 @@ class QuestController extends Controller {
             $user = $this->get('security.context')->getToken()->getUser();
             $em = $this->getDoctrine()->getEntityManager();
             $userquest = $em->getRepository('CTFQuestBundle:UserQuest')->findByUser($user);
+            $stagenumber = $em->getRepository('CTFQuestBundle:Stage')->findStageNumber($userquest->getCurrentStage()->getId());
 
             $data = array(
-                'stage' => $userquest->getCurrentStage()->getId(),
+                'stage' => $stagenumber,
                 'level' => $userquest->getCurrentLevel()->getLevel(),
                 'title' => $userquest->getCurrentLevel()->getTitle(),
                 'score' => $userquest->getScore()

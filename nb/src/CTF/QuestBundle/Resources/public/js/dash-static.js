@@ -7,8 +7,9 @@ function updateCurrentStats() {
         $('#title-display').text(res.title).fadeIn();
         $('#score-display').text(res.score).fadeIn();
         
+        $('.accordion-body').collapse('hide');
         $('#collapse-' + res.stage).collapse('show');
-        $('#collapse-' + res.stage + ' .accordion-inner ul li').each(function (index) {
+        $('.accordion-inner ul li').each(function (index) {
             $(this).removeClass('selected-level');
         });
         $('#collapse-' + res.stage + ' .accordion-inner ul li:eq(' + (res.level - 1) + ')').addClass('selected-level');

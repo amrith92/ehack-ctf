@@ -55,5 +55,21 @@ class StageRepository extends EntityRepository {
         
         return $ret;
     }
+    
+    /**
+     * Gets the stage number given a stage's ID
+     * 
+     * @param integer $stageid
+     * @return integer
+     */
+    public function findStageNumber($stageid) {
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $connection->executeQuery('SET @rownum := 0');
+        $statement = $connection->executeQuery("SELECT stage FROM (SELECT @rownum := @rownum +1 AS stage, id FROM stages) AS result WHERE id=" . $stageid);
+        $ret = $statement->fetchColumn(0);
+        
+        return $ret;
+    }
 }
 
