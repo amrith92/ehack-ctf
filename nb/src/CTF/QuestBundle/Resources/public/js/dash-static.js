@@ -8,7 +8,7 @@ function updateCurrentStats() {
         $('#score-display').text(res.score).fadeIn();
         
         $('.accordion-body.in').collapse('hide');
-        $('#collapse-' + res.stage).collapse('show');
+        $('#collapse-' + res.stage).not('.in').collapse('show');
         $('.accordion-inner ul li').each(function (index) {
             $(this).removeClass('selected-level');
         });
