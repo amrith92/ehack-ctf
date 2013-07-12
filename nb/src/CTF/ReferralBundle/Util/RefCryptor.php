@@ -32,7 +32,7 @@ class RefCryptor {
         $iv = $this->container->getParameter('iv');
         $coder = new AES($key, $iv);
         
-        $dec = $coder->decrypt(\base64_decode($text));
+        $dec = $coder->decrypt(\base64_decode(\urldecode($text)));
         return $dec;
     }
 }
