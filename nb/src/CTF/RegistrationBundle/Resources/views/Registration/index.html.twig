@@ -106,11 +106,11 @@ function initialiseMap() {
     map.panTo(latlng);
     geocodePosition(latlng);
     google.maps.event.addListener(marker, 'dragend', function(evt) {
-        $("#ctf_userbundle_usertype_location").val(evt.latLng.lat() + "," + evt.latLng.lng());
+        $("#ctf_userbundle_essentialusertype_location").val(evt.latLng.lat() + "," + evt.latLng.lng());
         geocodePosition(marker.getPosition());
     });
     
-    var input = document.getElementById('ctf_userbundle_usertype_org');
+    var input = document.getElementById('ctf_userbundle_essentialusertype_org');
     var options = {
         types: ['establishment']
     };

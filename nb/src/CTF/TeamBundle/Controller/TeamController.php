@@ -94,7 +94,7 @@ class TeamController extends Controller {
                         
                         $requests = $repo->findRequestsByUserId($user->getId());
                         foreach ($requests as $r) {
-                            if ($r['team_status'] == TeamRequestStatus::$ACCEPTED || $r['team_status'] == TeamRequestStatus::$ACCEPTEDANDADMIN) {
+                            if ($r['status'] == TeamRequestStatus::$ACCEPTED || $r['status'] == TeamRequestStatus::$ACCEPTEDANDADMIN) {
                                 $this->get('session')->getFlashBag()->add('error', "You are ALREADY a part of a team! You cannot create a team once you are accepted in a team.");
                                 return $this->redirect($this->generateUrl('ctf_team_select'));
                             }
@@ -178,5 +178,36 @@ class TeamController extends Controller {
 
         $this->get('session')->getFlashBag()->add('notice', "Whoopsy-Daisy! How'd you get to that page? :P");
         return $this->redirect($this->generateUrl('ctf_team_select'));
+    }
+    
+    public function pollForAlertsAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            
+            $cache = $this->get('ctf_cache');
+            $etag = $cache->get(\md5($user->getId() . '_requests_etag_member'));
+            
+            $requests = $this->getDoctrine()->getEntityManager()->getRepository('CTFTeamBundle:Team')->findRequestsByUserId($user->getId());
+            
+            $reqEtag = 'etag_';
+            foreach ($requests as $r) {
+                $reqEtag .= $r['status'];
+            }
+            
+            $reqEtag = \md5($reqEtag);
+            
+            if ($etag != $reqEtag) {
+                $cache->store(\md5($user->getId() . '_requests_etag_member'), $reqEtag);
+                return new Response('!');
+            } else {
+                return new Response("nil");
+            }
+        }
+        
+        return new Response('Bad Request.', 400);
     }
 }

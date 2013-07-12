@@ -1,5 +1,6 @@
 {# Social Shares Twig template #}
 {% set longUrl = app.request.getSchemeAndHttpHost() ~ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) %}
+{% set shortUrl %}{% render url('ctf_referral_shortify', {}) with {} %}{% endset %}
 <div class="well well-small">
     <p>
         <strong>Share Referral Links</strong>
@@ -7,20 +8,20 @@
     <div>
         <div class="label label-inverse" id="longUrlPopover"
              data-content="<div><a href='{{ longUrl }}'>{{ longUrl }}</a></div>"
-             data-placement="left"
+             data-placement="top"
              data-html="true"
              data-title="Original Referral URL">Link</div>
         <br />
         <div class="label label-inverse">Short Link</div>
-        <div id="shortUrl"><i>coming soon!</i></div>
+        <div id="shortUrl"><a href='{{ shortUrl }}'>{{ shortUrl }}</a></div>
     </div>
     <hr />
     <button class="btn btn-facebook" onclick="javascript:shareOnFacebook();"><i class="icon-white icon-facebook"></i>&nbsp;|&nbsp;Share referral on Facebook</button>
     <hr />
-    <div class="g-plus" id="g-share" data-action="share" data-annotation="vertical-bubble" data-width="200" data-expandto="left" data-href="{{ longUrl }}"></div>
+    <div class="g-plus" id="g-share" data-action="share" data-annotation="vertical-bubble" data-width="200" data-expandto="left" data-href="{{ shortUrl }}"></div>
     <hr />
     <div>
-        <a id="twitter_share" href="https://twitter.com/share" class="twitter-share-button" data-url="{{ longUrl }}" data-text="This is brilliant! Join me in the greatest online-hacking competition. EVER." data-via="ehack" data-size="large" data-hashtags="ehack,ctf">Tweet</a>
+        <a id="twitter_share" href="https://twitter.com/share" class="twitter-share-button" data-url="{{ shortUrl }}" data-text="This is brilliant! Join me in the greatest online-hacking competition. EVER." data-via="ehack" data-size="large" data-hashtags="ehack,ctf">Tweet</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     </div>
 </div>
@@ -52,11 +53,5 @@ function shareOnFacebook() {
 
 window.onload = function() {
     $('#longUrlPopover').popover();
-    
-    $.get(Routing.generate('ctf_referral_shortify', null), null, function(data) {
-        document.getElementById('shortUrl').innerHTML = '<a href="' + data + '" target="_blank">' + data + '</a>';
-        $('#twitter_share').attr('data-url', data);
-        $('#g-share').attr('data-href', data);
-    });
 };
 </script>

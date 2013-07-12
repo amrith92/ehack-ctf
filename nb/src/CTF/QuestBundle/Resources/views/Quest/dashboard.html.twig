@@ -144,6 +144,7 @@ Dashboard &middot; CTF
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% javascripts
     '@CTFTeamBundle/Resources/public/js/teamchatclient.js'
+    '@CTFTeamBundle/Resources/public/js/teamnotify.js'
     '@CTFAnnouncerBundle/Resources/public/js/announcer.js'
     '@CTFQuestBundle/Resources/public/js/raphael.min.js'
     '@CTFQuestBundle/Resources/public/js/dash-static.js'
@@ -185,6 +186,16 @@ function continueBoot() {
         
         Announcer.tuneIn();
     }
+
+{% if is_granted('ROLE_TEAM_ADMIN') or app.user.hasRole('ROLE_TEAM_ADMIN') %}
+    TeamNotify.init({
+        pollUrl: Routing.generate('ctf_team_admin_alert_poll', null)
+    });
+{% else %}
+    TeamNotify.init({
+        pollUrl: Routing.generate('ctf_team_member_alert_poll', null)
+    });
+{% endif %}
     
     $.getScript('//connect.facebook.net/en_UK/all.js', function() {
         window.fbAsyncInit = function() {

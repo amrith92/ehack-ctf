@@ -42,3 +42,9 @@ $('#tab1').on('click', '#create-clicked', function(event) {
         event.preventDefault();
     }
 });
+
+$(document).ready(function() {  
+    TeamNotify.init({
+        pollUrl: Routing.generate('ctf_team_member_alert_poll', null)
+    });
+});

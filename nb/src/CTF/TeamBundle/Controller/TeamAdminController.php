@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use CTF\TeamBundle\Util\TeamRequestStatus;
 
 class TeamAdminController extends Controller {
     
@@ -280,5 +281,40 @@ class TeamAdminController extends Controller {
         }
         
         return new Response('Bad Request!', 400);
+    }
+    
+    public function pollForAlertsAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            
+            $cache = $this->get('ctf_cache');
+            $etag = $cache->get(\md5($user->getId() . '_requests_etag_admin'));
+            
+            $em = $this->getDoctrine()->getEntityManager();
+            $teamrepo = $em->getRepository('CTFTeamBundle:Team');
+
+            $teamid = $cache->get(\md5($user->getId() . '_teamid'));
+
+            if (false === $teamid) {
+                $teamid = $teamrepo->findAdminedByUserId($user->getId());
+                $cache->store(\md5($user->getId() . '_teamid'), $teamid, 172800);
+            }
+
+            $team = $teamrepo->find($teamid);
+            $reqEtag = \md5($team->getRequests()->count());
+            
+            if ($etag != $reqEtag) {
+                $cache->store(\md5($user->getId() . '_requests_etag_admin'), $reqEtag);
+                return new Response('!');
+            } else {
+                return new Response("nil");
+            }
+        }
+        
+        return new Response('Bad Request.', 400);
     }
 }

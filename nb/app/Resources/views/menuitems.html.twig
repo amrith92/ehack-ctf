@@ -15,9 +15,9 @@
     <li {% if active == 'gchat' %}class="active"{% endif %}><a href="{{ path('ctf_global_chat') }}"><i class="icon-comment icon-white"></i>&nbsp;Global Chat</a></li>
     {% if is_granted('ROLE_TEAM_ADMIN') or hasrole == 1 %}
     <li class="divider-vertical"></li>
-    <li {% if active == 'teamadmin' %}class="active"{% endif %}><a href="{{ path('ctf_team_admin') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Admin Panel</a></li>
+    <li {% if active == 'teamadmin' %}class="active"{% endif %}><a href="{{ path('ctf_team_admin') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Admin Panel <div id="team-alert" class="badge badge-warning hidden"></div></a></li>
     {% else %}
-    <li {% if active == 'teamselect' %}class="active"{% endif %}><a href="{{ path('ctf_team_select') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Selection</a></li>
+    <li {% if active == 'teamselect' %}class="active"{% endif %}><a href="{{ path('ctf_team_select') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Selection <div id="team-alert" class="badge badge-warning hidden"></div></a></li>
     {% endif %}
     <li class="divider-vertical"></li>
     <li {% if active == 'about' %}class="active"{% endif %}><a href="#about">About</a></li>

@@ -39,3 +39,15 @@ ctf_team_status_update:
     defaults: { _controller: CTFTeamBundle:TeamAdmin:updateStatus }
     options:
       expose: true
+
+ctf_team_member_alert_poll:
+    pattern: /team/alerts/member
+    defaults: { _controller: CTFTeamBundle:Team:pollForAlerts }
+    options:
+      expose: true
+
+ctf_team_admin_alert_poll:
+    pattern: /team/alerts/admin
+    defaults: { _controller: CTFTeamBundle:TeamAdmin:pollForAlerts }
+    options:
+      expose: true

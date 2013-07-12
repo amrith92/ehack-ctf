@@ -71,7 +71,15 @@ Global Chat &middot; CTF
 
 {% block extrajsend %}
 <script type="text/javascript" src="http://{{ app.request.getHttpHost() }}:5560/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="{{ asset('bundles/ctfglobalchat/js/client.js') }}"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% javascripts
+    '@CTFGlobalChatBundle/Resources/public/js/client.js'
+    '@CTFTeamBundle/Resources/public/js/teamnotify.js'
+    filter='yui_js'
+    output='globalchat.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 <script type="text/javascript">
 //<!--
 $(document).ready(function() {
@@ -86,6 +94,16 @@ $(document).ready(function() {
     $(window).bind('beforeunload', function() {
         GlobalChatClient.disconnect();
     });
+
+{% if is_granted('ROLE_TEAM_ADMIN') or app.user.hasRole('ROLE_TEAM_ADMIN') %}
+    TeamNotify.init({
+        pollUrl: Routing.generate('ctf_team_admin_alert_poll', null)
+    });
+{% else %}
+    TeamNotify.init({
+        pollUrl: Routing.generate('ctf_team_member_alert_poll', null)
+    });
+{% endif %}
 });
 //-->
 </script>

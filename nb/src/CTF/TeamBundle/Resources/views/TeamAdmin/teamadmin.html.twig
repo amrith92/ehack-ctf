@@ -8,6 +8,10 @@ Team Admin Panel &middot; ehack CTF
 {% endblock %}
 
 {% block content %}
+<audio height="0" width="0" id="dingdong">
+    <source src="{{ asset('bundles/ctfannouncer/sounds/ding.wav') }}" type="audio/wav">
+    <embed height="0" width="0" src="{{ asset('bundles/ctfannouncer/sounds/ding.wav') }}">
+</audio>
 <div class="clearfix">&nbsp;</div>
 <div class="container-fluid">
     <div class="row-fluid">
@@ -71,29 +75,12 @@ Team Admin Panel &middot; ehack CTF
 {% block extrajsend %}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-<script src="{{ asset('bundles/ctfquest/js/raphael.min.js') }}" type="text/javascript"></script>
-<script type="text/javascript">
-//<!--
-$(document).ready(function() {
-    renderTeamView();
-    $('#team-update-status-button').click(function(e) {
-        e.preventDefault();
-        
-        var _status = $('#team-new-status').val();
-        if (null != _status && '' != _status) {
-            $.post(Routing.generate('ctf_team_status_update', { 'status': _status }), null, function(data) {
-                var response = JSON.parse(data);
-
-                if ('success' == response.result) {
-                    $('#update-result').html('<div class="alert alert-success">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
-                    $('#current-status').html(response.status).fadeOut('fast').fadeIn('slow');
-                } else {
-                    $('#update-result').html('<div class="alert alert-error">' + response.message + '</div>').show().fadeIn(1200).fadeOut(5000);
-                }
-            });
-        }
-    });
-});
-//-->
-</script>
+{% javascripts
+    '@CTFQuestBundle/Resources/public/js/raphael.min.js'
+    '@CTFTeamBundle/Resources/public/js/teamnotify.js'
+    '@CTFTeamBundle/Resources/public/js/teamadmin.js'
+    filter='yui_js'
+    output='teamadmin.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}
