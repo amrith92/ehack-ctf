@@ -304,11 +304,14 @@ class TeamController extends Controller {
         }
         
         $team = $teamrepo->find($tid);
+        $cache = $this->get('ctf_cache');
         
         $requests = $team->getRequests();
         foreach ($requests as $r) {
             if ($r->getId() == $rid) {
                 $r->setStatus(TeamRequestStatus::$REJECTED);
+                $cache->delete(\md5($r->getUser()->getId() . '_teamid'));
+                $cache->delete(\md5($r->getUser()->getId() . '_teamname'));
                 break;
             }
         }

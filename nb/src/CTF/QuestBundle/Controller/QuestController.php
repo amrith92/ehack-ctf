@@ -91,7 +91,12 @@ class QuestController extends Controller {
             $teamid = $cache->get(\md5($user->getId() . '_teamid'));
             if (false === $teamid) {
                 $teamid = $em->getRepository('CTFTeamBundle:Team')->findTeamIdByUserId($user->getId());
-                $cache->store(\md5($user->getId() . '_teamid'), $teamid, 172800);
+                
+                if (null === $teamid) {
+                    return new Response('<div class="alert alert-error">Looks like you are not in a team!</div>');
+                } else {
+                    $cache->store(\md5($user->getId() . '_teamid'), $teamid, 172800);
+                }
             }
             
             $team = $em->getRepository('CTFTeamBundle:Team')->find($teamid);
@@ -198,6 +203,15 @@ class QuestController extends Controller {
             
             $cache = $this->get('ctf_cache');
             $teamid = $cache->get(\md5($user->getId() . '_teamid'));
+            
+            if (false === $teamid || false === $cache->get(\md5($user->getId() . '_teamname'))) {
+                $data = array(
+                    'result' => 'error',
+                    'message' => 'Looks like you are not in a team (anymore).'
+                );
+                return new Response(\json_encode($data));
+            }
+            
             $team = $em->getRepository('CTFTeamBundle:Team')->find($teamid);
 
             if (false == $team->getActive()) {
