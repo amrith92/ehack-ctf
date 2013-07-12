@@ -5,6 +5,15 @@
 {{ app.user.username }}&apos;s Profile &middot; ehack CTF
 {% endblock %}
 
+{% block extracss %}
+{% stylesheets
+    'bundles/ctfregistration/css/style.css'
+    filter='cssrewrite, yui_css'
+    output='registration.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen" />
+{% endstylesheets %}
+{% endblock %}
+
 {% block content %}
 <div id="loader" class="hidden"><img src="{{ asset('bundles/ctfcommon/images/loader.gif') }}" title="Loading..." /></div>
 <div class="clearfix">&nbsp;</div>

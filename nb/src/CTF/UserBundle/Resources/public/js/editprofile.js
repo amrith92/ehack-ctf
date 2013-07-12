@@ -81,6 +81,41 @@ function geocodePosition(pos) {
     );
 }
 
+function locationize() {
+    var location = $('#ctf_userbundle_usertype_location').val();
+    if (null != location && location.length > 0) {
+        location = location.split(',');
+        var latlng = {
+            coords: {
+                latitude: location[0],
+                longitude: location[1]
+            }
+        };
+        
+        showPosition(latlng);
+    }
+}
+
+$('#map_fullscreen').click(function (e) {
+    e.preventDefault();
+    
+    $('#map_canvas').addClass('fullscreen');
+    $('#map_canvas').empty();
+    initialiseMap();
+    locationize();
+    $('#map_normalize_container').removeClass('hidden');
+});
+
+$('#map_normalize').click(function (e) {
+    e.preventDefault();
+    
+    $('#map_canvas').removeClass('fullscreen');
+    $('#map_canvas').empty();
+    initialiseMap();
+    locationize();
+    $('#map_normalize_container').addClass('hidden');
+});
+
 $(document).ready(function() {
     $('.date').datepicker({
         dateFormat: 'dd-mm-yy',
