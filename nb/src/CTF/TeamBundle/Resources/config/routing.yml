@@ -16,26 +16,26 @@ ctf_team_select_action:
     
 ctf_team_admin:
     pattern: /team/adminify
-    defaults: { _controller: CTFTeamBundle:Team:teamAdmin }
+    defaults: { _controller: CTFTeamBundle:TeamAdmin:teamAdmin }
 
 ctf_team_request_accept:
     pattern: /team/requests/accept/{tid}/{rid}
-    defaults: { _controller: CTFTeamBundle:Team:accept }
+    defaults: { _controller: CTFTeamBundle:TeamAdmin:accept }
 
 ctf_team_request_reject:
     pattern: /team/requests/reject/{tid}/{rid}
-    defaults: { _controller: CTFTeamBundle:Team:reject }
+    defaults: { _controller: CTFTeamBundle:TeamAdmin:reject }
 
 ctf_team_request_accept_admin:
     pattern: /team/requests/accept/adminify/{tid}/{rid}
-    defaults: { _controller: CTFTeamBundle:Team:acceptAsAdmin }
+    defaults: { _controller: CTFTeamBundle:TeamAdmin:acceptAsAdmin }
 
 ctf_team_request_make_admin:
     pattern: /team/requests/make/adminify/{tid}/{rid}
-    defaults: { _controller: CTFTeamBundle:Team:makeAdmin }
+    defaults: { _controller: CTFTeamBundle:TeamAdmin:makeAdmin }
 
 ctf_team_status_update:
     pattern: /team/status/update/{status}
-    defaults: { _controller: CTFTeamBundle:Team:updateStatus }
+    defaults: { _controller: CTFTeamBundle:TeamAdmin:updateStatus }
     options:
       expose: true
