@@ -17,10 +17,10 @@
     <hr />
     <button class="btn btn-facebook" onclick="javascript:shareOnFacebook();"><i class="icon-white icon-facebook"></i>&nbsp;|&nbsp;Share referral on Facebook</button>
     <hr />
-    <div class="g-plus" data-action="share" data-annotation="vertical-bubble" data-width="200" data-expandto="left" data-href="{{ longUrl }}"></div>
+    <div class="g-plus" id="g-share" data-action="share" data-annotation="vertical-bubble" data-width="200" data-expandto="left" data-href="{{ longUrl }}"></div>
     <hr />
     <div>
-        <a id="twitter_share" href="https://twitter.com/share" class="twitter-share-button" data-url="{{ app.request.getScheme() }}://{{ app.request.getHttpHost() }}{{ path('ctf_referral_refer', { ref: app.session.get('__MYREF') }) }}" data-text="Ehack! ARE YOU HAC-KING TODAY? Check out!" data-via="EHACK" data-size="large" data-hashtags="ehack,ctf">Tweet</a>
+        <a id="twitter_share" href="https://twitter.com/share" class="twitter-share-button" data-url="{{ longUrl }}" data-text="This is brilliant! Join me in the greatest online-hacking competition. EVER." data-via="ehack" data-size="large" data-hashtags="ehack,ctf">Tweet</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     </div>
 </div>
@@ -44,7 +44,7 @@ function shareOnFacebook() {
         picture: 'http://ehack.in/images/EHACK logo.png',
         name: 'EHack - Capture the flag',
         caption: 'The official Guiness attempt!',
-        description: 'Creating awareness for cyber security.'
+        description: "Join me and hundreds of others in the world's biggest online-hacking competition. Ehack - Creating awareness for cyber security."
     };
     
     FB.ui(obj, function() {});
@@ -55,6 +55,8 @@ window.onload = function() {
     
     $.get(Routing.generate('ctf_referral_shortify', null), null, function(data) {
         document.getElementById('shortUrl').innerHTML = '<a href="' + data + '" target="_blank">' + data + '</a>';
+        $('#twitter_share').attr('data-url', data);
+        $('#g-share').attr('data-href', data);
     });
 };
 </script>
