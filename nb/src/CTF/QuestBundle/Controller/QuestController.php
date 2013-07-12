@@ -356,8 +356,8 @@ class QuestController extends Controller {
                     $it = null;
                 }
             }
-
-            if (true !== $it->getHintUsed()) {
+            
+            if (true !== $it->getHintUsed() && $it->getStatus() === QuestUtil::$ATTEMPTING) {
                 $it->setHintUsed(true);
                 $em->merge($it);
 
