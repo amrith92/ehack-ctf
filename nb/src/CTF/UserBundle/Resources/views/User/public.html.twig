@@ -28,7 +28,7 @@
                             <h1>{{ user.getFname() }} {{ user.getLname() }}</h1>
                             <hr />
                             <div class="item-block">
-                                <span class="label label-inverse">About Me</span> {{ user.getAboutMe() | escape('html') }}
+                                <span class="label label-inverse">About Me</span> {{ user.getAboutMe() | raw }}
                             </div>
                         </div>
                     </div>
