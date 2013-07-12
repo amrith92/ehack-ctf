@@ -119,6 +119,7 @@ class TeamController extends Controller {
                         $teamRequest->setCreatedTimestamp(new \DateTime(date('Y-m-d H:i:s')));
                         $teamRequest->setStatus(TeamRequestStatus::$ACCEPTEDANDADMIN);
                         $teamRequest->setUser($user);
+                        $teamRequest->setMessage($dto->getMessage());
                         $team->addRequest($teamRequest);
                         $this->get('fos_user.user_manager')->updateUser($user, false);
 
