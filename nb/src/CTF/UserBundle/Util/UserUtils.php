@@ -108,7 +108,7 @@ class UserUtils {
         $browser = new Browser(new Curl());
         $request = 'https://graph.facebook.com/' . $user->getFacebookId() .
                 '?access_token=' . $user->getFacebookAccessToken() .
-                '&fields=bio,birthday,email,gender,first_name,last_name,location,website,picture';
+                '&fields=bio,birthday,email,gender,first_name,last_name,location,website,picture.height(160).width(160)';
         
         try {
             $response = $browser->get($request);
