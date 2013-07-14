@@ -20,10 +20,15 @@
     function carryOn() {
         document.getElementById('question-dyn').innerHTML = '<div id="question-dyn-loader">' + document.getElementById('loader').innerHTML + '</div>';
         
-        $.get(Routing.generate('ctf_quest_continue', null), null, function(data) {
-           $('#question-dyn').html(data).show().fadeIn();
-           updateCurrentStats();
-       });
+        $.get(Routing.generate('ctf_quest_fetch', { qid: {{ next }} }), null, function(data) {
+            var rp = JSON.parse(data);
+
+            $('#question-dyn').html(rp.message).show().fadeIn();
+
+            if ('success' == rp.result) {
+                updateCurrentStats();
+            }
+        });
     }
 //-->
     </script>

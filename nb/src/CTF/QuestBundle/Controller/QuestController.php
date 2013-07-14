@@ -648,13 +648,15 @@ class QuestController extends Controller {
         return new Response('Bad Request!', 400);
     }
     
-    public function stopToShareAction(Request $request) {
+    public function stopToShareAction($next, Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
         
         if ($request->isXmlHttpRequest()) {
-            return $this->render('CTFQuestBundle:Quest:stoptoshare.html.twig');
+            return $this->render('CTFQuestBundle:Quest:stoptoshare.html.twig', array(
+                'next' => $next
+            ));
         }
         
         return new Response('Bad Request!', 400);

@@ -113,7 +113,7 @@ $(document).ready(function() {
                         }
                     });
                 } else {
-                    $.get(Routing.generate('ctf_quest_stoptoshare'), null, function(data) {
+                    $.get(Routing.generate('ctf_quest_stoptoshare', { next: response.next }), null, function(data) {
                         $('#question-dyn').html(data).show().fadeIn();
                         updateCurrentStats();
                     });

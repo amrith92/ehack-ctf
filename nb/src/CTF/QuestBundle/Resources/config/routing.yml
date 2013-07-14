@@ -51,8 +51,10 @@ ctf_quest_finish:
       expose: true
 
 ctf_quest_stoptoshare:
-    pattern: /quest/stoptoshare
+    pattern: /quest/stoptoshare/{next}
     defaults: { _controller: CTFQuestBundle:Quest:stopToShare }
+    requirements:
+      next: \d+
     options:
       expose: true
 
