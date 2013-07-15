@@ -41,14 +41,14 @@ class UserQuestSubscriber implements EventSubscriber {
                     if (true === $h->getHintUsed()) {
                         $score = $score - 1;
                     }
-                    
-                    // Award 5 points extra per referral
-                    $invites = $h->getUser()->getInvitations()->count();
-
-                    if ($invites > 0) {
-                        $sum = $sum + 5 * $invites;
-                    }
                 }
+            }
+            
+            // Award 5 points extra per referral
+            $invites = $entity->getUser()->getInvitations()->count();
+
+            if ($invites > 0) {
+                $score = $score + 5 * $invites;
             }
             
             $entity->setScore($score);
