@@ -128,7 +128,7 @@ class TeamController extends Controller {
                         
                         $this->get('session')->getFlashBag()->add('success', "You've successfully created a team. You are now its ADMIN. Go forth, set out on your journey in this exciting competition.");
 
-                        $this->redirect($this->generateUrl('ctf_quest_homepage'));
+                        return $this->redirect($this->generateUrl('ctf_quest_homepage'));
                     } else {
                         $this->get('session')->getFlashBag()->add('error', "Something went wrong whilst creating a team for you. Please try again.");
                         return $this->render('CTFTeamBundle:Team:select-team.form.html.twig', array(
