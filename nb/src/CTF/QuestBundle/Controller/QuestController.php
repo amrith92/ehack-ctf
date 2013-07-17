@@ -203,13 +203,25 @@ class QuestController extends Controller {
             
             $cache = $this->get('ctf_cache');
             $teamid = $cache->get(\md5($user->getId() . '_teamid'));
+            $teamname = $cache->get(\md5($user->getId() . '_teamname'));
             
-            if (false === $teamid || false === $cache->get(\md5($user->getId() . '_teamname'))) {
-                $data = array(
-                    'result' => 'error',
-                    'message' => 'Looks like you are not in a team (anymore).'
-                );
-                return new Response(\json_encode($data));
+            if (false === $teamid || false === $teamname) {
+                
+                $teamid = (false === $teamid) ?
+                    $em->getRepository('CTFTeamBundle:Team')->findTeamIdByUserId($user->getId()) :
+                    $teamid;
+                
+                $teamname = (false === $teamname) ?
+                    $teamname = $em->getRepository('CTFTeamBundle:Team')->findAcceptedRequestByUserId($user->getId()) :
+                    $teamname;
+                
+                if (false === $teamid || false === $teamname) {
+                    $data = array(
+                        'result' => 'error',
+                        'message' => 'Looks like you are not in a team (anymore).'
+                    );
+                    return new Response(\json_encode($data));
+                }
             }
             
             $team = $em->getRepository('CTFTeamBundle:Team')->find($teamid);
