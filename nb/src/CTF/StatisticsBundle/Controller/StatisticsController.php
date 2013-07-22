@@ -119,7 +119,7 @@ class StatisticsController extends Controller
         return new Response('Bad Request.', 400);
     }
     
-    public function topOrganizationsAction(Request $request) {
+    public function topOrganizationsAction($n, Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
 
@@ -140,7 +140,7 @@ class StatisticsController extends Controller
                         'showInLegend' => true,
                         'indexLabelFontColor' => '#e6e6e6',
                         'indexLabelFontSize' => 12,
-                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getTopOrganizations(10)
+                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getTopOrganizations($n)
                     )
                 )
             );
@@ -151,7 +151,7 @@ class StatisticsController extends Controller
         return new Response('Bad Request.', 400);
     }
     
-    public function bottomOrganizationsAction(Request $request) {
+    public function bottomOrganizationsAction($n, Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
 
@@ -172,7 +172,7 @@ class StatisticsController extends Controller
                         'showInLegend' => false,
                         'indexLabelFontColor' => '#e6e6e6',
                         'indexLabelFontSize' => 12,
-                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getBottomOrganizations(10)
+                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getBottomOrganizations($n)
                     )
                 )
             );
