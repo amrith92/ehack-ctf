@@ -248,4 +248,19 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         
         return $ret;
     }
+    
+    public function worldUsers() {
+        $q = $this
+                ->createQueryBuilder('u')
+                ->distinct()
+                ->getQuery()
+        ;
+
+        try {
+            $users = $q->getResult();
+        } catch (NoResultException $e) {
+        }
+
+        return $users;
+    }
 }

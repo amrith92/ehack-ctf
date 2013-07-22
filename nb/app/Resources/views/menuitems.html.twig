@@ -13,6 +13,7 @@
     {% if admin_menuitems is not defined and app.user %}
     <li {% if active == 'quest' %}class="active"{% endif %}><a href="{{ path('ctf_quest_homepage') }}"><i class="icon-eye-open icon-white"></i>&nbsp;Quest</a></li>
     <li {% if active == 'gchat' %}class="active"{% endif %}><a href="{{ path('ctf_global_chat') }}"><i class="icon-comment icon-white"></i>&nbsp;Global Chat</a></li>
+    <li {% if active == 'stats' %}class="active"{% endif %}><a href="{{ path('ctf_user_statistics') }}"><i class="icon-globe icon-white"></i>&nbsp;Statistics</a></li>
     {% if is_granted('ROLE_TEAM_ADMIN') or hasrole == 1 %}
     <li class="divider-vertical"></li>
     <li {% if active == 'teamadmin' %}class="active"{% endif %}><a href="{{ path('ctf_team_admin') }}"><i class="icon-edit icon-white"></i>&nbsp;Team Admin Panel <div id="team-alert" class="badge badge-warning hidden"></div></a></li>

@@ -5,6 +5,7 @@ namespace CTF\StatisticsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class StatisticsController extends Controller
 {
@@ -118,7 +119,7 @@ class StatisticsController extends Controller
         return new Response('Bad Request.', 400);
     }
     
-    public function topTenOrganizationsAction(Request $request) {
+    public function topOrganizationsAction(Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
 
@@ -127,7 +128,7 @@ class StatisticsController extends Controller
                 'creditText' => '',
                 'theme' => 'theme2',
                 'title' => array(
-                    'text' => 'Top Ten Organizations',
+                    'text' => 'Top Organizations',
                     'fontColor' => '#fff'
                 ),
                 'legend' => array(
@@ -138,7 +139,7 @@ class StatisticsController extends Controller
                         'type' => 'pie',
                         'showInLegend' => true,
                         'indexLabelFontColor' => '#e6e6e6',
-                        'indexLabelFontSize' => 8,
+                        'indexLabelFontSize' => 12,
                         'dataPoints' => $em->getRepository('CTFUserBundle:User')->getTopOrganizations(10)
                     )
                 )
@@ -150,14 +151,17 @@ class StatisticsController extends Controller
         return new Response('Bad Request.', 400);
     }
     
-    public function bottomTenOrganizationsAction(Request $request) {
+    public function bottomOrganizationsAction(Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
 
             $data = array(
+                'backgroundColor' => 'transparent',
+                'creditText' => '',
                 'theme' => 'theme2',
                 'title' => array(
-                    'text' => 'Bottom Ten Organizations'
+                    'text' => 'Bottom Organizations',
+                    'fontColor' => '#fff'
                 ),
                 'legend' => array(
                     'fontColor' => '#fcfcfc'
@@ -167,7 +171,7 @@ class StatisticsController extends Controller
                         'type' => 'pie',
                         'showInLegend' => false,
                         'indexLabelFontColor' => '#e6e6e6',
-                        'indexLabelFontSize' => 8,
+                        'indexLabelFontSize' => 12,
                         'dataPoints' => $em->getRepository('CTFUserBundle:User')->getBottomOrganizations(10)
                     )
                 )
@@ -237,5 +241,63 @@ class StatisticsController extends Controller
         $response->setSharedMaxAge(600);
         
         return $response;
+    }
+    
+    public function userStatisticsAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $settings = $em->getRepository('CTFAdminBundle:GlobalState')->find(1);
+        
+        if (false === $settings->isStatsEnabled()) {
+            return $this->render('CTFStatisticsBundle:Statistics:user-stats-locked.html.twig');
+        }
+        
+        return $this->render('CTFStatisticsBundle:Statistics:user-stats.html.twig');
+    }
+    
+    public function worldUsersAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            $cache = $this->get('ctf_cache');
+            
+            $users = $cache->get('ctf_users_world_cache');
+            
+            if (false === $users) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $arr = $em->getRepository('CTFUserBundle:User')->worldUsers();
+                
+                foreach ($arr as $u) {
+                    if (null != $u->getLocation()) {
+                        $users[] = array(
+                            'username' => $u->getUsername(),
+                            'id' => $u->getId(),
+                            'dp' => $u->getImageURL(),
+                            'organization' => $u->getOrg()->getName(),
+                            'location' => array(
+                                'lat' => $u->getLocation()->getLatitude(),
+                                'lng' => $u->getLocation()->getLongitude()
+                            )
+                        );
+                    }
+                }
+
+                $cache->add('ctf_users_world_cache', $users, 300);
+            }
+            
+            $data = array(
+                'result' => 'success',
+                'users' => $users
+            );
+            
+            return new Response(\json_encode($data));
+        }
+        
+        return new Response('Bad Request.', 400);
     }
 }

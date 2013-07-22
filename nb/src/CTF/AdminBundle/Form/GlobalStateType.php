@@ -25,6 +25,13 @@ class GlobalStateType extends AbstractType
                 'expanded' => true,
                 'multiple' => false
             ))
+            ->add('enableStats', 'choice', array(
+                'label' => 'Toggle Stats',
+                'required' => true,
+                'choices' => array('0' => 'Off', '1' => 'On'),
+                'expanded' => true,
+                'multiple' => false
+            ))
         ;
     }
 

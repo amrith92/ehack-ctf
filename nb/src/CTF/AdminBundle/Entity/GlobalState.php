@@ -39,6 +39,14 @@ class GlobalState {
     private $enableChat;
     
     /**
+     * @var boolean
+     * 
+     * @ORM\Column(name="enable_stats", type="boolean", nullable=false)
+     * @Assert\NotNull()
+     */
+    private $enableStats;
+    
+    /**
      * 
      * @param integer $id
      * @return \CTF\AdminBundle\Entity\GlobalState
@@ -109,5 +117,32 @@ class GlobalState {
      */
     public function getEnableChat() {
         return $this->enableChat;
+    }
+    
+    /**
+     * 
+     * @param boolean $enable
+     * @return \CTF\AdminBundle\Entity\GlobalState
+     */
+    public function setEnableStats($enable) {
+        $this->enableStats = $enable;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isStatsEnabled() {
+        return $this->enableStats;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getEnableStats() {
+        return $this->enableStats;
     }
 }

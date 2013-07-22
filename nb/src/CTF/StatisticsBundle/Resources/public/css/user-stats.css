@@ -1,0 +1,65 @@
+/* 
+    Document   : user-stats
+    Created on : 22 Jul, 2013, 4:17:43 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+@media screen, handheld, print, projection {
+    body {
+        background: url('../../ctfcommon/images/brushed-metal.jpg') center center no-repeat fixed;
+        background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+    }
+    
+    #statsSlider {
+        background: url('../../ctfcommon/images/brushed-light-metal.jpg');
+    }
+    
+    .item {
+        min-width: 150px;
+        min-height: 500px;
+        overflow-x: none;
+        overflow-y: auto;
+    }
+
+    .inner-item {
+        margin: 10px 10%;
+    }
+
+    .item-block {
+        background-color: rgba(10, 10, 10, 0.6);
+        padding: 6px;
+    }
+    
+    #users-map {
+        height: 440px;
+    }
+    
+    .whiteout {
+        background-color: rgba(254, 254, 254, 0.6);
+    }
+    
+    .whiteout h1, .whiteout h3 {
+        color: #000;
+    }
+    
+    .table tr {
+        color: #000;
+    }
+    
+    .table-hover tbody tr:hover td {
+        background-color: #e6e6e6;
+    }
+    
+    #genderChart {
+        margin: 0 auto!important;
+    }
+    
+    .centered {
+        text-align: center;
+    }
+}

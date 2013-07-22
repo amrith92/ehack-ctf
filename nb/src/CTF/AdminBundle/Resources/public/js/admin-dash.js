@@ -118,13 +118,13 @@ $(document).ready(function() {
         });
     }, 60000);
     
-    $.post(Routing.generate('ctf_statistics_top_ten_orgs', null), null, function(data) {
+    $.post(Routing.generate('ctf_statistics_top_orgs', { 'n': 10 }), null, function(data) {
         $("#topOrgsChart").empty();
         var chart = new CanvasJS.Chart("topOrgsChart", JSON.parse(data));
         chart.render();
     });
     setInterval(function() {
-        $.post(Routing.generate('ctf_statistics_top_ten_orgs', null), null, function(data) {
+        $.post(Routing.generate('ctf_statistics_top_orgs', { 'n': 10 }), null, function(data) {
             $("#topOrgsChart").empty();
             var chart = new CanvasJS.Chart("topOrgsChart", JSON.parse(data));
             chart.render();

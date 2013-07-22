@@ -21,6 +21,16 @@
             {{ form_widget(form.enableChat.1) }}
             <span class="slide-button btn btn-primary"></span>
         </div>
+        
+        {{ form_label(form.enableStats) }}
+        {{ form_errors(form.enableStats) }}
+        <div class="controls well switch">
+            {{ form_label(form.enableStats.0, label | default(null), { 'label-attr': { 'onclick': '' } }) }}
+            {{ form_widget(form.enableStats.0) }}
+            {{ form_label(form.enableStats.1, label | default(null), { 'label-attr': { 'onclick': '' } }) }}
+            {{ form_widget(form.enableStats.1) }}
+            <span class="slide-button btn btn-primary"></span>
+        </div>
 
         {{ form_rest(form) }}
         <button class="btn btn-success">Save</button>

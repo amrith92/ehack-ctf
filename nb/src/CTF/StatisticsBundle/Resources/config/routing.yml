@@ -26,15 +26,19 @@ ctf_statistics_nearby_users_pub:
     options:
       expose: true
 
-ctf_statistics_top_ten_orgs:
-    pattern: /stats/top/ten/organizations
-    defaults: { _controller: CTFStatisticsBundle:Statistics:topTenOrganizations }
+ctf_statistics_top_orgs:
+    pattern: /stats/top/organizations/{n}
+    defaults: { _controller: CTFStatisticsBundle:Statistics:topOrganizations, n: 10 }
+    requirements:
+      n: \d+
     options:
       expose: true
 
-ctf_statistics_bottom_ten_orgs:
-    pattern: /stats/bottom/ten/organizations
-    defaults: { _controller: CTFStatisticsBundle:Statistics:bottomTenOrganizations }
+ctf_statistics_bottom_orgs:
+    pattern: /stats/bottom/organizations/{n}
+    defaults: { _controller: CTFStatisticsBundle:Statistics:bottomOrganizations, n: 10 }
+    requirements:
+      n: \d+
     options:
       expose: true
 
@@ -53,3 +57,13 @@ ctf_statistics_top_ten_teams:
 ctf_statistics_bottom_ten_teams:
     pattern: /esi/stats/bottom/ten/teams
     defaults: { _controller: CTFStatisticsBundle:Statistics:bottomTenTeams }
+
+ctf_user_statistics:
+    pattern: /quest/stats
+    defaults: { _controller: CTFStatisticsBundle:Statistics:userStatistics }
+
+ctf_users_world:
+    pattern: /quest/users/world
+    defaults: { _controller: CTFStatisticsBundle:Statistics:worldUsers }
+    options:
+      expose: true
