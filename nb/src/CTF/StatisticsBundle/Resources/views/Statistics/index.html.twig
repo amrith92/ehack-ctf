@@ -23,48 +23,74 @@
     <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
 </head>
-<body>
-    <div id="map"></div>
-    <div id="content">
-        {% block content %}
+<body class="index">
+
+    <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span1"></div>
-            <div class="span3">
-                <img src="http://ehack.in/images/EHACK%20logo.png" title="EHACK" width="150" />
+            <div class="span12 clearance">
+                <div id="index-carousel" class="carousel slide" data-interval="30000">
+                    <ol class="carousel-indicators">
+                        <li data-target="#index-carousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#index-carousel" data-slide-to="1"></li>
+                        <li data-target="#index-carousel" data-slide-to="2"></li>
+                    </ol>
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div class="active item">
+                            <div class="stack-item">
+                                <div class="inner-item">
+                                    <div class="logo-img centered">
+                                        <img src="{{ asset('bundles/ctfstatistics/images/logo-blue.png') }}" title="EHACK">
+                                    </div>
+                                    <div class="buttons centered">
+                                        <div class="launch-code">
+                                            <button class="btn btn-primary btn-block btn-large">Launch!</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="stack-item">
+                                <div class="inner-item">
+                                    <h1 class="centered">Capture the Flag!</h1>
+                                    <p>
+                                        Meddle in cyber-warfare, battle with our machine master mind who will throw challenges on web application security, network security, algorithms, reverse engineering and decryption. The team which cracks the final level will attain the glory of being Winner at our E-HACK Guinness record attempt with tons of prizes waiting. Be simple but not simpler is quote by Einstein, that’s secret of success for E-HACK. Be there to witness the epic battle of brains. 
+                                    </p>
+                                    <p>
+                                        <strong>P.S.</strong> World renowned web security experts will be watching you at E-HACK, who knows you might end up working for them, prove your potential. 
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="stack-item">
+                                <div class="inner-item">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Carousel nav -->
+                    <a class="carousel-control left" href="#index-carousel" data-slide="prev">&lsaquo;</a>
+                    <a class="carousel-control right" href="#index-carousel" data-slide="next">&rsaquo;</a>
+                </div>
             </div>
-            <div class="span7 well">
-                <h1>Capture the Flag! <img src="{{ asset('bundles/ctfstatistics/images/ctf.png') }}" title="CTF" width="75" /></h1>
-                <p>
-                    Meddle in cyber-warfare, battle with our machine master mind who will throw challenges
-                    on web application security, network security, algorithms, reverse engineering and
-                    decryption. The team which cracks the final level will attain the glory of being
-                    Winner at our E-HACK Guinness record attempt with tons of prizes waiting.  Be simple
-                    but not simpler is quote by Einstein, that’s secret of success for E-HACK. Be there
-                    to witness the epic battle of brains.
-                </p>
-                <p>
-                    <strong>P.S.</strong> World renowned web security experts will be watching you at E-HACK, who knows
-                    you might end up working for them, prove your potential. 
-                </p>
-            </div>
-            <div class="span1"></div>
         </div>
-        {% endblock %}
     </div>
-    <div id="bottom-feeder">
-        {% block bottom %}
+    
+    <div class="container-fluid clearance">
         <div class="row-fluid">
-            <div class="span9"></div>
-            <div class="span2">
-                <button class="btn btn-inverse btn-medium btn-block" id="locate-me" onclick="javascript:onLocateClick();">Who's Playing Near Me?</button>
-                <a href="{{ path('ctf_quest_homepage') }}" class="btn btn-inverse btn-medium btn-block">Register / Login</a>
+            <div class="span12 footer">
+                <center>
+                    VStartU, thegeekmachine
+                </center>
             </div>
-            <div class="span1"></div>
         </div>
-        {% endblock %}
     </div>
+
 <script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% javascripts
@@ -74,41 +100,6 @@
 %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
-{% block extrajsincludes %}{% endblock %}
-<script type="text/javascript">
-//<!--
 
-function onLocateClick() {
-    map.locate({
-        setView: true,
-        enableHighAccuracy: true,
-        maxZoom: 13
-    });
-}
-
-window.onload = function() {
-    var watercolour = L.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
-            /*attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'*/
-        }),
-        normal = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
-    
-    map = L.map('map', {
-        layers: [normal, watercolour]
-    }).setView([13.0810, 80.2740], 13);
-    
-    var baseMaps = {
-        "Normal": normal,
-        "Watercolour": watercolour
-    };
-    
-    L.control.layers(baseMaps).addTo(map);
-    
-    map.on('zoomend', UsersLoader.requestUsers, false);
-    map.on('moveend', UsersLoader.requestUsers, false);
-    {% block extraonloaders %}{% endblock %}
-};
-
-//-->
-</script>
 </body>
 </html>

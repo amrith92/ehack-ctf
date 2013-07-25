@@ -8,13 +8,13 @@
 
 @media screen and (min-device-width:768px) and (min-width:768px), print, projection {
 
-    html, body, #map {
-        height:100%;
-        width:100%;
-        padding:0px;
-        margin:0px;
+    html, body {
+        height: 100%;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
     }
-
+    
     #content {
         position: absolute;
         top: 0;
