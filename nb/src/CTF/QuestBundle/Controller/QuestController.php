@@ -87,6 +87,12 @@ class QuestController extends Controller {
             
             $em = $this->getDoctrine()->getEntityManager();
             
+            $settings = $em->getRepository('CTFAdminBundle:GlobalState')->find(1);
+                
+            if (false === $settings->isCtfEnabled()) {
+                return new Response('<div class="alert alert-error">CTF is not enabled right now. Please try again later.</div>');
+            }
+            
             $cache = $this->get('ctf_cache');
             $teamid = $cache->get(\md5($user->getId() . '_teamid'));
             if (false === $teamid) {
@@ -190,6 +196,17 @@ class QuestController extends Controller {
 
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $em = $this->getDoctrine()->getEntityManager();
+            
+            $settings = $em->getRepository('CTFAdminBundle:GlobalState')->find(1);
+                
+            if (false === $settings->isCtfEnabled()) {
+                $data = array(
+                    'result' => 'error',
+                    'message' => 'CTF is not enabled right now. Please try again later.'
+                );
+                return new Response(\json_encode($data));
+            }
+            
             $user = $this->get('security.context')->getToken()->getUser();
             
             if ($user->isLocked()) {
@@ -400,6 +417,13 @@ class QuestController extends Controller {
 
             if (null !== $answer) {
                 $em = $this->getDoctrine()->getEntityManager();
+                
+                $settings = $em->getRepository('CTFAdminBundle:GlobalState')->find(1);
+                
+                if (false === $settings->isCtfEnabled()) {
+                    return new Response('<div class="alert alert-error">CTF is not enabled right now. Please try again later.</div>');
+                }
+                
                 $user = $this->get('security.context')->getToken()->getUser();
                 
                 if ($user->isLocked()) {
