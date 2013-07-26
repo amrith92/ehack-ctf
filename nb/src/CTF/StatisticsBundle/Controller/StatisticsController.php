@@ -124,13 +124,10 @@ class StatisticsController extends Controller
             $em = $this->getDoctrine()->getEntityManager();
             
             $points = $em->getRepository('CTFUserBundle:User')->getTopOrganizations($n);
-            $ctr = 10;
             
             foreach ($points as $k => $p) {
-                $p['x'] = $ctr;
                 $p['y'] = (int) $p['y'];
                 $points[$k] = $p;
-                $ctr += 10;
             }
 
             $data = array(
@@ -160,13 +157,10 @@ class StatisticsController extends Controller
             $em = $this->getDoctrine()->getEntityManager();
             
             $points = $em->getRepository('CTFUserBundle:User')->getBottomOrganizations($n);
-            $ctr = 10;
             
             foreach ($points as $k => $p) {
-                $p['x'] = $ctr;
                 $p['y'] = (int) $p['y'];
                 $points[$k] = $p;
-                $ctr += 10;
             }
 
             $data = array(
@@ -179,6 +173,7 @@ class StatisticsController extends Controller
                 ),
                 'data' => array(
                     array(
+                        'type' => 'column',
                         'dataPoints' => $points
                     )
                 )
