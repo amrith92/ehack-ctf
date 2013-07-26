@@ -34,7 +34,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ 'CTFStatisticsBundle', 'CTFCommonBundle', 'CTFUserBundle', 'CTFRegistrationBundle', 'CTFAdminBundle', 'CTFQuestBundle', 'CTFTeamBundle', 'CTFAnnouncerBundle', 'CTFGlobalChatBundle' ]
+    bundles:        [ 'CTFStatisticsBundle', 'FOSUserBundle', 'CTFLoginBundle', 'CTFCommonBundle', 'CTFUserBundle', 'CTFRegistrationBundle', 'CTFAdminBundle', 'CTFQuestBundle', 'CTFTeamBundle', 'CTFAnnouncerBundle', 'CTFGlobalChatBundle' ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

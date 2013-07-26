@@ -1,0 +1,35 @@
+/* 
+    Document   : pub-stats
+    Created on : 26 Jul, 2013, 12:24:24 PM
+    Author     : amrith92
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.item {
+    min-width: 150px;
+    min-height: 500px;
+    overflow-x: none;
+    overflow-y: auto;
+}
+
+.inner-item {
+    margin: 10px 10%;
+}
+
+.item-block {
+    background-color: rgba(10, 10, 10, 0.6);
+    padding: 6px;
+}
+
+#users-map {
+    height: 440px;
+}
+
+#genderChart {
+    margin: 0 auto!important;
+}
+
+.centered {
+    text-align: center;
+}

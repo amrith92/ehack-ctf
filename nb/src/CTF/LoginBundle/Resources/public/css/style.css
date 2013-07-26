@@ -9,7 +9,7 @@
 body {
     padding-top: 60px;
     padding-bottom: 40px;
-    background: transparent url('../images/grungy.jpg') no-repeat center center fixed;
+    background: transparent url('../../ctfstatistics/images/landing-bg.jpg') no-repeat center center fixed;
     background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
@@ -139,4 +139,8 @@ button.close, button.close:hover {
 
 .social-login div:first-child {
     margin: 0;
+}
+
+.whiteout {
+    color: #fff!important;
 }

@@ -258,6 +258,17 @@ class StatisticsController extends Controller
         return $this->render('CTFStatisticsBundle:Statistics:user-stats.html.twig');
     }
     
+    public function publicStatisticsAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $settings = $em->getRepository('CTFAdminBundle:GlobalState')->find(1);
+        
+        if (false === $settings->isStatsEnabled()) {
+            return $this->render('CTFStatisticsBundle:Statistics:esi-user-stats-locked.html.twig');
+        }
+        
+        return $this->render('CTFStatisticsBundle:Statistics:esi-pub-stats.html.twig');
+    }
+    
     public function worldUsersAction(Request $request) {
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $cache = $this->get('ctf_cache');

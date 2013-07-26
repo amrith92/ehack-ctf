@@ -62,6 +62,10 @@ ctf_user_statistics:
     pattern: /quest/stats
     defaults: { _controller: CTFStatisticsBundle:Statistics:userStatistics }
 
+ctf_pub_statistics:
+    pattern: /esi/stats
+    defaults: { _controller: CTFStatisticsBundle:Statistics:publicStatistics }
+
 ctf_users_world:
     pattern: /stats/users/world
     defaults: { _controller: CTFStatisticsBundle:Statistics:worldUsers }

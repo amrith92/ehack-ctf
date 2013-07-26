@@ -5,7 +5,13 @@
 {% block title %}Login or Register &middot; ehack CTF{% endblock %}
 
 {% block extracss %}
-<link rel="stylesheet" href="{{ asset('bundles/ctflogin/css/style.css') }}" type="text/css" media="screen" />
+{% stylesheets
+    'bundles/ctflogin/css/style.css'
+    filter='cssrewrite, yui_css'
+    output='login.css'
+%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
 {% endblock %}
 
 {% block content %}
@@ -83,16 +89,15 @@
     </div>
 </div>
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            
-        </div>
-    </div>
+<div class="whiteout">
+    {% render url('ctf_pub_statistics', {}) with {}, {'standalone': true} %}
 </div>
+
 {% endblock %}
 
 {% block extrajsend %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript">
 //<!--
 function closeLoginModal() {
