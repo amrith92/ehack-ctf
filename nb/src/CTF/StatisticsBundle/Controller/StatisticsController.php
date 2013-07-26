@@ -122,6 +122,16 @@ class StatisticsController extends Controller
     public function topOrganizationsAction($n, Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
+            
+            $points = $em->getRepository('CTFUserBundle:User')->getTopOrganizations($n);
+            $ctr = 10;
+            
+            foreach ($points as $k => $p) {
+                $p['x'] = $ctr;
+                $p['y'] = (int) $p['y'];
+                $points[$k] = $p;
+                $ctr += 10;
+            }
 
             $data = array(
                 'backgroundColor' => 'transparent',
@@ -131,16 +141,10 @@ class StatisticsController extends Controller
                     'text' => 'Top Organizations',
                     'fontColor' => '#fff'
                 ),
-                'legend' => array(
-                    'fontColor' => '#fcfcfc'
-                ),
                 'data' => array(
                     array(
-                        'type' => 'pie',
-                        'showInLegend' => true,
-                        'indexLabelFontColor' => '#e6e6e6',
-                        'indexLabelFontSize' => 12,
-                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getTopOrganizations($n)
+                        'type' => 'column',
+                        'dataPoints' => $points
                     )
                 )
             );
@@ -154,6 +158,16 @@ class StatisticsController extends Controller
     public function bottomOrganizationsAction($n, Request $request) {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getEntityManager();
+            
+            $points = $em->getRepository('CTFUserBundle:User')->getBottomOrganizations($n);
+            $ctr = 10;
+            
+            foreach ($points as $k => $p) {
+                $p['x'] = $ctr;
+                $p['y'] = (int) $p['y'];
+                $points[$k] = $p;
+                $ctr += 10;
+            }
 
             $data = array(
                 'backgroundColor' => 'transparent',
@@ -163,16 +177,9 @@ class StatisticsController extends Controller
                     'text' => 'Bottom Organizations',
                     'fontColor' => '#fff'
                 ),
-                'legend' => array(
-                    'fontColor' => '#fcfcfc'
-                ),
                 'data' => array(
                     array(
-                        'type' => 'pie',
-                        'showInLegend' => false,
-                        'indexLabelFontColor' => '#e6e6e6',
-                        'indexLabelFontSize' => 12,
-                        'dataPoints' => $em->getRepository('CTFUserBundle:User')->getBottomOrganizations($n)
+                        'dataPoints' => $points
                     )
                 )
             );

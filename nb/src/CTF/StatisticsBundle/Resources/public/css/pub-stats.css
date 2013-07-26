@@ -33,3 +33,7 @@
 .centered {
     text-align: center;
 }
+
+.table-hover tbody tr:hover td {
+    background-color: rgba(10, 10, 10, 0.6);
+}

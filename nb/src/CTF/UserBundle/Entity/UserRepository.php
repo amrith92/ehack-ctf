@@ -213,7 +213,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
     
     public function getTopOrganizations($count) {
         $q = $this->createQueryBuilder('u')
-            ->select('SUBSTRING_INDEX(o.name, \',\', 1) AS indexLabel, SUBSTRING_INDEX(o.name, \',\', 1) AS legendText, COUNT(u.org) AS y')
+            ->select('SUBSTRING_INDEX(o.name, \',\', 1) AS label, COUNT(u.org) AS y')
             ->innerJoin('CTFUserBundle:Organization', 'o', Expr\Join::WITH, 'u.org = o.id')
             ->groupBy('u.org')
             ->orderBy('y', 'DESC')
@@ -222,7 +222,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
             ->getQuery();
         
         try {
-            $ret = $q->getResult();
+            $ret = $q->getArrayResult();
         } catch (NoResultException $e) {
             $ret = null;
         }
@@ -232,7 +232,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
     
     public function getBottomOrganizations($count) {
         $q = $this->createQueryBuilder('u')
-            ->select('SUBSTRING_INDEX(o.name, \',\', 1) AS indexLabel, SUBSTRING_INDEX(o.name, \',\', 1) AS legendText, COUNT(u.org) AS y')
+            ->select('SUBSTRING_INDEX(o.name, \',\', 1) AS label, COUNT(u.org) AS y')
             ->innerJoin('CTFUserBundle:Organization', 'o', Expr\Join::WITH, 'u.org = o.id')
             ->groupBy('u.org')
             ->orderBy('y', 'ASC')
@@ -241,7 +241,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
             ->getQuery();
         
         try {
-            $ret = $q->getResult();
+            $ret = $q->getArrayResult();
         } catch (NoResultException $e) {
             $ret = null;
         }
