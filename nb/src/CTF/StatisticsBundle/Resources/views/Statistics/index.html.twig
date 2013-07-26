@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6/leaflet.css" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6/leaflet.ie.css" />
+        <link rel="stylesheet" href="{{ asset('bundles/ctfstatistics/css/MarkerCluster.Default.ie.css') }}" />
     <![endif]-->
     <link href='http://fonts.googleapis.com/css?family=Exo:800' rel='stylesheet' type='text/css'>
 {% stylesheets
@@ -17,6 +18,8 @@
     'bundles/ctfstatistics/css/stats-base.css'
     'bundles/ctfstatistics/css/stats-lowres.css'
     'bundles/ctfstatistics/css/stats.css'
+    'bundles/ctfstatistics/css/MarkerCluster.Default.css'
+    'bundles/ctfstatistics/css/MarkerCluster.css'
     filter='cssrewrite, yui_css'
     output='index.css'
 %}
@@ -24,7 +27,6 @@
 {% endstylesheets %}
 </head>
 <body class="index">
-
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span12 clearance">
@@ -44,7 +46,7 @@
                                     </div>
                                     <div class="buttons centered">
                                         <div class="launch-code">
-                                            <button class="btn btn-primary btn-block btn-large">Launch!</button>
+                                            <a href="{{ path('ctf_quest_homepage') }}" class="btn btn-inverse btn-block btn-large">Launch!</a>
                                         </div>
                                     </div>
                                 </div>
@@ -54,6 +56,7 @@
                             <div class="stack-item">
                                 <div class="inner-item">
                                     <h1 class="centered">Capture the Flag!</h1>
+                                    <hr />
                                     <p>
                                         Meddle in cyber-warfare, battle with our machine master mind who will throw challenges on web application security, network security, algorithms, reverse engineering and decryption. The team which cracks the final level will attain the glory of being Winner at our E-HACK Guinness record attempt with tons of prizes waiting. Be simple but not simpler is quote by Einstein, that’s secret of success for E-HACK. Be there to witness the epic battle of brains. 
                                     </p>
@@ -63,11 +66,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="stack-item">
-                                <div class="inner-item">
-                                </div>
-                            </div>
+                        <div class="item" id="map-target">
+                            <div id="users-map"></div>
                         </div>
                     </div>
                     <!-- Carousel nav -->
@@ -82,19 +82,24 @@
         <div class="row-fluid">
             <div class="span12 footer">
                 <center>
-                    VStartU, thegeekmachine
+                    Copyright &copy; {{ "now" | date('Y') }}, infySEC
+                    <br />
+                    Developed by { VStartU, thegeekmachine }
                 </center>
             </div>
         </div>
     </div>
 
-<script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://raw.github.com/meetselva/attrchange/master/attrchange.js"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
 {% javascripts
-    '@CTFStatisticsBundle/Resources/public/js/nearby.js'
+    '@CTFStatisticsBundle/Resources/public/js/leaflet.markercluster.js'
+    '@CTFStatisticsBundle/Resources/public/js/world-users.js'
+    '@CTFStatisticsBundle/Resources/public/js/index.js'
     filter='yui_js'
     output='index.js'
 %}

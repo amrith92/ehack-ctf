@@ -63,7 +63,7 @@ ctf_user_statistics:
     defaults: { _controller: CTFStatisticsBundle:Statistics:userStatistics }
 
 ctf_users_world:
-    pattern: /quest/users/world
+    pattern: /stats/users/world
     defaults: { _controller: CTFStatisticsBundle:Statistics:worldUsers }
     options:
       expose: true

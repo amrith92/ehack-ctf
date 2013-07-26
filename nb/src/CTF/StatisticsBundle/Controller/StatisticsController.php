@@ -259,10 +259,6 @@ class StatisticsController extends Controller
     }
     
     public function worldUsersAction(Request $request) {
-        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
-            throw new AccessDeniedException();
-        }
-        
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $cache = $this->get('ctf_cache');
             
