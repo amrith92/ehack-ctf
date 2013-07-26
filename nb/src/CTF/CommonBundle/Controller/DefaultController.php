@@ -10,4 +10,8 @@ class DefaultController extends Controller
     {
         return $this->render('CTFCommonBundle:Default:index.html.twig', array('name' => $name));
     }
+    
+    public function aboutAction() {
+        return $this->render('::about.html.twig');
+    }
 }

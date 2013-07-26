@@ -2,6 +2,10 @@ upload:
     pattern: /upload
     defaults: { _controller: CTFCommonBundle:Upload:upload }
 
+about:
+    pattern: /about
+    defaults: { _controller: CTFCommonBundle:Default:about }
+
 ctf_fb_channel:
     pattern: /fb/channel
     defaults: { _controller: CTFChannelBundle:Channel:facebookChannel }
