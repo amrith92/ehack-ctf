@@ -46,7 +46,7 @@ Dashboard &middot; CTF
         <div class="span2">
             <img src="{{ user.getImageUrl() }}" width="80" class="img-circle" />
         </div>
-        <div class="span4">
+        <div class="span3">
             
         </div>
         <div class="span2">
@@ -55,6 +55,16 @@ Dashboard &middot; CTF
                 <div id="rank-display">
                     0
                 </div>
+            </div>
+        </div>
+        <div class="span1">
+            <button class="btn btn-inverse btn-large" id="minar-container">The Minar</button>
+            <div id="container" style="position:absolute;background: url('{{ asset('bundles/ctfquest/images/qutub-minar.png') }}') no-repeat;height:600px;width:auto;">
+		<div id="minar-5" style="position:absolute; width:147px;height:13.3%;top:0%;background: url('{{ asset('bundles/ctfquest/images/qutub-minar.png') }}') 0 0;" class="inner"  data-title="Stage 5" data-content="Nobody here yet!" data-trigger="click"></div>
+		<div id="minar-4" style="position:absolute; width:147px;height:11.7%;top:13.3%;background: url('{{ asset('bundles/ctfquest/images/qutub-minar.png') }}') 0 15%;" class="inner"  data-title="Stage 4" data-content="Nobody here yet!" data-trigger="click"></div>
+		<div id="minar-3" style="position:absolute; width:147px;height:19.5%;top:25%;background: url('{{ asset('bundles/ctfquest/images/qutub-minar.png') }}') 0 31%;" class="inner"  data-title="Stage 3" data-content="Nobody here yet!" data-trigger="click"></div>
+		<div id="minar-2" style="position:absolute; width:147px;height:24.25%;top:44.5%;background: url('{{ asset('bundles/ctfquest/images/qutub-minar.png') }}') 0 58.5%;" class="inner"  data-title="Stage 2" data-content="Nobody here yet!" data-trigger="click"></div>
+		<div id="minar-1" style="position:absolute; width:147px;height:31.25%;top:68.67%;background: url('{{ asset('bundles/ctfquest/images/qutub-minar.png') }}') 0 99.5%;" class="inner"  data-title="Stage 1" data-content="Nobody here yet!" data-trigger="click"></div>
             </div>
         </div>
         <div class="span2">
@@ -164,6 +174,12 @@ function checkLogin() {
 
 function continueBoot() {
     $.ajaxSetup({ cache: true });
+    
+    $("#container").hide();
+    $("#minar-container").click(function() {
+        $("#container").toggle('medium')
+    });
+    
     //renderTeamView();
     if (typeof io != undefined) {
         TeamChatClient.init({
@@ -207,6 +223,24 @@ function continueBoot() {
             });
         };
     });
+    
+    $.get(Routing.generate('ctf_quest_counts_minar', null), null, function(data) {
+        var response = JSON.parse(data);
+        
+        for (var i = 1; i <= response.length; ++i) {
+            $('#minar-' + i).attr('data-content', response[i - 1] + ' are hacking at this stage!');
+            $(".inner").popover();
+        }
+    });
+    setInterval(function() {
+        $.get(Routing.generate('ctf_quest_counts_minar', null), null, function(data) {
+            var response = JSON.parse(data);
+
+            for (var i = 1; i <= response.length; ++i) {
+                $('#minar-' + i).attr('data-content', response[i - 1] + ' are hacking at this stage!').data('popover').setContent();
+            }
+        });
+    }, 120000);
 };
 //-->
 </script>
