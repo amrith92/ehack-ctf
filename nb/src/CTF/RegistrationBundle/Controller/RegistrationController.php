@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Cookie;
 use CTF\UserBundle\Form\EssentialUserType;
 use CTF\ReferralBundle\Form\SmsType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Buzz\Browser;
+use Buzz\Client\Curl;
 
 class RegistrationController extends Controller {
 
@@ -99,8 +101,16 @@ class RegistrationController extends Controller {
                     'smsform' => $this->renderView('CTFRegistrationBundle:Registration:sms.form.html.twig', array('form' => $sms_form->createView()))
                 );
                 
+                $browser = new Browser(new Curl());
+                $smsmsg = 'Hi ' . $user->getFname() . '! Your OTP for the registration is ' . $sms . '. Thank you for your interest :)';
+                $url = 'http://smstp.itsolusenz.com/sendsms.jsp?user=ehacksms&password=demo1234&mobiles=' . $user->getPhone() . '&sms=' . $smsmsg . '&unicode=0&senderid=EHACKO&version=3';
+                
+                $browser->get($url);
+                
                 $response = new Response(\json_encode($data));
-                $response->headers->setCookie(new Cookie('sms', $sms, 0, '/', null, false, false));
+                //$response->headers->setCookie(new Cookie('sms', $sms, 0, '/', null, false, false));
+                $cache = $this->get('ctf_cache');
+                $cache->store(\md5($user->getId() . '_sms_verify'), $sms);
 
                 return $response;
             }
@@ -116,6 +126,38 @@ class RegistrationController extends Controller {
         return new Response('Bad Request!', 400);
     }
     
+    public function sendEmailAction(Request $request) {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            throw new AccessDeniedException();
+        }
+        
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $cache = $this->get('ctf_cache');
+            $sms_verify_against = $cache->get(\md5($user->getId() . '_sms_verify'));
+            $message = \Swift_Message::newInstance()
+                ->setSubject('OTP :: CTF Ehack <ctf.ehack.in>')
+                ->setFrom('noreply@ehack.in')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        ':Email:otp.html.twig',
+                        array(
+                            'name' => $user->getFname(),
+                            'otp' => $sms_verify_against
+                        )
+                    )
+                )
+            ;
+            
+            $this->get('mailer')->send($message);
+            
+            return new Response();
+        }
+        
+        return new Response('Bad Request!', 400);
+    }
+    
     public function smsAction(Request $request) {
         if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
@@ -128,9 +170,11 @@ class RegistrationController extends Controller {
             
             if ($form->isValid()) {
                 $sms = $form->get('sms')->getData();
+                $cache = $this->get('ctf_cache');
+                $user = $this->get('security.context')->getToken()->getUser();
+                $sms_verify_against = $cache->get(\md5($user->getId() . '_sms_verify'));
                 
-                if ($sms == $request->cookies->get('sms')) {
-                    $user = $this->get('security.context')->getToken()->getUser();
+                if ($sms == $sms_verify_against) {
                     $user->setVerified(true);
                     $this->get('fos_user.user_manager')->updateUser($user);
                     $this->get('session')->set('__MYREF', $this->get('ctf_referral.cryptor')->encrypt($user->getId()));

@@ -2,3 +2,11 @@
 <form action="{{ path('ctf_registration_sms') }}" method="post" {{ form_enctype(form) }} id="reg-form">
     {{ form_widget(form) }}
 </form>
+
+<div>
+    <center>
+        <button id="email-verification" class="btn btn-primary hidden">Not recieved the SMS?<br />Send it to my email!</button>
+        
+        <div id="resend-stat"></div>
+    </center>
+</div>

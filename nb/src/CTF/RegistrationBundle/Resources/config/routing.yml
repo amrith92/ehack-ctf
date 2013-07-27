@@ -19,3 +19,9 @@ ctf_registration_wrapup:
     defaults: { _controller: CTFRegistrationBundle:Registration:wrapUp }
     options:
       expose: true
+
+ctf_registration_resend:
+    pattern: /register/resend
+    defaults: { _controller: CTFRegistrationBundle:Registration:sendEmail }
+    options:
+      expose: true

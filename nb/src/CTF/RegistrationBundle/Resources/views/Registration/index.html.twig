@@ -217,6 +217,14 @@ $(document).ready(function() {
         onLocateClick();
     });
     
+    $('#form-container').on('click', '#email-verification', function() {
+        e.preventDefault();
+        
+        $.get(Routing.generate('ctf_registration_resend', null), null, function(data) {
+            $('#resend-stat').html('<hr /><em>We have sent an email to you containing the OTP. Please try again after ten minutes if you still have not recieved the mail.</em>');
+        });
+    });
+    
     $('#next-button').click(function() {
         if (true == finish) {
             window.location.href = Routing.generate('ctf_registration_wrapup', null);
@@ -226,8 +234,12 @@ $(document).ready(function() {
             
             if ('success' == response.result) {
                 if (null != response.sms) {
-                    $('#form-error').html('<div class="alert alert-success">' + response.message + "<br />Your OTP is: <strong>" + CookieManager.getItem('sms') + "</strong></div>").fadeIn("slow").fadeOut(15000);
+                    $('#form-error').html('<div class="alert alert-success">' + response.message + "</div>").fadeIn("slow").fadeOut(15000);
                     $('#form-dyn-container').html(response.smsform);
+                    
+                    setTimeout(function() {
+                        $('#email-verification').removeClass('hidden');
+                    }, 25000);
                 } else if (null != response.share) {
                     $('#form-error').html('<div class="alert alert-success">' + response.message + "</div>").fadeIn("slow").fadeOut(15000);
                     $('#form-dyn-container').html(response.sharepage);

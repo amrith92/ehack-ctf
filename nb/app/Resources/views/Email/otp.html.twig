@@ -1,0 +1,20 @@
+{# Email-OTP Twig template #}
+
+{% extends ":Email:basic.html.twig" %}
+
+{% block headerImage %}
+http://ctf.ehack.in/bundles/ctfstatistics/images/logo-blue.png
+{% endblock %}
+
+{% block content %}
+<h1>Hi {{ name }}!</h1>
+
+<p>
+    Your OTP for the registration is {{ otp }}. Thank you for your interest :)
+</p>
+
+<p>
+    Always at your service - <br />
+    <em>The ehack-ctf Team!</em>
+</p>
+{% endblock %}
