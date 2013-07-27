@@ -51,7 +51,7 @@ class UserUtils {
             $response = \json_decode($response->getContent());
             
             if (property_exists($response, 'birthday') && !$user->getDob()) {
-                $user->setDob(DateTime::createFromFormat('Y-m-d', $response->{'birthday'}));
+                $user->setDob(\DateTime::createFromFormat('Y-m-d', $response->{'birthday'}));
                 $modified = true;
             }
             
