@@ -28,6 +28,7 @@
     <div class="modal-body">
         {% if not app.user %}
         <div class="row-fluid">
+            {#
             <div class="span6 right-separator">
                 {% if error %}
                     <div class="alert alert-error">{{ error|trans }}</div>
@@ -60,6 +61,23 @@
                 </form>
             </div>
             <div class="span6">
+                <h4>Not Registered?</h4>
+                <p>Don&apos;t worry! Register for the event with facebook, google or twitter! Just sign-in!</p>
+                <hr />
+                <div class="social-login centered">
+                    <div>
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" target="_self" class="btn btn-facebook"><i class="icon-facebook"></i> | Connect with Facebook</a>
+                    </div>
+                    <div>
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" target="_self" class="btn btn-google-plus"><i class="icon-google-plus"></i> | Connect with Google Plus</a>
+                    </div>
+                    <div>
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'twitter' }) }}" target="_self" class="btn btn-twitter"><i class="icon-twitter"></i> | Connect with Twitter</a>
+                    </div>
+                </div>
+            </div>
+            #}
+            <div class="span12">
                 <h4>Not Registered?</h4>
                 <p>Don&apos;t worry! Register for the event with facebook, google or twitter! Just sign-in!</p>
                 <hr />
