@@ -71,5 +71,22 @@ class StageRepository extends EntityRepository {
         
         return $ret;
     }
+    
+    public function countsPerStage() {
+        $q = $this->createQueryBuilder('s')
+            ->select('s.id, COUNT(s)')
+            ->leftJoin('CTFQuestBundle:UserQuest', 'q', 'WITH', 'q.questStage = s.id')
+            ->distinct()
+            ->groupBy('s.id')
+            ->orderBy('s.id', 'ASC')
+            ->getQuery();
+        try {
+            $ret = $q->getArrayResult();
+        } catch (NoResultException $e) {
+            $ret = null;
+        }
+        
+        return $ret;
+    }
 }
 

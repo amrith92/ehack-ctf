@@ -15,14 +15,12 @@ class HackController extends Controller {
         }
         
         $em = $this->getDoctrine()->getEntityManager();
-        $counts = $em->getRepository('CTFQuestBundle:UserQuest')->countsPerStage();
+        $counts = $em->getRepository('CTFQuestBundle:Stage')->countsPerStage();
         
         $message = array();
         
         foreach ($counts as $k => $v) {
-            foreach ($v as $m => $n) {
-                $message[] = $n;
-            }
+            $message[] = $v[1];
         }
         
         return new Response(\json_encode($message));
