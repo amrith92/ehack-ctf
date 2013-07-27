@@ -183,7 +183,7 @@ function continueBoot() {
     //renderTeamView();
     if (typeof io != undefined) {
         TeamChatClient.init({
-            host: '{{ app.request.getHttpHost() }}',
+            host: 'dos.ehack.in',
             port: 5561,
             username: '{{ app.user.username }}',
             team: '{{ teamname }}'
@@ -196,7 +196,7 @@ function continueBoot() {
         });
         
         Announcer.init({
-            host: '{{ app.request.getHttpHost() }}',
+            host: 'dos.ehack.in',
             port: 5656
         });
         
