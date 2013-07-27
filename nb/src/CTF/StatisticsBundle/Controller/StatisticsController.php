@@ -272,41 +272,37 @@ class StatisticsController extends Controller
     }
     
     public function worldUsersAction(Request $request) {
-        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
-            $cache = $this->get('ctf_cache');
-            
-            $users = $cache->get('ctf_users_world_cache');
-            
-            if (false === $users) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $arr = $em->getRepository('CTFUserBundle:User')->worldUsers();
-                
-                foreach ($arr as $u) {
-                    if (null != $u->getLocation()) {
-                        $users[] = array(
-                            'username' => $u->getUsername(),
-                            'id' => $u->getId(),
-                            'dp' => $u->getImageURL(),
-                            'organization' => $u->getOrg()->getName(),
-                            'location' => array(
-                                'lat' => $u->getLocation()->getLatitude(),
-                                'lng' => $u->getLocation()->getLongitude()
-                            )
-                        );
-                    }
-                }
+        $cache = $this->get('ctf_cache');
 
-                $cache->add('ctf_users_world_cache', $users, 300);
+        $users = $cache->get('ctf_users_world_cache');
+
+        if (false === $users) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $arr = $em->getRepository('CTFUserBundle:User')->worldUsers();
+
+            foreach ($arr as $u) {
+                if (null != $u->getLocation()) {
+                    $users[] = array(
+                        'username' => $u->getUsername(),
+                        'id' => $u->getId(),
+                        'dp' => $u->getImageURL(),
+                        'organization' => $u->getOrg()->getName(),
+                        'location' => array(
+                            'lat' => $u->getLocation()->getLatitude(),
+                            'lng' => $u->getLocation()->getLongitude()
+                        )
+                    );
+                }
             }
-            
-            $data = array(
-                'result' => 'success',
-                'users' => $users
-            );
-            
-            return new Response(\json_encode($data));
+
+            $cache->add('ctf_users_world_cache', $users, 300);
         }
-        
-        return new Response('Bad Request.', 400);
+
+        $data = array(
+            'result' => 'success',
+            'users' => $users
+        );
+
+        return new Response(\json_encode($data));
     }
 }
