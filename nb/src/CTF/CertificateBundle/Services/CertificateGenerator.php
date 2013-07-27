@@ -78,14 +78,14 @@ class CertificateGenerator {
         $pdf->Image($this->baseurl . "/bundles/ctfcertificate/images/certificate.png", 0, 0, 1024);
         
         // Add data to certificate
-        $this->addTextPdf($pdf, $data->getFullName(), -50, 272);
-        $this->addTextPdf($pdf, $data->getTeam(), 290, 272);
-        $this->addTextPdf($pdf, $data->getOrganization(), -135, 305);
-        $this->addTextPdf($pdf, $data->getScore(), 363, 305);
-        $this->addTextPdf($pdf, $data->getRank(), -155, 338);
+        $this->addTextPdf($pdf, $data->getFullName(), -50, 258);
+        $this->addTextPdf($pdf, $data->getTeam(), 306, 258);
+        $this->addTextPdf($pdf, $data->getOrganization(), -135, 292);
+        $this->addTextPdf($pdf, $data->getScore(), 380, 292);
+        $this->addTextPdf($pdf, $data->getRank(), -145, 326);
         $pdf->SetFont('SegoeFont', '', 16);
-        $this->addTextPdf($pdf, $data->getTimestamp()->format('Y-m-d H:i:s'), -45, 621);
-        $this->addTextPdf($pdf, $data->getSerial(), 250, 621);
+        $this->addTextPdf($pdf, $data->getTimestamp()->format('Y-m-d H:i:s'), -145, 354);
+        $this->addTextPdf($pdf, $data->getSerial(), 258, 354);
         
         return $pdf->Output('EHACK-certificate.pdf', 'S');
     }
@@ -98,13 +98,13 @@ class CertificateGenerator {
     public function generatePngCertificate(CertifyData $data) {
         $img = \imagecreatefrompng($this->baseurl . "/bundles/ctfcertificate/images/certificate.png");
         
-        $this->addTextPng($img, $data->getFullName(), -50, 272);
-        $this->addTextPng($img, $data->getTeam(), 290, 272);
-        $this->addTextPng($img, $data->getOrganization(), -135, 305);
-        $this->addTextPng($img, $data->getScore(), 363, 305);
-        $this->addTextPng($img, $data->getRank(), -155, 338);
-        $this->addTextPng($img, $data->getTimestamp()->format('Y-m-d H:i:s'), -45, 628, 12);
-        $this->addTextPng($img, $data->getSerial(), 250, 628, 12);
+        $this->addTextPng($img, $data->getFullName(), -50, 258);
+        $this->addTextPng($img, $data->getTeam(), 306, 258);
+        $this->addTextPng($img, $data->getOrganization(), -135, 292);
+        $this->addTextPng($img, $data->getScore(), 380, 292);
+        $this->addTextPng($img, $data->getRank(), -145, 326);
+        $this->addTextPng($img, $data->getTimestamp()->format('Y-m-d H:i:s'), -145, 354, 12);
+        $this->addTextPng($img, $data->getSerial(), 258, 354, 12);
         
         \ob_start();
         \imagepng($img);
