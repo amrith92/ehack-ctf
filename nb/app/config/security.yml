@@ -16,8 +16,7 @@ security:
         in_memory:
           memory:
             users:
-              admin: { password: PASS_word, roles: 'ROLE_ADMIN' }
-              mani: { password: password, roles: 'ROLE_ADMIN' }
+              admin: { password: singlerunmarathon1(2)((3)), roles: 'ROLE_ADMIN' }
         fos_userbundle:
           id: fos_user.user_provider.username_email
 

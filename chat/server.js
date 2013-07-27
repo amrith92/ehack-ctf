@@ -69,7 +69,7 @@ app.listen(serverPort, function() {
 });
 
 var connection = mysql.createConnection( {
-	host     : 'localhost',
+	host     : 'blackhole',
 	user     : 'announcer',
 	password : '@nnouncer',
 	database : 'ctf'

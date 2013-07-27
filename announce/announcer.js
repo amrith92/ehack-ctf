@@ -11,7 +11,7 @@ var app = express()
 	, pollingTimer;
 
 var connection = mysql.createConnection( {
-	host     : 'localhost',
+	host     : 'blackhole',
 	user     : 'announcer',
 	password : '@nnouncer',
 	database : 'ctf'
