@@ -208,6 +208,14 @@ class User extends BaseUser
      */
     private $invitations;
     
+    /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(name="sms", type="string", nullable=true)
+     */
+    private $sms;
+    
     public function __construct()
     {
         parent::__construct();
@@ -763,6 +771,25 @@ class User extends BaseUser
         $this->invitations[] = $invite;
         
         return $this;
+    }
+    
+    /**
+     * 
+     * @param string $sms
+     * @return \CTF\UserBundle\Entity\User
+     */
+    public function setSms($sms) {
+        $this->sms = $sms;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getSms() {
+        return $this->sms;
     }
     
     /**

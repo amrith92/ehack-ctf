@@ -78,6 +78,8 @@ class RegistrationController extends Controller {
                     return new Response(\json_encode($data));
                 }
                 
+                $sms = \substr(\md5('wkdnwqn' . time()), 0, 6);
+                
                 $user = $form->getData();
                 $_user = $this->get('security.context')->getToken()->getUser();
                 $_user->setEmail($user->getEmail());
@@ -86,11 +88,10 @@ class RegistrationController extends Controller {
                 $_user->setPhone($user->getPhone());
                 $_user->setOrg($user->getOrg());
                 $_user->setLocation($user->getLocation());
+                $_user->setSms($sms);
                 $this->get('fos_user.user_manager')->updateUser($_user, false);
                 $em->merge($_user);
                 $em->flush();
-                
-                $sms = \substr(\md5($_user->getId() . time()), 0, 6);
                 
                 $sms_form = $this->createForm(new SmsType());
                 
@@ -109,8 +110,6 @@ class RegistrationController extends Controller {
                 
                 $response = new Response(\json_encode($data));
                 //$response->headers->setCookie(new Cookie('sms', $sms, 0, '/', null, false, false));
-                $cache = $this->get('ctf_cache');
-                $cache->store(\md5($user->getId() . '_sms_verify'), $sms);
 
                 return $response;
             }
@@ -133,14 +132,12 @@ class RegistrationController extends Controller {
         
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $user = $this->get('security.context')->getToken()->getUser();
-            $cache = $this->get('ctf_cache');
-            $sms_verify_against = $cache->get(\md5($user->getId() . '_sms_verify'));
             $message = \Swift_Message::newInstance()
                 ->setSubject('OTP :: CTF Ehack <ctf.ehack.in>')
                 ->setFrom('noreply@ehack.in')
                 ->setTo($user->getEmail())
                 ->setBody(
-                    'Hi ' . $user->getFname() . '!\n\nYour OTP for the registration is ' . $sms_verify_against . '.\n\nThank you for your interest :)',
+                    'Hi ' . $user->getFname() . '!\n\nYour OTP for the registration is ' . $user->getSms() . '.\n\nThank you for your interest :)',
                     'text/plain'
                 )
                 ->addPart(
@@ -148,7 +145,7 @@ class RegistrationController extends Controller {
                         ':Email:otp.html.twig',
                         array(
                             'name' => $user->getFname(),
-                            'otp' => $sms_verify_against
+                            'otp' => $user->getSms()
                         )
                     ),
                     'text/html'
@@ -175,11 +172,9 @@ class RegistrationController extends Controller {
             
             if ($form->isValid()) {
                 $sms = $form->get('sms')->getData();
-                $cache = $this->get('ctf_cache');
                 $user = $this->get('security.context')->getToken()->getUser();
-                $sms_verify_against = $cache->get(\md5($user->getId() . '_sms_verify'));
                 
-                if ($sms == $sms_verify_against) {
+                if ($sms == $user->getSms()) {
                     $user->setVerified(true);
                     $this->get('fos_user.user_manager')->updateUser($user);
                     $this->get('session')->set('__MYREF', $this->get('ctf_referral.cryptor')->encrypt($user->getId()));
