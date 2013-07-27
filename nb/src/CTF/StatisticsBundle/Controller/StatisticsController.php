@@ -272,11 +272,11 @@ class StatisticsController extends Controller
     }
     
     public function worldUsersAction(Request $request) {
-        $cache = $this->get('ctf_cache');
+        /*$cache = $this->get('ctf_cache');
 
         $users = $cache->get('ctf_users_world_cache');
 
-        if (false === $users) {
+        if (false === $users) {*/
             $em = $this->getDoctrine()->getEntityManager();
             $arr = $em->getRepository('CTFUserBundle:User')->worldUsers();
 
@@ -295,8 +295,8 @@ class StatisticsController extends Controller
                 }
             }
 
-            $cache->add('ctf_users_world_cache', $users, 300);
-        }
+            /*$cache->add('ctf_users_world_cache', $users, 300);
+        }*/
 
         $data = array(
             'result' => 'success',
