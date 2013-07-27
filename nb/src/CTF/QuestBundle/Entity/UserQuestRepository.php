@@ -88,12 +88,14 @@ class UserQuestRepository extends EntityRepository {
     public function countsPerStage() {
         $q = $this->createQueryBuilder('q')
             ->select('COUNT(q)')
+            ->distinct()
             ->groupBy('q.questStage')
             ->orderBy('q.questStage', 'DESC')
             ->addSelect('COUNT(s) - 1')
             ->addGroupBy('s.id')
             ->leftJoin('q.questStage', 's', 'WITH', 's.id >= 1')
             ->getQuery();
+        return $q->getSQL();
         
         try {
             $ret = $q->getArrayResult();

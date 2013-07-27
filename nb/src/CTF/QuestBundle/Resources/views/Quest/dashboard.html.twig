@@ -229,8 +229,8 @@ function continueBoot() {
         
         for (var i = 1; i <= response.length; ++i) {
             $('#minar-' + i).attr('data-content', response[i - 1] + ' are hacking at this stage!');
-            $(".inner").popover();
         }
+        $(".inner").popover();
     });
     setInterval(function() {
         $.get(Routing.generate('ctf_quest_counts_minar', null), null, function(data) {
