@@ -95,7 +95,6 @@ class UserQuestRepository extends EntityRepository {
             ->addGroupBy('s.id')
             ->leftJoin('q.questStage', 's', 'WITH', 's.id >= 1')
             ->getQuery();
-        return $q->getSQL();
         
         try {
             $ret = $q->getArrayResult();
