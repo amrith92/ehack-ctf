@@ -149,7 +149,7 @@ Dashboard &middot; CTF
 {% endblock %}
 
 {% block extrajsend %}
-<script type="text/javascript" src="http://{{ app.request.getHttpHost() }}:5561/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="http://dos.ehack.in:5561/socket.io/socket.io.js"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% javascripts
