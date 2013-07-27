@@ -140,13 +140,18 @@ class RegistrationController extends Controller {
                 ->setFrom('noreply@ehack.in')
                 ->setTo($user->getEmail())
                 ->setBody(
+                    'Hi ' . $user->getFname() . '!\n\nYour OTP for the registration is ' . $sms_verify_against . '.\n\nThank you for your interest :)',
+                    'text/plain'
+                )
+                ->addPart(
                     $this->renderView(
                         ':Email:otp.html.twig',
                         array(
                             'name' => $user->getFname(),
                             'otp' => $sms_verify_against
                         )
-                    )
+                    ),
+                    'text/html'
                 )
             ;
             
