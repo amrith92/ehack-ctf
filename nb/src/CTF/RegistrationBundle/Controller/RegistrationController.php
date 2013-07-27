@@ -103,7 +103,7 @@ class RegistrationController extends Controller {
                 
                 $browser = new Browser(new Curl());
                 $smsmsg = 'Hi ' . $user->getFname() . '! Your OTP for the registration is ' . $sms . '. Thank you for your interest :)';
-                $url = 'http://smstp.itsolusenz.com/sendsms.jsp?user=ehacksms&password=demo1234&mobiles=' . $user->getPhone() . '&sms=' . $smsmsg . '&unicode=0&senderid=EHACKO&version=3';
+                $url = 'http://smstp.itsolusenz.com/sendsms.jsp?user=ehacksms&password=demo1234&mobiles=' . $user->getPhone() . '&sms=' . \urlencode($smsmsg) . '&unicode=0&senderid=EHACKO&version=3';
                 
                 $browser->get($url);
                 

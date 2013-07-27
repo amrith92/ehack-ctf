@@ -218,8 +218,6 @@ $(document).ready(function() {
     });
     
     $('#form-container').on('click', '#email-verification', function() {
-        e.preventDefault();
-        
         $.get(Routing.generate('ctf_registration_resend', null), null, function(data) {
             $('#resend-stat').html('<hr /><em>We have sent an email to you containing the OTP. Please try again after ten minutes if you still have not recieved the mail.</em>');
         });
